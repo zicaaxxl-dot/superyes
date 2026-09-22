@@ -26,7 +26,7 @@ const PIXZY_BASE = 'https://app.pixzypay.com/api';
 function mapStatus(status) {
   const s = String(status || '').toLowerCase();
   if (s === 'paid' || s === 'approved') return 'approved';
-  if (s === 'expired' || s === 'failed' || s === 'cancelled') return 'failed';
+  if (s === 'expired' || s === 'failed' || s === 'cancelled' || s === 'refunded' || s === 'chargeback') return 'failed';
   return 'pending';
 }
 

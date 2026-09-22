@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const { Store } = require('./store');
-const pixzy = require('./pixzy');
+const gateway = require('./gateway');
 const tiktok = require('./tiktok');
 
 function loadEnv() {
@@ -31,7 +31,9 @@ const ADMIN_USER = process.env.ADMIN_USER || 'admin';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'SuperYes#admin';
 const ADMIN_SECRET = process.env.ADMIN_SECRET || crypto.randomBytes(24).toString('hex');
 const PIXZY_TOKEN = process.env.PIXZY_TOKEN || '662|E9ZcJF8XzHCHcvaFE4zR97AGYB13Sz2QrVOMbKBGaa48511d';
+process.env.PIXZY_TOKEN = PIXZY_TOKEN;
 const PUBLIC_URL = (process.env.PUBLIC_URL || 'https://atualizadoshojesim.onrender.com').replace(/\/$/, '');
+const PIX_GATEWAY = (process.env.PIX_GATEWAY || 'flevopay').toLowerCase();
 
 const store = new Store(DATA_DIR);
 const app = express();
@@ -85,9 +87,6 @@ function publicBase(req) {
 
 app.post('/api/pix/create', async (req, res) => {
   try {
-    if (!PIXZY_TOKEN) {
-      return res.status(503).json({ error: 'PIXZY_TOKEN não configurado no Render.' });
-    }
     const customer = {
       name: req.body.name,
       email: req.body.email,
@@ -97,8 +96,7 @@ app.post('/api/pix/create', async (req, res) => {
     if (!customer.name || !customer.email || !customer.document) {
       return res.status(400).json({ error: 'Nome, e-mail e CPF são obrigatórios.' });
     }
-    const charge = await pixzy.createCharge({
-      token: PIXZY_TOKEN,
+    const charge = await gateway.createCharge({
       product: req.body.product || 'final-seguro',
       customer,
       tracking: req.body.tracking || {},
@@ -112,6 +110,8 @@ app.post('/api/pix/create', async (req, res) => {
       product: req.body.product,
       page: req.body.product,
       transactionId: charge.transactionId,
+      reference: charge.reference,
+      gateway: charge.gateway,
       qrCode: charge.qrCode,
       amount: charge.amount,
       status: charge.status,
@@ -147,15 +147,20 @@ app.post('/api/pix/create', async (req, res) => {
 
 app.get('/api/pix/status', async (req, res) => {
   try {
-    if (!PIXZY_TOKEN) {
-      return res.status(503).json({ error: 'PIXZY_TOKEN não configurado no Render.' });
-    }
     const id = req.query.id;
     if (!id) return res.status(400).json({ error: 'id obrigatório' });
-    const charge = await pixzy.getCharge({ token: PIXZY_TOKEN, id });
+    const ctx = store.contextByTransaction(id);
+    const charge = await gateway.getCharge({
+      id,
+      reference: ctx.pix && ctx.pix.reference,
+      gateway: (ctx.pix && ctx.pix.gateway) || PIX_GATEWAY,
+    });
+    if (!charge.qrCode && ctx.pix && ctx.pix.qrCode) charge.qrCode = ctx.pix.qrCode;
     await store.savePix({
       type: 'status',
-      transactionId: charge.transactionId,
+      transactionId: charge.transactionId || id,
+      reference: charge.reference || (ctx.pix && ctx.pix.reference),
+      gateway: charge.gateway,
       qrCode: charge.qrCode,
       amount: charge.amount,
       status: charge.status,
@@ -186,17 +191,23 @@ app.post('/api/pix/webhook', async (req, res) => {
   try {
     const body = req.body || {};
     const tx = body.transaction || body.data || body;
-    const event = String(body.event || tx.status || '').toLowerCase();
-    const id = tx.transaction_id || tx.id || body.transaction_id;
-    const status = pixzy.mapStatus(event === 'paid' || event === 'transaction_paid' ? 'paid' : (tx.status || event));
+    const event = String(body.event || tx.status || body.status || '').toLowerCase();
+    const reference = String(body.external_id || body.store_reference || tx.external_id || tx.store_reference || '');
+    const id = String(tx.transaction_id || tx.id || body.transaction_id || reference);
+    const ctxPix = store.contextByTransaction(id).pix || (reference ? store.contextByTransaction(reference).pix : null);
+    const looksFlevo = Boolean(body.webhook_type === 'transaction' || body.store_reference || body.external_id);
+    const status = gateway.mapStatus(event === 'paid' || event === 'transaction_paid' ? 'paid' : (tx.status || body.status || event));
     if (id) {
       await store.savePix({
         type: 'webhook',
-        transactionId: String(id),
-        qrCode: tx.br_code || tx.qr_code,
-        amount: tx.amount,
+        transactionId: (ctxPix && ctxPix.transactionId) || id,
+        publicId: id,
+        reference: reference || (ctxPix && ctxPix.reference) || '',
+        gateway: (ctxPix && ctxPix.gateway) || (looksFlevo ? 'flevopay' : 'pixzy'),
+        qrCode: tx.pix_code || tx.br_code || tx.qr_code || body.pix_code,
+        amount: tx.amount || body.amount,
         status,
-        product: (tx.metadata && tx.metadata.product) || '',
+        product: (tx.metadata && tx.metadata.product) || (tx.product && tx.product.hash) || '',
       });
       if (status === 'approved') {
         const ctx = store.contextByTransaction(String(id));
@@ -314,7 +325,7 @@ app.post('/api/admin/logout', (req, res) => {
 });
 
 app.get('/api/admin/stats', requireAdmin, (req, res) => {
-  res.json({ ...store.stats(), gateway: 'Pixzy' });
+  res.json({ ...store.stats(), gateway: PIX_GATEWAY });
 });
 
 app.get('/api/admin/leads', requireAdmin, (req, res) => {

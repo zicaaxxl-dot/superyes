@@ -186,20 +186,32 @@ class Store {
         product: payload.product || '',
         page: payload.page || '',
         transactionId: payload.transactionId || '',
+        reference: payload.reference || '',
+        publicId: payload.publicId || '',
+        gateway: payload.gateway || '',
         qrCode: payload.qrCode || '',
         amount: payload.amount || '',
         status: payload.status || 'pending',
         createdAt: nowIso(),
         updatedAt: nowIso(),
       };
-      const existing = rec.transactionId
-        ? db.pix.find((p) => p.transactionId && p.transactionId === rec.transactionId)
-        : null;
+      const ids = [rec.transactionId, rec.reference, rec.publicId].filter(Boolean).map(String);
+      const existing = db.pix.find((p) => {
+        const pool = [p.transactionId, p.reference, p.publicId].filter(Boolean).map(String);
+        return ids.some((id) => pool.includes(id));
+      }) || null;
       if (existing) {
         if (rec.qrCode) existing.qrCode = rec.qrCode;
         if (rec.status) existing.status = rec.status;
         if (rec.amount) existing.amount = rec.amount;
         if (rec.product) existing.product = rec.product;
+        if (rec.gateway) existing.gateway = rec.gateway;
+        if (rec.reference) existing.reference = rec.reference;
+        if (rec.publicId) existing.publicId = rec.publicId;
+        if (rec.transactionId) {
+          if (!existing.transactionId) existing.transactionId = rec.transactionId;
+          else if (String(existing.transactionId) !== String(rec.transactionId)) existing.publicId = rec.transactionId;
+        }
         existing.updatedAt = nowIso();
         return { ...existing };
       }
@@ -294,7 +306,12 @@ class Store {
 
   contextByTransaction(transactionId) {
     const db = this.read();
-    const pix = db.pix.find((p) => p.transactionId && p.transactionId === String(transactionId));
+    const id = String(transactionId || '');
+    const pix = db.pix.find((p) =>
+      (p.transactionId && String(p.transactionId) === id) ||
+      (p.reference && String(p.reference) === id) ||
+      (p.publicId && String(p.publicId) === id)
+    );
     if (!pix) return { pix: null, lead: null };
     const lead = db.leads.find((l) => l.id === pix.leadId || (pix.visitorId && l.visitorId === pix.visitorId)) || null;
     return { pix, lead };

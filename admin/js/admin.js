@@ -91,7 +91,7 @@
     }).join('');
     document.getElementById('statusBox').innerHTML = `
       <div class="kpi"><span>Pendentes</span><strong>${s.pendingCount || 0}</strong></div>
-      <div class="kpi" style="margin-top:10px"><span>Gateway</span><strong>${s.gateway || 'Pixzy'}</strong></div>
+      <div class="kpi" style="margin-top:10px"><span>Gateway</span><strong>${esc(s.gateway || 'flevopay')}</strong></div>
     `;
   }
 
@@ -144,8 +144,8 @@
       <h3 style="margin:22px 0 8px">PIX gerados</h3>
       ${(l.pix || []).length ? l.pix.map((p) => `
         <div class="pix">
-          <div><strong>Pixzy · ${esc(p.product || p.page || 'PIX')}</strong> · ${esc(statusLabel(p.status))} · ${fmt(p.createdAt)}</div>
-          <div style="font-size:12px;color:#6B7280;margin-top:4px">ID: ${esc(p.transactionId || '—')} · valor: ${esc(money(p.amount))}</div>
+          <div><strong>${esc(p.gateway || 'flevopay')} · ${esc(p.product || p.page || 'PIX')}</strong> · ${esc(statusLabel(p.status))} · ${fmt(p.createdAt)}</div>
+          <div style="font-size:12px;color:#6B7280;margin-top:4px">ID: ${esc(p.transactionId || p.reference || '—')} · valor: ${esc(money(p.amount))}</div>
           ${p.qrCode ? `<code>${esc(p.qrCode)}</code><button class="btn small" onclick="navigator.clipboard.writeText(${JSON.stringify(p.qrCode)})">Copiar código</button>` : ''}
         </div>
       `).join('') : '<div class="empty">Nenhum PIX gerado ainda</div>'}

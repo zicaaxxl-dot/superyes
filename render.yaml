@@ -18,3 +18,9 @@ services:
         value: D8CONQRC77UAEKHUHJNG
       - key: TIKTOK_ACCESS_TOKEN
         sync: false
+      - key: PIX_GATEWAY
+        value: flevopay
+      - key: FLEVOPAY_STORE_ID
+        value: "11099"
+      - key: FLEVOPAY_SECRET
+        value: flevopay_sk_ae9a299e6552ef2a2b0c7fc840e3fe1d400975d6b3fcf01f8ad5696735925823
