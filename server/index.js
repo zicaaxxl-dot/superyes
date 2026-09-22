@@ -307,10 +307,6 @@ app.get(['/admin', '/admin/'], (req, res) => {
   res.sendFile(path.join(ROOT, 'admin', 'index.html'));
 });
 
-app.get(['/credito', '/credito/'], (req, res) => {
-  res.sendFile(path.join(ROOT, 'client', 'credito.html'));
-});
-
 const SKIP_STATIC = new Set(['/admin', '/api', '/data', '/server', '/node_modules']);
 
 app.use((req, res, next) => {
