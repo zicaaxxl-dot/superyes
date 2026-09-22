@@ -12,7 +12,7 @@ const ADMIN_USER = process.env.ADMIN_USER || 'admin';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'SuperYes#admin';
 const ADMIN_SECRET = process.env.ADMIN_SECRET || crypto.randomBytes(24).toString('hex');
 const PIXZY_TOKEN = process.env.PIXZY_TOKEN || '';
-const PUBLIC_URL = (process.env.PUBLIC_URL || '').replace(/\/$/, '');
+const PUBLIC_URL = (process.env.PUBLIC_URL || 'https://atualizadoshojesim.onrender.com').replace(/\/$/, '');
 
 const ROOT = path.join(__dirname, '..');
 const DATA_DIR = process.env.DATA_DIR || path.join(ROOT, 'data');

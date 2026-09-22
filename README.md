@@ -21,7 +21,7 @@ UTMs da URL (`utm_source`, `ttclid`, etc.) são gravadas no `localStorage` e seg
 
 Não existia admin. Agora os cadastros vão para o painel:
 
-**URL:** `https://SEU-DOMINIO-RENDER/admin`
+**URL:** `https://atualizadoshojesim.onrender.com/admin`
 
 - Usuário: `admin`
 - Senha: `SuperYes#admin`
@@ -53,4 +53,4 @@ O serviço precisa ser **Web Service** com Docker (não Static Site), porque o a
    - `ADMIN_PASSWORD` = senha forte
    - `DATA_DIR` = `/data`
    - `PIXZY_TOKEN` = token Bearer da Pixzy (Configurações → Tokens de API em [app.pixzypay.com](https://app.pixzypay.com))
-   - `PUBLIC_URL` = URL pública do site (ex: `https://superyes.onrender.com`)
+   - `PUBLIC_URL` = `https://atualizadoshojesim.onrender.com`

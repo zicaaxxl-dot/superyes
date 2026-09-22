@@ -13,4 +13,4 @@ services:
       - key: PIXZY_TOKEN
         value: ""
       - key: PUBLIC_URL
-        value: ""
+        value: https://atualizadoshojesim.onrender.com
