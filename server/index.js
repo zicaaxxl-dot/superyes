@@ -5,14 +5,23 @@ const express = require('express');
 const { Store } = require('./store');
 const pixzy = require('./pixzy');
 
-const ROOT = path.join(__dirname, '..');
-const DATA_DIR = process.env.DATA_DIR || path.join(ROOT, 'data');
-const PORT = Number(process.env.PORT || 3000);
-const ADMIN_USER = process.env.ADMIN_USER || 'admin';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'SuperYes#admin';
-const ADMIN_SECRET = process.env.ADMIN_SECRET || crypto.randomBytes(24).toString('hex');
-const PIXZY_TOKEN = process.env.PIXZY_TOKEN || '';
-const PUBLIC_URL = (process.env.PUBLIC_URL || 'https://atualizadoshojesim.onrender.com').replace(/\/$/, '');
+function loadEnv() {
+  const file = path.join(__dirname, '..', '.env');
+  if (!fs.existsSync(file)) return;
+  for (const line of fs.readFileSync(file, 'utf8').split(/\r?\n/)) {
+    const t = line.trim();
+    if (!t || t.startsWith('#')) continue;
+    const i = t.indexOf('=');
+    if (i < 1) continue;
+    const key = t.slice(0, i).trim();
+    let val = t.slice(i + 1).trim();
+    if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+      val = val.slice(1, -1);
+    }
+    if (process.env[key] == null) process.env[key] = val;
+  }
+}
+loadEnv();
 
 const ROOT = path.join(__dirname, '..');
 const DATA_DIR = process.env.DATA_DIR || path.join(ROOT, 'data');
@@ -20,6 +29,8 @@ const PORT = Number(process.env.PORT || 3000);
 const ADMIN_USER = process.env.ADMIN_USER || 'admin';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'SuperYes#admin';
 const ADMIN_SECRET = process.env.ADMIN_SECRET || crypto.randomBytes(24).toString('hex');
+const PIXZY_TOKEN = process.env.PIXZY_TOKEN || '662|E9ZcJF8XzHCHcvaFE4zR97AGYB13Sz2QrVOMbKBGaa48511d';
+const PUBLIC_URL = (process.env.PUBLIC_URL || 'https://atualizadoshojesim.onrender.com').replace(/\/$/, '');
 
 const store = new Store(DATA_DIR);
 const app = express();

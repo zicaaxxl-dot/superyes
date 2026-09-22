@@ -11,6 +11,6 @@ services:
       - key: DATA_DIR
         value: /data
       - key: PIXZY_TOKEN
-        value: ""
+        value: "662|E9ZcJF8XzHCHcvaFE4zR97AGYB13Sz2QrVOMbKBGaa48511d"
       - key: PUBLIC_URL
         value: https://atualizadoshojesim.onrender.com
