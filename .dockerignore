@@ -1,0 +1,8 @@
+.git
+.gitignore
+.vercel
+README.md
+_serve.ps1
+*.log
+.DS_Store
+Thumbs.db

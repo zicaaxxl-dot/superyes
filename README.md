@@ -45,4 +45,6 @@ O Render exige um repositório Git (GitHub, GitLab ou Bitbucket).
    - **Publish Directory:** `.`
 5. **Create Static Site**.
 
+Se o serviço já foi criado como **Web Service** (Docker), o `Dockerfile` cobre esse caso: clique em **Manual Deploy** → **Deploy latest commit**.
+
 Não use rewrite `/*` → `/index.html`: o funil tem várias páginas HTML.
