@@ -4,6 +4,7 @@ const path = require('path');
 const express = require('express');
 const { Store } = require('./store');
 const pixzy = require('./pixzy');
+const tiktok = require('./tiktok');
 
 function loadEnv() {
   const file = path.join(__dirname, '..', '.env');
@@ -126,6 +127,19 @@ app.post('/api/pix/create', async (req, res) => {
       },
     });
     res.json(charge);
+    tiktok.trackInitiateCheckout({
+      eventId: `ic_${charge.transactionId}`,
+      amount: charge.amount,
+      product: req.body.product || 'final-seguro',
+      email: customer.email,
+      phone: customer.phone,
+      cpf: customer.document,
+      ip: req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.ip,
+      userAgent: req.headers['user-agent'],
+      ttclid: (req.body.tracking && req.body.tracking.ttclid) || '',
+      ttp: (req.body.tracking && req.body.tracking.ttp) || '',
+      url: `${publicBase(req)}/final/`,
+    }).catch(() => {});
   } catch (err) {
     res.status(err.status || 400).json({ error: err.message || 'Falha ao gerar o PIX.' });
   }
@@ -147,6 +161,22 @@ app.get('/api/pix/status', async (req, res) => {
       status: charge.status,
     });
     res.json(charge);
+    if (charge.status === 'approved') {
+      const ctx = store.contextByTransaction(charge.transactionId);
+      const lead = ctx.lead || {};
+      tiktok.trackCompletePayment({
+        eventId: charge.transactionId,
+        amount: charge.amount,
+        email: req.query.eh || lead.email,
+        phone: req.query.ph || lead.telefone,
+        cpf: req.query.xid || lead.cpf,
+        ip: req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.ip,
+        userAgent: req.headers['user-agent'],
+        ttclid: req.query.ttclid,
+        ttp: req.query.ttp,
+        url: `${publicBase(req)}/final/`,
+      }).catch(() => {});
+    }
   } catch (err) {
     res.status(err.status || 400).json({ error: err.message || 'Falha ao consultar PIX.' });
   }
@@ -168,6 +198,18 @@ app.post('/api/pix/webhook', async (req, res) => {
         status,
         product: (tx.metadata && tx.metadata.product) || '',
       });
+      if (status === 'approved') {
+        const ctx = store.contextByTransaction(String(id));
+        const lead = ctx.lead || {};
+        tiktok.trackCompletePayment({
+          eventId: String(id),
+          amount: tx.amount || (ctx.pix && ctx.pix.amount),
+          email: lead.email,
+          phone: lead.telefone,
+          cpf: lead.cpf,
+          url: `${publicBase(req)}/final/`,
+        }).catch(() => {});
+      }
     }
     res.json({ ok: true });
   } catch (err) {

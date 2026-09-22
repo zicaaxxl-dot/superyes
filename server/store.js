@@ -291,6 +291,14 @@ class Store {
     if (!fs.existsSync(file)) return null;
     return file;
   }
+
+  contextByTransaction(transactionId) {
+    const db = this.read();
+    const pix = db.pix.find((p) => p.transactionId && p.transactionId === String(transactionId));
+    if (!pix) return { pix: null, lead: null };
+    const lead = db.leads.find((l) => l.id === pix.leadId || (pix.visitorId && l.visitorId === pix.visitorId)) || null;
+    return { pix, lead };
+  }
 }
 
 module.exports = { Store };
