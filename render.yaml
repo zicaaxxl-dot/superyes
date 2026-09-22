@@ -7,7 +7,7 @@ services:
       - key: ADMIN_USER
         value: admin
       - key: ADMIN_PASSWORD
-        value: SuperYes#admin
+        value: "SuperYes#admin"
       - key: DATA_DIR
         value: /data
       - key: PIXZY_TOKEN

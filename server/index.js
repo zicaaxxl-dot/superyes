@@ -252,18 +252,22 @@ function safeEq(a, b) {
   return crypto.timingSafeEqual(pa, pb) && aa.length === bb.length;
 }
 
+function sessionCookie(value, maxAge) {
+  return `admin_session=${value}; HttpOnly; Path=/; SameSite=Lax; Max-Age=${maxAge}; Secure`;
+}
+
 app.post('/api/admin/login', (req, res) => {
-  const user = String(req.body.user || '');
+  const user = String(req.body.user || req.body.username || '');
   const password = String(req.body.password || '');
   if (!safeEq(user, ADMIN_USER) || !safeEq(password, ADMIN_PASSWORD)) {
     return res.status(401).json({ error: 'Usuário ou senha inválidos' });
   }
-  res.setHeader('Set-Cookie', `admin_session=${signSession()}; HttpOnly; Path=/; SameSite=Lax; Max-Age=604800`);
+  res.setHeader('Set-Cookie', sessionCookie(signSession(), 604800));
   res.json({ ok: true });
 });
 
 app.post('/api/admin/logout', (req, res) => {
-  res.setHeader('Set-Cookie', 'admin_session=; HttpOnly; Path=/; Max-Age=0');
+  res.setHeader('Set-Cookie', sessionCookie('', 0));
   res.json({ ok: true });
 });
 
