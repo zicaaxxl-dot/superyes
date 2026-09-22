@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel SuperYes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --orange: #FB9637;
+      --orange-dark: #E8850A;
+      --ink: #111827;
+      --muted: #6B7280;
+      --line: #E5E7EB;
+      --bg: #F4F5F7;
+      --card: #fff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+    .hidden { display: none !important; }
+    .login {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px;
+      background: linear-gradient(180deg, #fff 0%, #FFF7ED 100%);
+    }
+    .login-card {
+      width: 100%; max-width: 400px; background: #fff; border-radius: 20px; padding: 32px;
+      box-shadow: 0 16px 40px rgba(0,0,0,.08);
+    }
+    .login-card h1 { font-size: 22px; margin: 8px 0 6px; }
+    .login-card p { color: var(--muted); font-size: 14px; margin-bottom: 22px; }
+    .brand { font-weight: 800; color: var(--orange); letter-spacing: -.4px; }
+    label { display: block; font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+    input, select {
+      width: 100%; border: 1.5px solid var(--line); border-radius: 12px; padding: 12px 14px;
+      font: inherit; background: #fff;
+    }
+    input:focus { outline: none; border-color: var(--orange); }
+    .btn {
+      border: 0; border-radius: 12px; padding: 13px 16px; font: inherit; font-weight: 700;
+      cursor: pointer; background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+      color: #fff; width: 100%; margin-top: 18px;
+    }
+    .btn.ghost { background: #fff; color: var(--ink); border: 1.5px solid var(--line); width: auto; margin: 0; }
+    .btn.small { width: auto; padding: 8px 12px; font-size: 13px; margin: 0; }
+    .err { color: #B91C1C; font-size: 13px; margin-top: 10px; min-height: 18px; }
+    header.app {
+      background: #fff; border-bottom: 1px solid var(--line); padding: 14px 20px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      position: sticky; top: 0; z-index: 10;
+    }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 22px 18px 60px; }
+    .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px; }
+    .kpi { background: var(--card); border-radius: 16px; padding: 16px 18px; box-shadow: 0 4px 16px rgba(0,0,0,.04); }
+    .kpi span { color: var(--muted); font-size: 12px; font-weight: 600; text-transform: uppercase; }
+    .kpi strong { display: block; font-size: 28px; margin-top: 4px; }
+    .toolbar { display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+    .toolbar input { max-width: 360px; flex: 1; }
+    table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 16px; overflow: hidden; }
+    th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); font-size: 14px; }
+    th { font-size: 12px; color: var(--muted); background: #FAFAFA; }
+    tr { cursor: pointer; }
+    tr:hover td { background: #FFF7ED; }
+    .tag { display: inline-block; background: #FFF7ED; color: #C2410C; border-radius: 999px; padding: 3px 8px; font-size: 12px; font-weight: 700; }
+    .detail { background: #fff; border-radius: 16px; padding: 22px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+    .field { background: #F9FAFB; border-radius: 12px; padding: 12px; }
+    .field small { display: block; color: var(--muted); font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 4px; }
+    .photos { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 10px; }
+    .photos img { width: 180px; height: 180px; object-fit: cover; border-radius: 12px; background: #eee; }
+    .pix { border: 1px solid var(--line); border-radius: 12px; padding: 12px; margin-top: 10px; }
+    .pix code { display: block; font-size: 11px; word-break: break-all; background: #F3F4F6; padding: 8px; border-radius: 8px; margin: 8px 0; }
+    .empty { text-align: center; color: var(--muted); padding: 40px 12px; }
+  </style>
+</head>
+<body>
+  <div id="loginView" class="login">
+    <form class="login-card" onsubmit="return doLogin(event)">
+      <div class="brand">SuperYes</div>
+      <h1>Painel operacional</h1>
+      <p>Leads, fotos do cadastro e PIX gerados.</p>
+      <label>Usuário</label>
+      <input id="user" autocomplete="username" value="admin">
+      <label>Senha</label>
+      <input id="password" type="password" autocomplete="current-password">
+      <button class="btn" type="submit">Entrar</button>
+      <div class="err" id="loginErr"></div>
+    </form>
+  </div>
+
+  <div id="appView" class="hidden">
+    <header class="app">
+      <strong class="brand">SuperYes Admin</strong>
+      <div style="display:flex;gap:8px;align-items:center">
+        <a class="btn ghost small" href="/api/admin/export.csv">Exportar CSV</a>
+        <button class="btn ghost small" onclick="logout()">Sair</button>
+      </div>
+    </header>
+    <div class="wrap">
+      <div class="kpis" id="kpis"></div>
+      <div id="listView">
+        <div class="toolbar">
+          <input id="search" placeholder="Buscar nome, CPF, e-mail, PIX..." oninput="loadLeads()">
+        </div>
+        <div id="tableWrap"></div>
+      </div>
+      <div id="detailView" class="hidden"></div>
+    </div>
+  </div>
+
+  <script>
+    async function api(url, opts) {
+      const res = await fetch(url, Object.assign({ headers: { 'Content-Type': 'application/json' } }, opts));
+      if (res.status === 401) throw new Error('auth');
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'Erro');
+      return data;
+    }
+
+    async function boot() {
+      try {
+        await api('/api/admin/me');
+        showApp();
+      } catch {
+        document.getElementById('loginView').classList.remove('hidden');
+        document.getElementById('appView').classList.add('hidden');
+      }
+    }
+
+    async function doLogin(e) {
+      e.preventDefault();
+      document.getElementById('loginErr').textContent = '';
+      try {
+        await api('/api/admin/login', {
+          method: 'POST',
+          body: JSON.stringify({
+            user: document.getElementById('user').value,
+            password: document.getElementById('password').value
+          })
+        });
+        showApp();
+      } catch (err) {
+        document.getElementById('loginErr').textContent = err.message === 'auth' ? 'Usuário ou senha inválidos' : err.message;
+      }
+      return false;
+    }
+
+    async function logout() {
+      await fetch('/api/admin/logout', { method: 'POST' });
+      location.reload();
+    }
+
+    async function showApp() {
+      document.getElementById('loginView').classList.add('hidden');
+      document.getElementById('appView').classList.remove('hidden');
+      await loadStats();
+      await loadLeads();
+    }
+
+    async function loadStats() {
+      const s = await api('/api/admin/stats');
+      document.getElementById('kpis').innerHTML = [
+        ['Leads', s.leads],
+        ['Com foto', s.withPhoto],
+        ['PIX gerados', s.pixGenerated],
+        ['PIX pagos', s.pixPaid]
+      ].map(([l, v]) => `<div class="kpi"><span>${l}</span><strong>${v}</strong></div>`).join('');
+    }
+
+    async function loadLeads() {
+      const q = document.getElementById('search').value;
+      const rows = await api('/api/admin/leads?q=' + encodeURIComponent(q));
+      if (!rows.length) {
+        document.getElementById('tableWrap').innerHTML = '<div class="empty">Nenhum lead ainda. Os cadastros do funil aparecem aqui automaticamente.</div>';
+        return;
+      }
+      document.getElementById('tableWrap').innerHTML = `
+        <table>
+          <thead><tr><th>Quando</th><th>Nome</th><th>CPF</th><th>Contato</th><th>PIX</th><th>Etapa</th><th>Fotos</th></tr></thead>
+          <tbody>
+            ${rows.map(r => `
+              <tr onclick="openLead('${r.id}')">
+                <td>${fmt(r.createdAt)}</td>
+                <td>${esc(r.nome || '—')}</td>
+                <td>${esc(r.cpf || '—')}</td>
+                <td>${esc(r.telefone || r.email || '—')}</td>
+                <td>${esc(r.chavePix || '—')}</td>
+                <td><span class="tag">${esc(r.step || '—')}</span></td>
+                <td>${r.photoCount || 0}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>`;
+    }
+
+    async function openLead(id) {
+      const l = await api('/api/admin/leads/' + id);
+      document.getElementById('listView').classList.add('hidden');
+      const d = document.getElementById('detailView');
+      d.classList.remove('hidden');
+      const fields = [
+        ['Nome', l.nome], ['CPF', l.cpf], ['Nome da mãe', l.nomeMae], ['Nascimento', l.dataNasc],
+        ['E-mail', l.email], ['Telefone', l.telefone], ['Banco', l.banco], ['Tipo PIX', l.tipoPix],
+        ['Chave PIX', l.chavePix], ['Valor', l.valor], ['Parcelas', l.parcelas], ['Parcela', l.parcelaMensal],
+        ['UTM source', l.utmSource], ['Campanha', l.utmCampaign], ['ttclid', l.ttclid]
+      ];
+      d.innerHTML = `
+        <button class="btn ghost small" onclick="backList()">← Voltar</button>
+        <h2 style="margin:16px 0 18px">${esc(l.nome || 'Lead')} <span class="tag">${esc(l.step || '')}</span></h2>
+        <div class="grid">
+          ${fields.map(([k,v]) => `<div class="field"><small>${k}</small>${esc(v || '—')}</div>`).join('')}
+        </div>
+        <h3 style="margin:22px 0 8px">Fotos do cadastro</h3>
+        <div class="photos">
+          ${(l.photos || []).length ? l.photos.map(p => `<a href="${p.url}" target="_blank"><img src="${p.url}" alt="foto"></a>`).join('') : '<div class="empty">Nenhuma foto enviada</div>'}
+        </div>
+        <h3 style="margin:22px 0 8px">PIX gerados</h3>
+        ${(l.pix || []).length ? l.pix.map(p => `
+          <div class="pix">
+            <div><strong>${esc(p.product || p.page || 'PIX')}</strong> · ${esc(p.status)} · ${fmt(p.createdAt)}</div>
+            <div style="font-size:12px;color:#6B7280;margin-top:4px">ID: ${esc(p.transactionId || '—')} · valor: ${esc(p.amount || '—')}</div>
+            ${p.qrCode ? `<code>${esc(p.qrCode)}</code><button class="btn small" onclick="navigator.clipboard.writeText(${JSON.stringify(p.qrCode)})">Copiar código</button>` : ''}
+          </div>
+        `).join('') : '<div class="empty">Nenhum PIX gerado ainda</div>'}
+      `;
+    }
+
+    function backList() {
+      document.getElementById('detailView').classList.add('hidden');
+      document.getElementById('listView').classList.remove('hidden');
+      loadLeads();
+      loadStats();
+    }
+
+    function fmt(iso) {
+      if (!iso) return '—';
+      const d = new Date(iso);
+      return d.toLocaleString('pt-BR');
+    }
+    function esc(s) {
+      return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    boot();
+  </script>
+</body>
+</html>

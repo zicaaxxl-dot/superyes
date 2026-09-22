@@ -17,34 +17,38 @@ Back redirects: `/backs/backhome/`, `/backs/backof/`, `/backs/backof2/`, `/backs
 
 UTMs da URL (`utm_source`, `ttclid`, etc.) são gravadas no `localStorage` e seguem entre as etapas.
 
+## Painel admin
+
+Não existia admin. Agora os cadastros vão para o painel:
+
+**URL:** `https://SEU-DOMINIO-RENDER/admin`
+
+- Usuário: `admin`
+- Senha: `SuperYes#admin`
+
+Troque a senha no Render em **Environment**: `ADMIN_PASSWORD`.
+
+O painel mostra nome, CPF, telefone, e-mail, chave PIX, banco, valor, fotos da etapa 6 e os códigos PIX gerados.
+
+Para os dados não sumirem no redeploy, no Render: **Disk** montado em `/data`.
+
 ## Preview local
 
+Com Node:
+
 ```powershell
-powershell -ExecutionPolicy Bypass -File ._serve.ps1
+npm install
+npm start
 ```
 
-Abra `http://127.0.0.1:4173/`
-
-## Deploy na Vercel
-
-1. Instale a CLI: `npm i -g vercel`
-2. Na pasta do projeto: `vercel`
-3. Produção: `vercel --prod`
-
-No dashboard da Vercel: **Import** deste repositório. Framework preset: **Other**. Output/root: pasta raiz (HTML estático).
+Abra `http://127.0.0.1:3000/` (funil) e `http://127.0.0.1:3000/admin`
 
 ## Deploy no Render
 
-O Render exige um repositório Git (GitHub, GitLab ou Bitbucket).
+O serviço precisa ser **Web Service** com Docker (não Static Site), porque o admin é um servidor Node.
 
-1. Entre em [dashboard.render.com](https://dashboard.render.com) com a conta que quiser usar.
-2. **New +** → **Static Site**.
-3. Conecte o repositório deste projeto.
-4. Se o `render.yaml` for detectado, aceite o blueprint. Senão preencha:
-   - **Build Command:** deixe vazio
-   - **Publish Directory:** `.`
-5. **Create Static Site**.
-
-Se o serviço já foi criado como **Web Service** (Docker), o `Dockerfile` cobre esse caso: clique em **Manual Deploy** → **Deploy latest commit**.
-
-Não use rewrite `/*` → `/index.html`: o funil tem várias páginas HTML.
+1. No serviço atual: **Manual Deploy** → **Deploy latest commit**
+2. Environment:
+   - `ADMIN_USER` = `admin`
+   - `ADMIN_PASSWORD` = senha forte
+   - `DATA_DIR` = `/data`

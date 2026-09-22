@@ -1,10 +1,12 @@
 services:
   - type: web
     name: superis
-    runtime: static
-    buildCommand: ""
-    staticPublishPath: .
-    headers:
-      - path: /final/midia/*
-        name: Cache-Control
-        value: public, max-age=31536000, immutable
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: ADMIN_USER
+        value: admin
+      - key: ADMIN_PASSWORD
+        value: SuperYes#admin
+      - key: DATA_DIR
+        value: /data

@@ -3,3 +3,6 @@
 Thumbs.db
 _crawl.ps1
 *.log
+node_modules
+data
+.env

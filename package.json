@@ -1,0 +1,16 @@
+{
+  "name": "superis",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Funil SuperSim + painel admin",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
