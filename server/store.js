@@ -218,14 +218,39 @@ class Store {
 
   stats() {
     const db = this.read();
-    const paid = db.pix.filter((p) => p.status === 'approved' || p.status === 'paid').length;
+    const unique = [];
+    const seen = new Set();
+    for (const p of db.pix) {
+      const key = p.transactionId || p.id;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      unique.push(p);
+    }
+    const paidPix = unique.filter((p) => p.status === 'approved' || p.status === 'paid');
+    const paidLeadIds = new Set(paidPix.map((p) => p.leadId).filter(Boolean));
     const withPhoto = db.leads.filter((l) => (l.photos || []).length > 0).length;
+    const pixGenerated = unique.length;
+    const pixPaid = paidPix.length;
     return {
       leads: db.leads.length,
       withPhoto,
-      pixGenerated: db.pix.length,
-      pixPaid: paid,
+      pixGenerated,
+      pixPaid,
+      approvedCount: paidLeadIds.size,
+      pendingCount: Math.max(0, db.leads.length - paidLeadIds.size),
+      conversionRate: db.leads.length ? Math.round((paidLeadIds.size / db.leads.length) * 1000) / 10 : 0,
+      photoRate: db.leads.length ? Math.round((withPhoto / db.leads.length) * 1000) / 10 : 0,
+      pixPayRate: pixGenerated ? Math.round((pixPaid / pixGenerated) * 1000) / 10 : 0,
     };
+  }
+
+  leadStatus(lead, pix) {
+    const paid = pix.some((p) => p.status === 'approved' || p.status === 'paid');
+    if (paid) return 'aprovado';
+    if (pix.some((p) => p.transactionId)) return 'pix';
+    if ((lead.photos || []).length) return 'analise';
+    if (lead.cpf) return 'cadastro';
+    return 'novo';
   }
 
   listLeads(query) {
@@ -240,11 +265,15 @@ class Store {
         return blob.includes(q);
       });
     }
-    return rows.map((l) => ({
-      ...l,
-      photoCount: (l.photos || []).length,
-      pixCount: db.pix.filter((p) => p.leadId === l.id || p.visitorId === l.visitorId).length,
-    }));
+    return rows.map((l) => {
+      const pix = db.pix.filter((p) => p.leadId === l.id || p.visitorId === l.visitorId);
+      return {
+        ...l,
+        photoCount: (l.photos || []).length,
+        pixCount: pix.length,
+        status: this.leadStatus(l, pix),
+      };
+    });
   }
 
   getLead(id) {
@@ -252,7 +281,7 @@ class Store {
     const lead = db.leads.find((l) => l.id === id);
     if (!lead) return null;
     const pix = db.pix.filter((p) => p.leadId === lead.id || p.visitorId === lead.visitorId);
-    return { ...lead, pix };
+    return { ...lead, pix, status: this.leadStatus(lead, pix) };
   }
 
   photoPath(leadId, filename) {
