@@ -160,6 +160,7 @@
     async function loadStats() {
       const s = await api('/api/admin/stats');
       document.getElementById('kpis').innerHTML = [
+        ['Gateway', s.gateway || 'Pixzy'],
         ['Leads', s.leads],
         ['Com foto', s.withPhoto],
         ['PIX gerados', s.pixGenerated],
@@ -217,8 +218,8 @@
         <h3 style="margin:22px 0 8px">PIX gerados</h3>
         ${(l.pix || []).length ? l.pix.map(p => `
           <div class="pix">
-            <div><strong>${esc(p.product || p.page || 'PIX')}</strong> · ${esc(p.status)} · ${fmt(p.createdAt)}</div>
-            <div style="font-size:12px;color:#6B7280;margin-top:4px">ID: ${esc(p.transactionId || '—')} · valor: ${esc(p.amount || '—')}</div>
+            <div><strong>Pixzy · ${esc(p.product || p.page || 'PIX')}</strong> · ${esc(statusLabel(p.status))} · ${fmt(p.createdAt)}</div>
+            <div style="font-size:12px;color:#6B7280;margin-top:4px">ID: ${esc(p.transactionId || '—')} · valor: ${esc(money(p.amount))}</div>
             ${p.qrCode ? `<code>${esc(p.qrCode)}</code><button class="btn small" onclick="navigator.clipboard.writeText(${JSON.stringify(p.qrCode)})">Copiar código</button>` : ''}
           </div>
         `).join('') : '<div class="empty">Nenhum PIX gerado ainda</div>'}
@@ -232,7 +233,16 @@
       loadStats();
     }
 
-    function fmt(iso) {
+    function statusLabel(s) {
+      if (s === 'approved' || s === 'paid') return 'Pago';
+      if (s === 'failed' || s === 'expired') return 'Falhou / expirou';
+      return 'Pendente';
+    }
+    function money(cents) {
+      const n = Number(cents);
+      if (!n && n !== 0) return '—';
+      return (n / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
       if (!iso) return '—';
       const d = new Date(iso);
       return d.toLocaleString('pt-BR');

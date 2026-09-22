@@ -3,6 +3,16 @@ const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const { Store } = require('./store');
+const pixzy = require('./pixzy');
+
+const ROOT = path.join(__dirname, '..');
+const DATA_DIR = process.env.DATA_DIR || path.join(ROOT, 'data');
+const PORT = Number(process.env.PORT || 3000);
+const ADMIN_USER = process.env.ADMIN_USER || 'admin';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'SuperYes#admin';
+const ADMIN_SECRET = process.env.ADMIN_SECRET || crypto.randomBytes(24).toString('hex');
+const PIXZY_TOKEN = process.env.PIXZY_TOKEN || '';
+const PUBLIC_URL = (process.env.PUBLIC_URL || '').replace(/\/$/, '');
 
 const ROOT = path.join(__dirname, '..');
 const DATA_DIR = process.env.DATA_DIR || path.join(ROOT, 'data');
@@ -53,6 +63,106 @@ function requireAdmin(req, res, next) {
 function visitorId(req) {
   return String(req.body.visitorId || req.body.visitor_id || '').slice(0, 80);
 }
+
+function publicBase(req) {
+  if (PUBLIC_URL) return PUBLIC_URL;
+  const proto = req.headers['x-forwarded-proto'] || req.protocol || 'https';
+  const host = req.headers['x-forwarded-host'] || req.headers.host;
+  return `${proto}://${host}`;
+}
+
+app.post('/api/pix/create', async (req, res) => {
+  try {
+    if (!PIXZY_TOKEN) {
+      return res.status(503).json({ error: 'PIXZY_TOKEN não configurado no Render.' });
+    }
+    const customer = {
+      name: req.body.name,
+      email: req.body.email,
+      document: req.body.document || req.body.cpf,
+      phone: req.body.phone || req.body.telefone,
+    };
+    if (!customer.name || !customer.email || !customer.document) {
+      return res.status(400).json({ error: 'Nome, e-mail e CPF são obrigatórios.' });
+    }
+    const charge = await pixzy.createCharge({
+      token: PIXZY_TOKEN,
+      product: req.body.product || 'final-seguro',
+      customer,
+      tracking: req.body.tracking || {},
+      webhookUrl: `${publicBase(req)}/api/pix/webhook`,
+      ip: req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.ip,
+    });
+    await store.savePix({
+      visitorId: visitorId(req),
+      cpf: customer.document,
+      type: 'create',
+      product: req.body.product,
+      page: req.body.product,
+      transactionId: charge.transactionId,
+      qrCode: charge.qrCode,
+      amount: charge.amount,
+      status: charge.status,
+    });
+    await store.upsertLead({
+      visitorId: visitorId(req) || undefined,
+      step: req.body.product || 'pix',
+      fields: {
+        nome: customer.name,
+        email: customer.email,
+        cpf: customer.document,
+        telefone: customer.phone,
+      },
+    });
+    res.json(charge);
+  } catch (err) {
+    res.status(err.status || 400).json({ error: err.message || 'Falha ao gerar o PIX.' });
+  }
+});
+
+app.get('/api/pix/status', async (req, res) => {
+  try {
+    if (!PIXZY_TOKEN) {
+      return res.status(503).json({ error: 'PIXZY_TOKEN não configurado no Render.' });
+    }
+    const id = req.query.id;
+    if (!id) return res.status(400).json({ error: 'id obrigatório' });
+    const charge = await pixzy.getCharge({ token: PIXZY_TOKEN, id });
+    await store.savePix({
+      type: 'status',
+      transactionId: charge.transactionId,
+      qrCode: charge.qrCode,
+      amount: charge.amount,
+      status: charge.status,
+    });
+    res.json(charge);
+  } catch (err) {
+    res.status(err.status || 400).json({ error: err.message || 'Falha ao consultar PIX.' });
+  }
+});
+
+app.post('/api/pix/webhook', async (req, res) => {
+  try {
+    const body = req.body || {};
+    const tx = body.transaction || body.data || body;
+    const event = String(body.event || tx.status || '').toLowerCase();
+    const id = tx.transaction_id || tx.id || body.transaction_id;
+    const status = pixzy.mapStatus(event === 'paid' || event === 'transaction_paid' ? 'paid' : (tx.status || event));
+    if (id) {
+      await store.savePix({
+        type: 'webhook',
+        transactionId: String(id),
+        qrCode: tx.br_code || tx.qr_code,
+        amount: tx.amount,
+        status,
+        product: (tx.metadata && tx.metadata.product) || '',
+      });
+    }
+    res.json({ ok: true });
+  } catch (err) {
+    res.status(200).json({ ok: false });
+  }
+});
 
 app.post('/api/ingest/lead', async (req, res) => {
   try {
@@ -147,7 +257,7 @@ app.post('/api/admin/logout', (req, res) => {
 });
 
 app.get('/api/admin/stats', requireAdmin, (req, res) => {
-  res.json(store.stats());
+  res.json({ ...store.stats(), gateway: 'Pixzy' });
 });
 
 app.get('/api/admin/leads', requireAdmin, (req, res) => {

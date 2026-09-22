@@ -28,7 +28,7 @@ Não existia admin. Agora os cadastros vão para o painel:
 
 Troque a senha no Render em **Environment**: `ADMIN_PASSWORD`.
 
-O painel mostra nome, CPF, telefone, e-mail, chave PIX, banco, valor, fotos da etapa 6 e os códigos PIX gerados.
+O painel mostra nome, CPF, telefone, e-mail, chave PIX, banco, valor, fotos da etapa 6 e os códigos PIX gerados (gateway **Pixzy**).
 
 Para os dados não sumirem no redeploy, no Render: **Disk** montado em `/data`.
 
@@ -52,3 +52,5 @@ O serviço precisa ser **Web Service** com Docker (não Static Site), porque o a
    - `ADMIN_USER` = `admin`
    - `ADMIN_PASSWORD` = senha forte
    - `DATA_DIR` = `/data`
+   - `PIXZY_TOKEN` = token Bearer da Pixzy (Configurações → Tokens de API em [app.pixzypay.com](https://app.pixzypay.com))
+   - `PUBLIC_URL` = URL pública do site (ex: `https://superyes.onrender.com`)

@@ -10,3 +10,7 @@ services:
         value: SuperYes#admin
       - key: DATA_DIR
         value: /data
+      - key: PIXZY_TOKEN
+        value: ""
+      - key: PUBLIC_URL
+        value: ""
