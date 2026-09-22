@@ -1,0 +1,3325 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+<script>
+!function (w, d, t) {
+  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+
+  ttq.load('D8K3BJ3C77UDG683OUJ0');
+  ttq.load('D9D5FKRC77U6Q0JCMOC0');
+  ttq.page();
+}(window, document, 'ttq');
+</script>
+<script>
+(function () {
+  if (!window.ttq) return;
+  async function sha256Hex(str) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+  async function syncIdentify() {
+    const email = localStorage.getItem('email');
+    const phoneRaw = localStorage.getItem('telephone') || localStorage.getItem('telefone');
+    const cpf = localStorage.getItem('cpf');
+    const identify = {};
+    if (email) identify.email = await sha256Hex(email.trim().toLowerCase());
+    if (phoneRaw) {
+      const digits = phoneRaw.replace(/\D/g, '');
+      const e164 = '+' + (digits.startsWith('55') ? digits : '55' + digits);
+      identify.phone_number = await sha256Hex(e164);
+    }
+    if (cpf) identify.external_id = await sha256Hex(cpf.replace(/\D/g, ''));
+    if (Object.keys(identify).length) ttq.identify(identify);
+  }
+  syncIdentify();
+})();
+</script>
+	<script>
+	// ALTERE O LINK PARA A PÁGINA QUE QUISER MOSTRAR QUANDO O USUÁRIO TENTAR SAIR
+	const link = '/backs/backup/index.html?next=up2';
+
+	function setBackRedirect(url) {
+		let urlBackRedirect = url;
+		urlBackRedirect = urlBackRedirect =
+			urlBackRedirect.trim() +
+			(urlBackRedirect.indexOf('?') > 0 ? '&' : '?') +
+			document.location.search.replace('?', '').toString();
+
+		history.pushState({}, '', location.href);
+		history.pushState({}, '', location.href);
+		history.pushState({}, '', location.href);
+
+		window.addEventListener('popstate', () => {
+			console.log('onpopstate', urlBackRedirect);
+			setTimeout(() => {
+				location.href = urlBackRedirect;
+			}, 1);
+		});
+	}
+
+	setBackRedirect(link);
+	</script>
+	<meta charset="UTF-8">
+	<title>IOF – Perguntas</title>
+	<meta name="robots" content="max-image-preview:large">
+	<style>
+		img:is([sizes="auto" i], [sizes^="auto," i]) {
+			contain-intrinsic-size: 3000px 1500px
+		}
+
+		#user-display-name {
+			font-size: 12px;
+		}
+	</style>
+	<style id="wp-emoji-styles-inline-css">
+		img.wp-smiley,
+		img.emoji {
+			display: inline !important;
+			border: none !important;
+			box-shadow: none !important;
+			height: 1em !important;
+			width: 1em !important;
+			margin: 0 0.07em !important;
+			vertical-align: -0.1em !important;
+			background: none !important;
+			padding: 0 !important;
+		}
+
+		#user-display-name {
+			font-size: 12px;
+		}
+	</style>
+	<style id="classic-theme-styles-inline-css">
+		/*! This file is auto-generated */
+		.wp-block-button__link {
+			color: #fff;
+			background-color: #32373c;
+			border-radius: 9999px;
+			box-shadow: none;
+			text-decoration: none;
+			padding: calc(.667em + 2px) calc(1.333em + 2px);
+			font-size: 1.125em
+		}
+
+		.wp-block-file__button {
+			background: #32373c;
+			color: #fff;
+			text-decoration: none
+		}
+
+		#user-display-name {
+			font-size: 12px;
+		}
+	</style>
+	<style id="global-styles-inline-css">
+		:root {
+			--wp--preset--aspect-ratio--square: 1;
+			--wp--preset--aspect-ratio--4-3: 4/3;
+			--wp--preset--aspect-ratio--3-4: 3/4;
+			--wp--preset--aspect-ratio--3-2: 3/2;
+			--wp--preset--aspect-ratio--2-3: 2/3;
+			--wp--preset--aspect-ratio--16-9: 16/9;
+			--wp--preset--aspect-ratio--9-16: 9/16;
+			--wp--preset--color--black: #000000;
+			--wp--preset--color--cyan-bluish-gray: #abb8c3;
+			--wp--preset--color--white: #ffffff;
+			--wp--preset--color--pale-pink: #f78da7;
+			--wp--preset--color--vivid-red: #cf2e2e;
+			--wp--preset--color--luminous-vivid-orange: #ff6900;
+			--wp--preset--color--luminous-vivid-amber: #fcb900;
+			--wp--preset--color--light-green-cyan: #7bdcb5;
+			--wp--preset--color--vivid-green-cyan: #00d084;
+			--wp--preset--color--pale-cyan-blue: #8ed1fc;
+			--wp--preset--color--vivid-cyan-blue: #0693e3;
+			--wp--preset--color--vivid-purple: #9b51e0;
+			--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg, rgba(6, 147, 227, 1) 0%, rgb(155, 81, 224) 100%);
+			--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg, rgb(122, 220, 180) 0%, rgb(0, 208, 130) 100%);
+			--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg, rgba(252, 185, 0, 1) 0%, rgba(255, 105, 0, 1) 100%);
+			--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg, rgba(255, 105, 0, 1) 0%, rgb(207, 46, 46) 100%);
+			--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg, rgb(238, 238, 238) 0%, rgb(169, 184, 195) 100%);
+			--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg, rgb(74, 234, 220) 0%, rgb(151, 120, 209) 20%, rgb(207, 42, 186) 40%, rgb(238, 44, 130) 60%, rgb(251, 105, 98) 80%, rgb(254, 248, 76) 100%);
+			--wp--preset--gradient--blush-light-purple: linear-gradient(135deg, rgb(255, 206, 236) 0%, rgb(152, 150, 240) 100%);
+			--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg, rgb(254, 205, 165) 0%, rgb(254, 45, 45) 50%, rgb(107, 0, 62) 100%);
+			--wp--preset--gradient--luminous-dusk: linear-gradient(135deg, rgb(255, 203, 112) 0%, rgb(199, 81, 192) 50%, rgb(65, 88, 208) 100%);
+			--wp--preset--gradient--pale-ocean: linear-gradient(135deg, rgb(255, 245, 203) 0%, rgb(182, 227, 212) 50%, rgb(51, 167, 181) 100%);
+			--wp--preset--gradient--electric-grass: linear-gradient(135deg, rgb(202, 248, 128) 0%, rgb(113, 206, 126) 100%);
+			--wp--preset--gradient--midnight: linear-gradient(135deg, rgb(2, 3, 129) 0%, rgb(40, 116, 252) 100%);
+			--wp--preset--font-size--small: 13px;
+			--wp--preset--font-size--medium: 20px;
+			--wp--preset--font-size--large: 36px;
+			--wp--preset--font-size--x-large: 42px;
+			--wp--preset--spacing--20: 0.44rem;
+			--wp--preset--spacing--30: 0.67rem;
+			--wp--preset--spacing--40: 1rem;
+			--wp--preset--spacing--50: 1.5rem;
+			--wp--preset--spacing--60: 2.25rem;
+			--wp--preset--spacing--70: 3.38rem;
+			--wp--preset--spacing--80: 5.06rem;
+			--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);
+			--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);
+			--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);
+			--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);
+			--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);
+		}
+
+		:where(.is-layout-flex) {
+			gap: 0.5em;
+		}
+
+		:where(.is-layout-grid) {
+			gap: 0.5em;
+		}
+
+		body .is-layout-flex {
+			display: flex;
+		}
+
+		.is-layout-flex {
+			flex-wrap: wrap;
+			align-items: center;
+		}
+
+		.is-layout-flex> :is(*, div) {
+			margin: 0;
+		}
+
+		body .is-layout-grid {
+			display: grid;
+		}
+
+		.is-layout-grid> :is(*, div) {
+			margin: 0;
+		}
+
+		:where(.wp-block-columns.is-layout-flex) {
+			gap: 2em;
+		}
+
+		:where(.wp-block-columns.is-layout-grid) {
+			gap: 2em;
+		}
+
+		:where(.wp-block-post-template.is-layout-flex) {
+			gap: 1.25em;
+		}
+
+		:where(.wp-block-post-template.is-layout-grid) {
+			gap: 1.25em;
+		}
+
+		.has-black-color {
+			color: var(--wp--preset--color--black) !important;
+		}
+
+		.has-cyan-bluish-gray-color {
+			color: var(--wp--preset--color--cyan-bluish-gray) !important;
+		}
+
+		.has-white-color {
+			color: var(--wp--preset--color--white) !important;
+		}
+
+		.has-pale-pink-color {
+			color: var(--wp--preset--color--pale-pink) !important;
+		}
+
+		.has-vivid-red-color {
+			color: var(--wp--preset--color--vivid-red) !important;
+		}
+
+		.has-luminous-vivid-orange-color {
+			color: var(--wp--preset--color--luminous-vivid-orange) !important;
+		}
+
+		.has-luminous-vivid-amber-color {
+			color: var(--wp--preset--color--luminous-vivid-amber) !important;
+		}
+
+		.has-light-green-cyan-color {
+			color: var(--wp--preset--color--light-green-cyan) !important;
+		}
+
+		.has-vivid-green-cyan-color {
+			color: var(--wp--preset--color--vivid-green-cyan) !important;
+		}
+
+		.has-pale-cyan-blue-color {
+			color: var(--wp--preset--color--pale-cyan-blue) !important;
+		}
+
+		.has-vivid-cyan-blue-color {
+			color: var(--wp--preset--color--vivid-cyan-blue) !important;
+		}
+
+		.has-vivid-purple-color {
+			color: var(--wp--preset--color--vivid-purple) !important;
+		}
+
+		.has-black-background-color {
+			background-color: var(--wp--preset--color--black) !important;
+		}
+
+		.has-cyan-bluish-gray-background-color {
+			background-color: var(--wp--preset--color--cyan-bluish-gray) !important;
+		}
+
+		.has-white-background-color {
+			background-color: var(--wp--preset--color--white) !important;
+		}
+
+		.has-pale-pink-background-color {
+			background-color: var(--wp--preset--color--pale-pink) !important;
+		}
+
+		.has-vivid-red-background-color {
+			background-color: var(--wp--preset--color--vivid-red) !important;
+		}
+
+		.has-luminous-vivid-orange-background-color {
+			background-color: var(--wp--preset--color--luminous-vivid-orange) !important;
+		}
+
+		.has-luminous-vivid-amber-background-color {
+			background-color: var(--wp--preset--color--luminous-vivid-amber) !important;
+		}
+
+		.has-light-green-cyan-background-color {
+			background-color: var(--wp--preset--color--light-green-cyan) !important;
+		}
+
+		.has-vivid-green-cyan-background-color {
+			background-color: var(--wp--preset--color--vivid-green-cyan) !important;
+		}
+
+		.has-pale-cyan-blue-background-color {
+			background-color: var(--wp--preset--color--pale-cyan-blue) !important;
+		}
+
+		.has-vivid-cyan-blue-background-color {
+			background-color: var(--wp--preset--color--vivid-cyan-blue) !important;
+		}
+
+		.has-vivid-purple-background-color {
+			background-color: var(--wp--preset--color--vivid-purple) !important;
+		}
+
+		.has-black-border-color {
+			border-color: var(--wp--preset--color--black) !important;
+		}
+
+		.has-cyan-bluish-gray-border-color {
+			border-color: var(--wp--preset--color--cyan-bluish-gray) !important;
+		}
+
+		.has-white-border-color {
+			border-color: var(--wp--preset--color--white) !important;
+		}
+
+		.has-pale-pink-border-color {
+			border-color: var(--wp--preset--color--pale-pink) !important;
+		}
+
+		.has-vivid-red-border-color {
+			border-color: var(--wp--preset--color--vivid-red) !important;
+		}
+
+		.has-luminous-vivid-orange-border-color {
+			border-color: var(--wp--preset--color--luminous-vivid-orange) !important;
+		}
+
+		.has-luminous-vivid-amber-border-color {
+			border-color: var(--wp--preset--color--luminous-vivid-amber) !important;
+		}
+
+		.has-light-green-cyan-border-color {
+			border-color: var(--wp--preset--color--light-green-cyan) !important;
+		}
+
+		.has-vivid-green-cyan-border-color {
+			border-color: var(--wp--preset--color--vivid-green-cyan) !important;
+		}
+
+		.has-pale-cyan-blue-border-color {
+			border-color: var(--wp--preset--color--pale-cyan-blue) !important;
+		}
+
+		.has-vivid-cyan-blue-border-color {
+			border-color: var(--wp--preset--color--vivid-cyan-blue) !important;
+		}
+
+		.has-vivid-purple-border-color {
+			border-color: var(--wp--preset--color--vivid-purple) !important;
+		}
+
+		.has-vivid-cyan-blue-to-vivid-purple-gradient-background {
+			background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;
+		}
+
+		.has-light-green-cyan-to-vivid-green-cyan-gradient-background {
+			background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;
+		}
+
+		.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background {
+			background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;
+		}
+
+		.has-luminous-vivid-orange-to-vivid-red-gradient-background {
+			background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;
+		}
+
+		.has-very-light-gray-to-cyan-bluish-gray-gradient-background {
+			background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;
+		}
+
+		.has-cool-to-warm-spectrum-gradient-background {
+			background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;
+		}
+
+		.has-blush-light-purple-gradient-background {
+			background: var(--wp--preset--gradient--blush-light-purple) !important;
+		}
+
+		.has-blush-bordeaux-gradient-background {
+			background: var(--wp--preset--gradient--blush-bordeaux) !important;
+		}
+
+		.has-luminous-dusk-gradient-background {
+			background: var(--wp--preset--gradient--luminous-dusk) !important;
+		}
+
+		.has-pale-ocean-gradient-background {
+			background: var(--wp--preset--gradient--pale-ocean) !important;
+		}
+
+		.has-electric-grass-gradient-background {
+			background: var(--wp--preset--gradient--electric-grass) !important;
+		}
+
+		.has-midnight-gradient-background {
+			background: var(--wp--preset--gradient--midnight) !important;
+		}
+
+		.has-small-font-size {
+			font-size: var(--wp--preset--font-size--small) !important;
+		}
+
+		.has-medium-font-size {
+			font-size: var(--wp--preset--font-size--medium) !important;
+		}
+
+		.has-large-font-size {
+			font-size: var(--wp--preset--font-size--large) !important;
+		}
+
+		.has-x-large-font-size {
+			font-size: var(--wp--preset--font-size--x-large) !important;
+		}
+
+		:where(.wp-block-post-template.is-layout-flex) {
+			gap: 1.25em;
+		}
+
+		:where(.wp-block-post-template.is-layout-grid) {
+			gap: 1.25em;
+		}
+
+		:where(.wp-block-columns.is-layout-flex) {
+			gap: 2em;
+		}
+
+		:where(.wp-block-columns.is-layout-grid) {
+			gap: 2em;
+		}
+
+		:root :where(.wp-block-pullquote) {
+			font-size: 1.5em;
+			line-height: 1.6;
+		}
+
+		#user-display-name {
+			font-size: 12px;
+		}
+	</style>
+	<link rel="stylesheet" id="secure-copy-content-protection-public-css"
+		href="css/secure-copy-content-protection-public.css" media="all">
+	<link rel="stylesheet" id="hello-elementor-css" href="css/style.min.css" media="all">
+	<link rel="stylesheet" id="hello-elementor-theme-style-css" href="css/theme.min.css" media="all">
+	<link rel="stylesheet" id="hello-elementor-header-footer-css" href="css/header-footer.min.css" media="all">
+	<link rel="stylesheet" id="elementor-frontend-css" href="css/frontend.min.css" media="all">
+	<link rel="stylesheet" id="elementor-post-5-css" href="css/post-5.css" media="all">
+	<link rel="stylesheet" id="widget-image-css" href="css/widget-image.min.css" media="all">
+	<link rel="stylesheet" id="widget-heading-css" href="css/widget-heading.min.css" media="all">
+	<link rel="stylesheet" id="widget-counter-css" href="css/widget-counter.min.css" media="all">
+	<link rel="stylesheet" id="elementor-pro-css" href="css/frontend.min_1.css" media="all">
+	<link rel="stylesheet" id="widget-icon-list-css" href="css/widget-icon-list.min.css" media="all">
+	<link rel="stylesheet" id="widget-icon-box-css" href="css/widget-icon-box.min.css" media="all">
+	<link rel="stylesheet" id="elementor-post-2826-css" href="css/post-2826.css" media="all">
+	<link rel="stylesheet" id="elementor-post-824-css" href="css/post-824.css" media="all">
+	<link rel="stylesheet" id="elementor-post-292-css" href="css/post-292.css" media="all">
+	<link rel="stylesheet" id="elementor-post-285-css" href="css/post-285.css" media="all">
+	<link rel="stylesheet" id="elementor-post-280-css" href="css/post-280.css" media="all">
+	<link rel="stylesheet" id="elementor-post-277-css" href="css/post-277.css" media="all">
+	<link rel="stylesheet" id="elementor-post-274-css" href="css/post-274.css" media="all">
+	<link rel="stylesheet" id="elementor-post-271-css" href="css/post-271.css" media="all">
+	<link rel="stylesheet" id="elementor-post-268-css" href="css/post-268.css" media="all">
+	<link rel="stylesheet" id="elementor-post-265-css" href="css/post-265.css" media="all">
+	<link rel="stylesheet" id="elementor-post-262-css" href="css/post-262.css" media="all">
+	<link rel="stylesheet" id="elementor-post-259-css" href="css/post-259.css" media="all">
+	<link rel="stylesheet" id="elementor-post-256-css" href="css/post-256.css" media="all">
+	<link rel="stylesheet" id="elementor-post-253-css" href="css/post-253.css" media="all">
+	<link rel="stylesheet" id="google-fonts-1-css"
+		href="https://fonts.googleapis.com/css?family=Roboto%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CRoboto+Slab%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CInter%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic&display=swap&ver=6.7.1"
+		media="all">
+	<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+	<script src="js/jquery.min.js" id="jquery-core-js"></script>
+	<script src="js/jquery-migrate.min.js" id="jquery-migrate-js"></script>
+	<link rel="https://api.w.org/" href="https://portalmundosgloball.online/wp-json/">
+	<link rel="alternate" title="JSON" type="application/json"
+		href="https://portalmundosgloball.online/wp-json/wp/v2/pages/2826">
+	<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://portalmundosgloball.online/xmlrpc.php?rsd">
+	<meta name="generator" content="WordPress 6.7.1">
+	<link rel="canonical" href="https://portalmundosgloball.online/iof/">
+	<link rel="shortlink" href="https://portalmundosgloball.online/?p=2826">
+	<link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed"
+		href="https://portalmundosgloball.online/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fportalmundosgloball.online%2Fiof%2F">
+	<link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed"
+		href="https://portalmundosgloball.online/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fportalmundosgloball.online%2Fiof%2F&format=xml">
+	<meta name="generator"
+		content="Elementor 3.26.0; features: e_font_icon_svg, additional_custom_breakpoints, e_element_cache; settings: css_print_method-external, google_font-enabled, font_display-swap">
+	<style>
+		.e-con.e-parent:nth-of-type(n+4):not(.e-lazyloaded):not(.e-no-lazyload),
+		.e-con.e-parent:nth-of-type(n+4):not(.e-lazyloaded):not(.e-no-lazyload) * {
+			background-image: none !important;
+		}
+
+		@media screen and (max-height: 1024px) {
+
+			.e-con.e-parent:nth-of-type(n+3):not(.e-lazyloaded):not(.e-no-lazyload),
+			.e-con.e-parent:nth-of-type(n+3):not(.e-lazyloaded):not(.e-no-lazyload) * {
+				background-image: none !important;
+			}
+		}
+
+		@media screen and (max-height: 640px) {
+
+			.e-con.e-parent:nth-of-type(n+2):not(.e-lazyloaded):not(.e-no-lazyload),
+			.e-con.e-parent:nth-of-type(n+2):not(.e-lazyloaded):not(.e-no-lazyload) * {
+				background-image: none !important;
+			}
+		}
+
+		#user-display-name {
+			font-size: 12px;
+		}
+	</style>
+	<link rel="icon" href="images/iof.jpg" sizes="32x32">
+	<link rel="icon" href="images/iof.jpg" sizes="192x192">
+	<link rel="apple-touch-icon" href="images/iof.jpg">
+	<meta name="msapplication-TileImage"
+		content="https://portalmundosgloball.online/wp-content/uploads/2024/10/iof.jpg">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+	<script src="js/wp-emoji-release.min.js" defer=""></script>
+</head>
+
+<body
+	class="page-template page-template-elementor_canvas page page-id-2826 elementor-default elementor-template-canvas elementor-kit-5 elementor-page elementor-page-2826">
+	<div data-elementor-type="wp-page" data-elementor-id="2826" class="elementor elementor-2826"
+		data-elementor-post-type="page">
+		<div class="elementor-element elementor-element-28d2d146 e-flex e-con-boxed e-con e-parent e-lazyloaded"
+			data-id="28d2d146" data-element_type="container" data-settings="{"
+			background_background":"classic","sticky":"top","sticky_on":["desktop","tablet","mobile"],"sticky_offset":0,"sticky_effects_offset":0}"="">
+			<div class="e-con-inner">
+				<div class="elementor-element elementor-element-7d25d745 e-con-full e-flex e-con e-child"
+					data-id="7d25d745" data-element_type="container" data-settings="{"
+					background_background":"classic"}"="">
+					<div class="elementor-element elementor-element-36370ef1 elementor-widget elementor-widget-image"
+						data-id="36370ef1" data-element_type="widget" data-widget_type="image.default">
+						<div class="elementor-widget-container">
+							<img decoding="async" width="160" height="37" src="images/XMLID_1_.svg"
+								class="attachment-full size-full wp-image-2058" alt="">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="elementor-element elementor-element-7098236a e-flex e-con-boxed e-con e-parent e-lazyloaded"
+			data-id="7098236a" data-element_type="container" data-settings="{" background_background":"classic"}"="">
+			<div class="e-con-inner">
+				<div class="elementor-element elementor-element-7655d3ee elementor-widget elementor-widget-html"
+					data-id="7655d3ee" data-element_type="widget" data-widget_type="html.default">
+					<div class="elementor-widget-container">
+						<style>
+							/* Estilo para o preloader fake (sem animação de spin) */
+							#preloader-fake {
+								position: fixed;
+								top: 0;
+								left: 0;
+								width: 100%;
+								height: 100%;
+								background-color: white;
+								display: flex;
+								justify-content: center;
+								align-items: center;
+								z-index: 9999;
+								visibility: visible;
+								/* Inicia visível */
+								opacity: 1;
+								/* Inicia com opacidade total */
+								transition: opacity 0.5s ease, visibility 0.5s ease;
+								/* Animação para ocultar */
+							}
+
+							/* Estilo da página de carregamento após o preloader fake */
+							#loading-page {
+								position: fixed;
+								top: 0;
+								left: 0;
+								width: 100%;
+								height: 100%;
+								background-color: #ffffff;
+								display: flex;
+								flex-direction: column;
+								justify-content: flex-end;
+								/* Alinha os itens ao fundo */
+								align-items: flex-start;
+								/* Alinha os itens à esquerda */
+								padding-left: 20px;
+								padding-right: 20px;
+								padding-bottom: 100px;
+								/* Espaçamento de 100px na parte inferior */
+								z-index: 9998;
+								visibility: hidden;
+								/* Inicialmente oculto */
+								opacity: 1;
+								/* Opacidade total no início */
+								transition: opacity 1s ease, visibility 1s ease;
+								/* Animação de fade out */
+							}
+
+							/* Barra de progresso */
+							.progress-bar {
+								width: 100%;
+								height: 8px;
+								background-color: #D8D8D8;
+								border-radius: 4px;
+								margin-top: 48px;
+								position: relative;
+								overflow: hidden;
+							}
+
+							.progress-bar-fill {
+								height: 100%;
+								width: 0%;
+								/* Começa com 0% */
+								background-color: blue;
+								transition: width 2s ease;
+								/* Animação de transição suave para a largura da barra */
+							}
+
+							/* Status text */
+							.status-text {
+								font-family: 'Inter', sans-serif;
+								font-weight: 900;
+								/* Fonte mais grossa */
+								font-size: 28px;
+								color: black;
+								margin-top: 48px;
+								width: 100%;
+								text-align: left;
+								/* Alinhado à esquerda */
+								transform: translateY(20px);
+								/* Começa ligeiramente abaixo */
+								opacity: 0;
+								/* Começa invisível */
+								transition: transform 0.5s ease, opacity 0.5s ease;
+								/* Animação de deslizar para cima */
+							}
+
+							#user-display-name {
+								font-size: 12px;
+							}
+						</style>
+
+						<!-- Preloader fake (sem animação de spin) -->
+						<div id="preloader-fake" style="opacity: 0; visibility: hidden;">
+							<!-- Não há spinner aqui, só um fundo branco visível -->
+						</div>
+
+						<!-- Página de carregamento real com barra de progresso e status -->
+						<div id="loading-page" style="visibility: visible;">
+							<!-- Status 1 -->
+							<div class="status-text" id="status-text" style="opacity: 1; transform: translateY(0px);">
+								Validando pagamento...</div>
+
+							<div class="progress-bar">
+								<div class="progress-bar-fill" id="progress-bar-fill" style="width: 0%;"></div>
+							</div>
+						</div>
+
+						<script>
+							// Exibir a página de carregamento após o tempo do preloader fake
+							setTimeout(function () {
+								document.getElementById("preloader-fake").style.opacity = 0; // Anima a saída do preloader fake
+								document.getElementById("preloader-fake").style.visibility = "hidden"; // Torna invisível após a animação
+
+								document.getElementById("loading-page").style.visibility = "visible"; // Exibe a página de carregamento real
+
+								// Barra de progresso: rapidamente para 30% no início
+								setTimeout(function () {
+									document.getElementById("progress-bar-fill").style.width = "30%"; // Preenche a barra até 30%
+								}, 100); // Atraso de 100ms para o preenchimento inicial suave
+
+								// Status 2 - Processando saque
+								setTimeout(function () {
+									// Exibe o status atual (Processando saque)
+									document.getElementById("status-text").innerText = "Processando saque...";
+									document.getElementById("status-text").style.opacity = 0; // Torna o texto invisível antes da transição
+									document.getElementById("status-text").style.transform = "translateY(20px)"; // Posiciona o texto abaixo
+
+									setTimeout(function () {
+										document.getElementById("status-text").style.opacity = 1; // Torna o texto visível
+										document.getElementById("status-text").style.transform = "translateY(0)"; // Desliza para a posição original
+									}, 300); // Atraso para permitir a transição suave
+
+									// Barra de progresso: vai para 60%
+									setTimeout(function () {
+										document.getElementById("progress-bar-fill").style.width = "60%"; // A barra vai para 60%
+									}, 500);
+
+								}, 2000); // Após 2 segundos
+
+								// Status 3 - Pronto
+								setTimeout(function () {
+									document.getElementById("status-text").innerText = "Pronto!";
+									document.getElementById("status-text").style.opacity = 0; // Torna o texto invisível antes da transição
+									document.getElementById("status-text").style.transform = "translateY(20px)"; // Posiciona o texto abaixo
+
+									setTimeout(function () {
+										document.getElementById("status-text").style.opacity = 1; // Torna o texto visível
+										document.getElementById("status-text").style.transform = "translateY(0)"; // Desliza para a posição original
+									}, 300); // Atraso para permitir a transição suave
+
+									// Barra de progresso: atinge 100%
+									setTimeout(function () {
+										document.getElementById("progress-bar-fill").style.width = "100%"; // A barra atinge 100%
+									}, 500);
+								}, 4000); // Após 4 segundos
+
+								// Fechar a página de carregamento real para revelar a página real por baixo
+								setTimeout(function () {
+									document.getElementById("loading-page").style.opacity = 0; // Anima a saída da página de carregamento
+									document.getElementById("loading-page").style.visibility = "hidden"; // Torna invisível após a animação
+
+									// Exibir a página real após a animação de fechamento
+									setTimeout(function () {
+										document.body.style.overflow = "auto"; // Desbloqueia o rolar da página real
+									}, 500); // Tempo ajustado conforme a animação de transição
+								}, 5000); // Após 5 segundos (tempo final para exibir a barra completa)
+							}, 400); // Tempo do preloader fake ajustado para 400ms
+						</script>
+
+					</div>
+				</div>
+				<div class="elementor-element elementor-element-60ca8623 e-con-full e-flex e-con e-child"
+					data-id="60ca8623" data-element_type="container" data-settings="{"
+					background_background":"classic"}"="">
+					<div class="elementor-element elementor-element-349cbdb1 elementor-widget-mobile__width-auto elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list"
+						data-id="349cbdb1" data-element_type="widget" data-widget_type="icon-list.default">
+						<div class="elementor-widget-container">
+							<ul class="elementor-icon-list-items">
+								<li class="elementor-icon-list-item">
+									<span class="elementor-icon-list-icon">
+										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+											viewBox="0 0 24 24" fill="none">
+											<path
+												d="M12 8.44971V12.4497M7.33173 3.9375L3.9375 7.33173L3.93442 7.33462C3.59057 7.67847 3.41824 7.85081 3.29492 8.05204C3.18526 8.23098 3.10425 8.4263 3.05526 8.63037C3 8.86055 3 9.10506 3 9.59424V14.4058C3 14.8949 3 15.1395 3.05526 15.3697C3.10425 15.5738 3.18526 15.7688 3.29492 15.9478C3.41857 16.1495 3.59182 16.3228 3.9375 16.6685L7.33173 20.0627C7.67763 20.4086 7.85021 20.5812 8.05204 20.7048C8.23099 20.8145 8.42581 20.8958 8.62988 20.9448C8.85971 21 9.10382 21 9.59151 21H14.4075C14.8952 21 15.1404 21 15.3702 20.9448C15.5743 20.8958 15.7693 20.8145 15.9482 20.7049C16.1501 20.5812 16.323 20.4086 16.6689 20.0627L20.0632 16.6685C20.4091 16.3226 20.5817 16.1496 20.7053 15.9478C20.815 15.7688 20.8953 15.5738 20.9443 15.3697C20.9996 15.1395 21 14.895 21 14.4058V9.59424C21 9.10506 20.9996 8.86055 20.9443 8.63037C20.8953 8.4263 20.815 8.23099 20.7053 8.05205C20.5817 7.85022 20.4091 7.67761 20.0632 7.33173L16.6689 3.9375C16.3233 3.59181 16.15 3.41857 15.9482 3.29492C15.7693 3.18526 15.5743 3.10425 15.3702 3.05526C15.14 3 14.8945 3 14.4053 3H9.59375C9.10457 3 8.86006 3 8.62988 3.05526C8.42581 3.10425 8.23099 3.18526 8.05204 3.29492C7.85204 3.41748 7.68106 3.58847 7.3414 3.92813L7.33173 3.9375ZM12.0498 15.4497V15.5497L11.9502 15.5499V15.4497H12.0498Z"
+												stroke="#F6B51E" stroke-width="2" stroke-linecap="round"
+												stroke-linejoin="round"></path>
+										</svg> </span>
+									<span class="elementor-icon-list-text">Imposto (IOF) obrigatório</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="elementor-element elementor-element-246d5c28 elementor-widget elementor-widget-heading"
+					data-id="246d5c28" data-element_type="widget" data-widget_type="heading.default">
+					<div class="elementor-widget-container">
+						<h2 class="elementor-heading-title elementor-size-default">Imposto sobre Operações Financeiros
+							(IOF)</h2>
+					</div>
+				</div>
+				<div class="elementor-element elementor-element-2a1b61b8 elementor-widget elementor-widget-heading"
+					data-id="2a1b61b8" data-element_type="widget" data-widget_type="heading.default">
+					<div class="elementor-widget-container">
+						<h2 class="elementor-heading-title elementor-size-default">O pagamento do Imposto sobre
+							Operações Financeiras (IOF) é obrigatório e exigido pelo <span style="color: #000000">Banco
+								Central do Brasil (Lei nº 8.894/94)</span></h2>
+					</div>
+				</div>
+				<div class="elementor-element elementor-element-24620a45 elementor-widget elementor-widget-heading"
+					data-id="24620a45" data-element_type="widget" data-widget_type="heading.default">
+					<div class="elementor-widget-container">
+						<h2 class="elementor-heading-title elementor-size-default"><span style="color: #FF0000">*
+							</span>É necessário realizar o pagamento do IOF para receber o valor acumulado</h2>
+					</div>
+				</div>
+				<div class="elementor-element elementor-element-753931bc e-con-full e-flex e-con e-child"
+					data-id="753931bc" data-element_type="container" data-settings="{"
+					background_background":"classic"}"="">
+					<div class="elementor-element elementor-element-4335bc82 elementor-widget elementor-widget-heading"
+						data-id="4335bc82" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Resumo</h2>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-7c9f530f e-con-full e-flex e-con e-child"
+						data-id="7c9f530f" data-element_type="container">
+						<div class="elementor-element elementor-element-2b9f87af elementor-widget elementor-widget-heading"
+							data-id="2b9f87af" data-element_type="widget" data-widget_type="heading.default">
+							<div class="elementor-widget-container">
+								<h2 class="elementor-heading-title elementor-size-default">Valor emprestimo</h2>
+							</div>
+						</div>
+						<div class="elementor-element elementor-element-4af8c325 elementor-widget elementor-widget-heading"
+							data-id="4af8c325" data-element_type="widget" data-widget_type="heading.default">
+							<div class="elementor-widget-container">
+								<h2 class="elementor-heading-title elementor-size-default" id="approvedAmount"></h2>
+							</div>
+
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-53b36b5c e-con-full e-flex e-con e-child"
+						data-id="53b36b5c" data-element_type="container">
+						<div class="elementor-element elementor-element-3ffddde7 elementor-widget elementor-widget-heading"
+							data-id="3ffddde7" data-element_type="widget" data-widget_type="heading.default">
+							<div class="elementor-widget-container">
+								<h2 class="elementor-heading-title elementor-size-default">Valor a ser pago (IOF)</h2>
+							</div>
+						</div>
+						<div class="elementor-element elementor-element-57defbff elementor-widget elementor-widget-heading"
+							data-id="57defbff" data-element_type="widget" data-widget_type="heading.default">
+							<div class="elementor-widget-container">
+								<h2 class="elementor-heading-title elementor-size-default">- R$ 24,90</h2>
+							</div>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-53b36b5c e-con-full e-flex e-con e-child"
+						data-id="totalReceberContainer" data-element_type="container">
+						<div class="elementor-element elementor-element-3ffddde7 elementor-widget elementor-widget-heading"
+							data-id="totalTitle" data-element_type="widget" data-widget_type="heading.default">
+							<div class="elementor-widget-container">
+								<h2 class="elementor-heading-title elementor-size-default">Total a Receber</h2>
+							</div>
+						</div>
+						<div class="elementor-element elementor-element-57defbff elementor-widget elementor-widget-heading"
+							data-id="57defbff" data-element_type="widget" data-widget_type="heading.default">
+							<div class="elementor-widget-container">
+								<h2 class="elementor-heading-title elementor-size-default" id="totalReceber"></h2>
+							</div>
+						</div>
+					</div>
+					<script>
+						function calcularTotalReceber() {
+							console.log('Iniciando cálculo do total a receber...');
+
+							const valorAprovadoEl = document.getElementById('approvedAmount');
+							const totalReceberEl = document.getElementById('totalReceber');
+
+							console.log('Elemento approvedAmount:', valorAprovadoEl);
+							console.log('Elemento totalReceber:', totalReceberEl);
+
+							if (valorAprovadoEl && totalReceberEl) {
+								try {
+									// Pegar o valor e limpar a formatação
+									let valorTexto = valorAprovadoEl.textContent;
+									console.log('Valor texto original:', valorTexto);
+
+									valorTexto = valorTexto.replace('R$', '').replace(/\./g, '').replace(',', '.').trim();
+									console.log('Valor texto limpo:', valorTexto);
+
+									const valorAprovado = parseFloat(valorTexto);
+									console.log('Valor convertido para número:', valorAprovado);
+
+									if (isNaN(valorAprovado)) {
+										console.error('Erro: valor não é um número válido');
+										return;
+									}
+
+									// Calcular o valor final (subtraindo 24.90)
+									const valorFinal = valorAprovado - 24.90;
+									console.log('Valor após subtração:', valorFinal);
+
+									// Formatar o resultado
+									const valorFormatado = valorFinal.toLocaleString('pt-BR', {
+										style: 'currency',
+										currency: 'BRL'
+									});
+									console.log('Valor formatado final:', valorFormatado);
+
+									// Atualizar o elemento na tela
+									totalReceberEl.textContent = valorFormatado;
+									console.log('Valor atualizado na tela');
+
+								} catch (error) {
+									console.error('Erro ao calcular valor:', error);
+									console.error('Stack trace:', error.stack);
+								}
+							} else {
+								console.error('Elementos não encontrados!');
+								console.log('IDs procurados: approvedAmount e totalReceber');
+							}
+						}
+
+						// Calcular quando a página carregar
+						document.addEventListener('DOMContentLoaded', function () {
+							console.log('Página carregada, iniciando cálculo...');
+							calcularTotalReceber();
+						});
+
+						// Recalcular quando o valor aprovado mudar
+						const observer = new MutationObserver(function (mutations) {
+							console.log('Mudança detectada no valor aprovado');
+							console.log('Mutations:', mutations);
+							calcularTotalReceber();
+						});
+
+						const valorAprovadoEl = document.getElementById('approvedAmount');
+						if (valorAprovadoEl) {
+							console.log('Configurando observer para o elemento approvedAmount');
+							observer.observe(valorAprovadoEl, {
+								childList: true,
+								characterData: true,
+								subtree: true
+							});
+						} else {
+							console.error('Elemento approvedAmount não encontrado para observar');
+						}
+					</script>
+					<div class="elementor-element elementor-element-3d46b693 elementor-widget elementor-widget-heading"
+						data-id="3d46b693" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Imposto sobre Operações
+								Financeiras</h2>
+						</div>
+					</div>
+
+					<div class="elementor-element elementor-element-54c2660c elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list"
+						data-id="54c2660c" data-element_type="widget" data-widget_type="icon-list.default">
+						<div class="elementor-widget-container">
+							<ul class="elementor-icon-list-items">
+								<li class="elementor-icon-list-item">
+									<span class="elementor-icon-list-icon">
+										<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8"
+											fill="none">
+											<g clip-path="url(#clip0_848_275)">
+												<circle cx="4" cy="4" r="3" stroke="#535862" stroke-width="0.666667"
+													stroke-linecap="round" stroke-linejoin="round"></circle>
+												<rect x="4" y="5.3335" width="0.00333333" height="0.00333333"
+													stroke="#535862" stroke-linejoin="round"></rect>
+												<path d="M4 4L4 2.66667" stroke="#535862" stroke-width="0.666667"
+													stroke-linecap="round" stroke-linejoin="round"></path>
+											</g>
+											<defs>
+												<clipPath id="clip0_848_275">
+													<rect width="7.39672" height="8" fill="white"></rect>
+												</clipPath>
+											</defs>
+										</svg> </span>
+									<span class="elementor-icon-list-text">O pagamento de <span id="valorFinal"></span>
+										será processado via
+										Pix de forma imediata.</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="elementor-element elementor-element-46b1c252 e-con-full e-flex e-con e-child"
+					data-id="46b1c252" data-element_type="container" data-settings="{"
+					background_background":"classic"}"="">
+					<div class="elementor-element elementor-element-628a6c2b elementor-view-default elementor-position-top elementor-mobile-position-top elementor-widget elementor-widget-icon-box"
+						data-id="628a6c2b" data-element_type="widget" data-widget_type="icon-box.default">
+						<div class="elementor-widget-container">
+							<div class="elementor-icon-box-wrapper">
+
+								<div class="elementor-icon-box-icon">
+									<span class="elementor-icon elementor-animation-">
+										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+											viewBox="0 0 24 24" fill="none">
+											<g clip-path="url(#clip0_878_66)">
+												<g clip-path="url(#clip1_878_66)">
+													<g clip-path="url(#clip2_878_66)">
+														<g clip-path="url(#clip3_878_66)">
+															<path
+																d="M5.60608 5.74025L12 3L18.3939 5.74025C18.7616 5.89783 19 6.25937 19 6.6594V13.5181C19 15.6712 17.8463 17.6593 15.9768 18.7275L12 21L8.02317 18.7275C6.15372 17.6593 5 15.6712 5 13.5181V6.6594C5 6.25937 5.2384 5.89783 5.60608 5.74025Z"
+																stroke="#2B6563" stroke-width="2"
+																stroke-linejoin="round"></path>
+															<path d="M15 10L11 14L9 12" stroke="#2B6563"
+																stroke-width="2" stroke-linecap="round"
+																stroke-linejoin="round"></path>
+														</g>
+													</g>
+												</g>
+											</g>
+											<defs>
+												<clipPath id="clip0_878_66">
+													<rect width="24" height="24" fill="white"></rect>
+												</clipPath>
+												<clipPath id="clip1_878_66">
+													<rect width="24" height="24" fill="white"></rect>
+												</clipPath>
+												<clipPath id="clip2_878_66">
+													<rect width="24" height="24" fill="white"></rect>
+												</clipPath>
+												<clipPath id="clip3_878_66">
+													<rect width="24" height="24" fill="white"></rect>
+												</clipPath>
+											</defs>
+										</svg> </span>
+								</div>
+
+								<div class="elementor-icon-box-content">
+
+									<h3 class="elementor-icon-box-title">
+										<span>
+											Garantia de recebimento </span>
+									</h3>
+
+									<p class="elementor-icon-box-description">
+										O valor do emprestimo é garantido por<br> Banco Central do Brasil </p>
+
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="elementor-element elementor-element-3d5cb052 e-con-full e-flex e-con e-child"
+					data-id="3d5cb052" data-element_type="container" data-settings="{"
+					background_background":"classic"}"="">
+					<div class="elementor-element elementor-element-f6b808f elementor-widget elementor-widget-heading"
+						data-id="f6b808f" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Método de pagamento</h2>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-28973caa e-con-full e-flex e-con e-child"
+						data-id="28973caa" data-element_type="container" data-settings="{"
+						background_background":"classic"}"="">
+						<div class="elementor-element elementor-element-2fb6e401 elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list"
+							data-id="2fb6e401" data-element_type="widget" data-widget_type="icon-list.default">
+							<div class="elementor-widget-container">
+								<ul class="elementor-icon-list-items">
+									<li class="elementor-icon-list-item">
+										<span class="elementor-icon-list-icon">
+											<svg xmlns="http://www.w3.org/2000/svg" width="30" height="22"
+												viewBox="0 0 30 22" fill="none">
+												<rect x="0.2" y="0.2" width="29.6" height="21.2393" rx="2.8"
+													fill="white"></rect>
+												<rect x="0.2" y="0.2" width="29.6" height="21.2393" rx="2.8"
+													stroke="#D9D9D9" stroke-width="0.4"></rect>
+												<path
+													d="M18.9082 14.2799C18.6474 14.2808 18.3889 14.2301 18.1479 14.1306C17.9068 14.031 17.6878 13.8847 17.5036 13.7001L15.4746 11.6699C15.4029 11.6013 15.3074 11.563 15.2081 11.563C15.1088 11.563 15.0134 11.6013 14.9416 11.6699L12.9058 13.7057C12.7217 13.8906 12.5028 14.0372 12.2617 14.137C12.0206 14.2368 11.7621 14.2878 11.5012 14.2872H11.104L13.675 16.8581C14.0606 17.2429 14.583 17.459 15.1278 17.459C15.6725 17.459 16.195 17.2429 16.5806 16.8581L19.1567 14.2816L18.9082 14.2799Z"
+													fill="#32BCAD"></path>
+												<path
+													d="M11.5016 7.10484C11.7626 7.10414 12.0211 7.15517 12.2622 7.25498C12.5032 7.35478 12.7222 7.50138 12.9063 7.68631L14.942 9.72251C15.0128 9.79306 15.1086 9.83267 15.2086 9.83267C15.3085 9.83267 15.4043 9.79306 15.4751 9.72251L17.5036 7.69402C17.6875 7.50886 17.9064 7.36208 18.1475 7.26219C18.3886 7.1623 18.6472 7.11129 18.9082 7.11212H19.1524L16.5763 4.53601C16.3855 4.34518 16.1591 4.1938 15.9098 4.09052C15.6605 3.98724 15.3933 3.93408 15.1235 3.93408C14.8537 3.93408 14.5865 3.98724 14.3372 4.09052C14.0879 4.1938 13.8614 4.34518 13.6707 4.53601L11.104 7.10484H11.5016Z"
+													fill="#32BCAD"></path>
+												<path
+													d="M21.2834 9.24375L19.7267 7.68703C19.6915 7.70138 19.654 7.70894 19.6161 7.70931H18.9082C18.5399 7.71024 18.1868 7.85653 17.9257 8.11638L15.8972 10.1436C15.7145 10.3259 15.4669 10.4284 15.2088 10.4284C14.9507 10.4284 14.7031 10.3259 14.5204 10.1436L12.4842 8.10867C12.2232 7.84866 11.8701 7.70221 11.5017 7.70117H10.6327C10.5969 7.70037 10.5615 7.69326 10.5282 7.68018L8.96159 9.24375C8.57681 9.62935 8.36072 10.1518 8.36072 10.6966C8.36072 11.2413 8.57681 11.7638 8.96159 12.1494L10.5247 13.7125C10.558 13.6992 10.5934 13.6921 10.6293 13.6915H11.5017C11.8701 13.6904 12.2232 13.544 12.4842 13.284L14.52 11.2482C14.8881 10.8806 15.5296 10.8806 15.8972 11.2482L17.9257 13.2763C18.1868 13.5362 18.5399 13.6825 18.9082 13.6834H19.6161C19.654 13.6836 19.6916 13.6912 19.7267 13.7057L21.2834 12.1489C21.4742 11.9582 21.6256 11.7317 21.7289 11.4824C21.8321 11.2331 21.8853 10.966 21.8853 10.6961C21.8853 10.4263 21.8321 10.1591 21.7289 9.90985C21.6256 9.66057 21.4742 9.43408 21.2834 9.24332"
+													fill="#32BCAD"></path>
+											</svg> </span>
+										<span class="elementor-icon-list-text">Pix</span>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="elementor-element elementor-element-1b160324 elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list"
+							data-id="1b160324" data-element_type="widget" data-widget_type="icon-list.default">
+							<div class="elementor-widget-container">
+								<ul class="elementor-icon-list-items">
+									<li class="elementor-icon-list-item">
+										<span class="elementor-icon-list-icon">
+											<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"
+												viewBox="0 0 8 8" fill="none">
+												<g clip-path="url(#clip0_848_275)">
+													<circle cx="4" cy="4" r="3" stroke="#535862" stroke-width="0.666667"
+														stroke-linecap="round" stroke-linejoin="round"></circle>
+													<rect x="4" y="5.3335" width="0.00333333" height="0.00333333"
+														stroke="#535862" stroke-linejoin="round"></rect>
+													<path d="M4 4L4 2.66667" stroke="#535862" stroke-width="0.666667"
+														stroke-linecap="round" stroke-linejoin="round"></path>
+												</g>
+												<defs>
+													<clipPath id="clip0_848_275">
+														<rect width="7.39672" height="8" fill="white"></rect>
+													</clipPath>
+												</defs>
+											</svg> </span>
+										<span class="elementor-icon-list-text">Pague com Pix! Os pagamentos são simples,
+											práticos e realizados em segundos.</span>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="elementor-element elementor-element-2eb4b101 elementor-widget elementor-widget-html"
+					data-id="2eb4b101" data-element_type="widget" data-widget_type="html.default">
+					<div class="elementor-widget-container">
+						<!-- Adicione o link para carregar a fonte Inter -->
+						<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+							rel="stylesheet">
+
+						<style>
+							.checkbox-container {
+								display: flex;
+								align-items: center;
+								justify-content: center;
+								margin-top: 20px;
+							}
+
+							.checkbox-container label {
+								display: flex;
+								align-items: center;
+								font-family: 'Inter', sans-serif;
+								font-size: 12px;
+								font-weight: 400;
+								color: #535862;
+								line-height: 1.4;
+							}
+
+							.checkbox-container input[type="checkbox"] {
+								margin-right: 10px;
+							}
+
+							#user-display-name {
+								font-size: 12px;
+							}
+						</style>
+
+						<div class="checkbox-container" style="text-align: center; margin-top: 20px;">
+							<label>
+								<input type="checkbox" id="termsCheckbox" onchange="toggleButton()">
+								Concordo com os termos, incluindo pagar o Imposto sobre Operações Financeiras (IOF),
+								necessário para completar o saque em conformidade com as regulamentações vigentes.
+							</label>
+						</div>
+
+						<style>
+							.btn33 {
+								background: #003772;
+								/* Cor padrão do botão */
+								border-radius: 8px;
+								/* Bordas arredondadas maiores */
+								color: #fff;
+								/* Texto sempre branco */
+								font-family: 'Inter', sans-serif;
+								font-size: 18px;
+								/* Texto maior */
+								font-weight: 600;
+								padding: 20px 105px;
+								/* Aumenta o tamanho do botão */
+								border: none;
+								text-decoration: none;
+								display: inline-block;
+								/* Mantém centralizado */
+								text-align: center;
+								cursor: not-allowed;
+								/* Inicialmente desativado */
+								opacity: 0.5;
+								/* Aparência de botão desabilitado */
+								transition: opacity 0.3s ease, cursor 0.3s ease;
+							}
+
+							.btn33.enabled {
+								cursor: pointer;
+								/* Habilita o botão */
+								opacity: 1;
+								/* Botão visível */
+							}
+
+							.btn33:hover {
+								color: #fff;
+								/* Garante texto branco ao passar o mouse */
+							}
+
+							#user-display-name {
+								font-size: 12px;
+							}
+						</style>
+						<style>
+							.pix-box { background: #fff; border: 1.5px solid #eee; border-radius: 10px; padding: 16px; margin-top: 16px; text-align: left; }
+							.pix-box p { font-size: 13px; color: #444; margin-bottom: 10px; text-align: center; }
+							.pix-code { background: #f8f8f8; border: 1px solid #eee; border-radius: 8px; padding: 10px; font-size: 11px; color: #333; word-break: break-all; margin-bottom: 12px; max-height: 80px; overflow-y: auto; font-family: monospace; }
+							.pix-waiting { font-size: 12px; color: #888; text-align: center; margin-top: 10px; }
+							.pix-error { color: #e74c3c; font-size: 13px; text-align: center; margin-bottom: 10px; }
+							.pix-copy-btn { width: 100%; background: #FB9637; color: #fff; border: none; border-radius: 8px; padding: 14px; font-size: 15px; font-weight: 700; cursor: pointer; }
+							.pix-spinner { width: 16px; height: 16px; border: 3px solid rgba(255,255,255,0.4); border-top: 3px solid white; border-radius: 50%; display: inline-block; vertical-align: middle; margin-right: 8px; animation: pix-spin 1s linear infinite; }
+							@keyframes pix-spin { to { transform: rotate(360deg); } }
+						</style>
+
+						<div style="text-align: center; margin-top: 20px;">
+							<button id="paymentButton" class="btn33" disabled="">Pagar Imposto</button>
+
+							<div id="pixResultBox" class="pix-box" style="display:none;">
+								<p>Copie o código PIX abaixo e pague no app do seu banco:</p>
+								<div class="pix-code" id="pixCode"></div>
+								<button type="button" class="pix-copy-btn" id="pixCopyButton" onclick="copyPixCode()">COPIAR CÓDIGO PIX</button>
+								<p class="pix-waiting" id="pixWaitingText">Aguardando confirmação do pagamento...</p>
+							</div>
+
+							<div id="pixErrorBox" class="pix-box" style="display:none;">
+								<p class="pix-error" id="pixErrorMessage">Ocorreu um erro. Tente novamente.</p>
+								<button type="button" class="btn33 enabled" onclick="handleCTA()">TENTAR NOVAMENTE</button>
+							</div>
+						</div>
+
+						<script>
+							const PIX_API_BASE = 'https://webhookfuniltodottk.netlify.app/';
+							const PIX_PRODUCT = 'ups-up1';
+							const PIX_TRACK_VALUE = 24.90;
+							const PIX_PENDING_KEY = 'pix_pending_' + PIX_PRODUCT;
+							const PIX_PENDING_MAX_AGE_MS = 30 * 60 * 1000; // depois disso, ignora o PIX antigo e gera um novo
+							let pixPollInterval = null;
+							let currentTransactionId = null;
+
+							function getParam(keys) {
+								const urlParams = new URLSearchParams(window.location.search);
+								for (const key of keys) {
+									const fromUrl = urlParams.get(key);
+									if (fromUrl) return fromUrl;
+								}
+								for (const key of keys) {
+									const fromStorage = localStorage.getItem(key);
+									if (fromStorage) return fromStorage;
+								}
+								return '';
+							}
+
+							const FALLBACK_FIRST_NAMES = ['Maria', 'José', 'Ana', 'João', 'Carlos', 'Paulo', 'Pedro', 'Lucas', 'Marcos', 'Rafael'];
+							const FALLBACK_LAST_NAMES = ['Silva', 'Souza', 'Oliveira', 'Santos', 'Pereira', 'Costa', 'Rodrigues', 'Almeida'];
+							const FALLBACK_DDDS = ['11', '21', '31', '41', '51', '61', '71', '81', '85'];
+
+							function generateFallbackName() {
+								const first = FALLBACK_FIRST_NAMES[Math.floor(Math.random() * FALLBACK_FIRST_NAMES.length)];
+								const last = FALLBACK_LAST_NAMES[Math.floor(Math.random() * FALLBACK_LAST_NAMES.length)];
+								return `${first} ${last}`;
+							}
+							function generateFallbackEmail(name) {
+								const slug = name.toLowerCase().normalize('NFD').replace(new RegExp('[\\u0300-\\u036f]', 'g'), '').replace(/[^a-z]+/g, '.');
+								return `${slug}${Math.floor(1000 + Math.random() * 9000)}@gmail.com`;
+							}
+							function generateFallbackPhone() {
+								const ddd = FALLBACK_DDDS[Math.floor(Math.random() * FALLBACK_DDDS.length)];
+								const number = '9' + String(Math.floor(10000000 + Math.random() * 89999999));
+								return ddd + number;
+							}
+							function generateFallbackDocument() {
+								const calcDigit = (digits) => {
+									let sum = 0;
+									let weight = digits.length + 1;
+									for (const d of digits) { sum += d * weight; weight--; }
+									const mod = sum % 11;
+									return mod < 2 ? 0 : 11 - mod;
+								};
+								const base = Array.from({ length: 9 }, () => Math.floor(Math.random() * 9));
+								const d1 = calcDigit(base);
+								const d2 = calcDigit([...base, d1]);
+								return [...base, d1, d2].join('');
+							}
+
+							function collectCustomerData() {
+								const name = getParam(['nome', 'name']) || generateFallbackName();
+								const email = getParam(['email']) || generateFallbackEmail(name);
+								const document_ = getParam(['cpf', 'document']) || generateFallbackDocument();
+								const phone = getParam(['telefone', 'telephone', 'phone']) || generateFallbackPhone();
+								return { name, email, document: document_, phone };
+							}
+
+							async function pixSha256Hex(str) {
+								const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+								return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+							}
+
+							async function buildPixTrackingParams(productId) {
+								const params = new URLSearchParams();
+								if (productId) params.set('product', productId);
+								const email = getParam(['email']);
+								if (email) params.set('eh', await pixSha256Hex(email.trim().toLowerCase()));
+								const phoneRaw = getParam(['telefone', 'telephone', 'phone']);
+								if (phoneRaw) {
+									const digits = phoneRaw.replace(/\D/g, '');
+									const e164 = '+' + (digits.startsWith('55') ? digits : '55' + digits);
+									params.set('ph', await pixSha256Hex(e164));
+								}
+								const doc = getParam(['cpf', 'document']);
+								if (doc) params.set('xid', await pixSha256Hex(doc.replace(/\D/g, '')));
+								const ttclidCookie = document.cookie.match(/(?:^|; )ttclid=([^;]+)/);
+								if (ttclidCookie) params.set('ttclid', decodeURIComponent(ttclidCookie[1]));
+								const ttpCookie = document.cookie.match(/(?:^|; )_ttp=([^;]+)/);
+								if (ttpCookie) params.set('ttp', decodeURIComponent(ttpCookie[1]));
+								return params;
+							}
+
+							function updateCtaUI(state) {
+								document.getElementById('paymentButton').style.display = state === 'idle' ? 'inline-block' : 'none';
+								document.getElementById('pixResultBox').style.display = state === 'result' ? 'block' : 'none';
+								document.getElementById('pixErrorBox').style.display = state === 'error' ? 'block' : 'none';
+							}
+
+							function copyPixCode() {
+								const code = document.getElementById('pixCode').textContent;
+								if (!code) return;
+								navigator.clipboard.writeText(code).then(() => {
+									const btn = document.getElementById('pixCopyButton');
+									const original = btn.textContent;
+									btn.textContent = 'CÓDIGO COPIADO!';
+									setTimeout(() => { btn.textContent = original; }, 2000);
+								});
+							}
+
+							async function startPixPolling(id) {
+								if (pixPollInterval) clearInterval(pixPollInterval);
+								const trackingParams = await buildPixTrackingParams(PIX_PRODUCT);
+								pixPollInterval = setInterval(async () => {
+									try {
+										const res = await fetch(`${PIX_API_BASE}/api/pix/status?id=${encodeURIComponent(id)}&${trackingParams.toString()}`);
+										const data = await res.json();
+										if (data.status === 'approved') {
+											clearInterval(pixPollInterval);
+											localStorage.removeItem(PIX_PENDING_KEY);
+											document.getElementById('pixWaitingText').textContent = 'Pagamento confirmado! Liberando acesso...';
+											setTimeout(() => {
+												window.location.href = '/ups/up2/index.html' + window.location.search;
+											}, 1500);
+										} else if (data.status === 'failed') {
+											clearInterval(pixPollInterval);
+											localStorage.removeItem(PIX_PENDING_KEY);
+											document.getElementById('pixErrorMessage').textContent = 'O pagamento não foi aprovado ou o PIX expirou. Gere um novo código para tentar novamente.';
+											updateCtaUI('error');
+										}
+									} catch (e) {}
+								}, 5000);
+							}
+
+							async function handleCTA() {
+								const btn = document.getElementById('paymentButton');
+								document.getElementById('pixResultBox').style.display = 'none';
+								document.getElementById('pixErrorBox').style.display = 'none';
+								btn.style.display = 'inline-block';
+								btn.disabled = true;
+								btn.innerHTML = '<span class="pix-spinner"></span>Gerando PIX...';
+
+								// Se já existe um PIX gerado e ainda não pago pra essa oferta, reaproveita
+								// ele em vez de gerar outro (evita gerar PIX infinitamente a cada clique).
+								const pendingRaw = localStorage.getItem(PIX_PENDING_KEY);
+								if (pendingRaw) {
+									try {
+										const pending = JSON.parse(pendingRaw);
+										const isFresh = pending.id && (Date.now() - pending.ts) < PIX_PENDING_MAX_AGE_MS;
+										if (isFresh) {
+											const statusRes = await fetch(`${PIX_API_BASE}/api/pix/status?id=${encodeURIComponent(pending.id)}`);
+											const statusData = await statusRes.json();
+											if (statusData.status === 'pending' && statusData.qrCode) {
+												currentTransactionId = pending.id;
+												document.getElementById('pixCode').textContent = statusData.qrCode;
+												updateCtaUI('result');
+												startPixPolling(currentTransactionId);
+												return;
+											}
+										}
+									} catch (e) {}
+									localStorage.removeItem(PIX_PENDING_KEY);
+								}
+
+								const customer = collectCustomerData();
+								const urlParams = new URLSearchParams(window.location.search);
+								const ttclidCookie = document.cookie.match(/(?:^|; )ttclid=([^;]+)/);
+								const ttpCookie = document.cookie.match(/(?:^|; )_ttp=([^;]+)/);
+								const tracking = {
+									utm_source: urlParams.get('utm_source') || '',
+									utm_medium: urlParams.get('utm_medium') || '',
+									utm_campaign: urlParams.get('utm_campaign') || '',
+									utm_content: urlParams.get('utm_content') || '',
+									utm_term: urlParams.get('utm_term') || '',
+									src: urlParams.get('src') || '',
+									sck: urlParams.get('sck') || '',
+									ttclid: ttclidCookie ? decodeURIComponent(ttclidCookie[1]) : (urlParams.get('ttclid') || ''),
+									ttp: ttpCookie ? decodeURIComponent(ttpCookie[1]) : '',
+									real_name: getParam(['nome', 'name']) ? 'true' : 'false',
+									real_email: getParam(['email']) ? 'true' : 'false',
+									real_phone: getParam(['telefone', 'telephone', 'phone']) ? 'true' : 'false',
+									real_document: getParam(['cpf', 'document']) ? 'true' : 'false',
+								};
+
+								try {
+									const response = await fetch(`${PIX_API_BASE}/api/pix/create`, {
+										method: 'POST',
+										headers: { 'Content-Type': 'application/json' },
+										body: JSON.stringify({ ...customer, product: PIX_PRODUCT, tracking }),
+									});
+
+									const data = await response.json();
+
+									if (!response.ok) {
+										throw new Error(data.error || 'Falha ao gerar o PIX.');
+									}
+
+									currentTransactionId = data.transactionId;
+									localStorage.setItem(PIX_PENDING_KEY, JSON.stringify({ id: currentTransactionId, ts: Date.now() }));
+									document.getElementById('pixCode').textContent = data.qrCode;
+									updateCtaUI('result');
+
+
+									startPixPolling(currentTransactionId);
+								} catch (err) {
+									document.getElementById('pixErrorMessage').textContent = err.message || 'Tente novamente em instantes.';
+									updateCtaUI('error');
+								}
+							}
+
+							function toggleButton() {
+								const checkbox = document.getElementById('termsCheckbox');
+								const button = document.getElementById('paymentButton');
+								if (checkbox.checked) {
+									button.classList.add('enabled');
+									button.disabled = false;
+								} else {
+									button.classList.remove('enabled');
+									button.disabled = true;
+								}
+							}
+
+							document.getElementById('paymentButton').addEventListener('click', function () {
+								const checkbox = document.getElementById('termsCheckbox');
+								if (!checkbox.checked) {
+									alert("Você precisa aceitar os termos antes de prosseguir.");
+									return;
+								}
+								handleCTA();
+							});
+						</script>
+
+
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="ays_tooltip">
+		<div id="ays_tooltip_block">
+			<p>Você não pode copiar conteúdo</p>
+		</div>
+	</div>
+	<style>
+		#ays_tooltip,
+		.ays_tooltip_class {
+			display: none;
+			position: absolute;
+			z-index: 999999999;
+			background-color: #ffffff;
+
+			background-repeat: no-repeat;
+			background-position: center center;
+			background-size: cover;
+			opacity: 1;
+			border: 1px solid #b7b7b7;
+			border-radius: 3px;
+			box-shadow: rgba(0, 0, 0, 0) 0px 0px 15px 1px;
+			color: #ff0000;
+			padding: 5px 5px;
+			text-transform: none;
+			;
+		}
+
+		#ays_tooltip>*,
+		.ays_tooltip_class>* {
+			color: #ff0000;
+			font-size: 12px;
+			letter-spacing: 0px;
+		}
+
+		#ays_tooltip_block {
+			font-size: 12px;
+			backdrop-filter: blur(0px);
+		}
+
+		@media screen and (max-width: 768px) {
+
+			#ays_tooltip,
+			.ays_tooltip_class {
+				font-size: 12px;
+			}
+
+			#ays_tooltip>*,
+			.ays_tooltip_class>* {
+				font-size: 12px;
+			}
+		}
+
+		#user-display-name {
+			font-size: 12px;
+		}
+	</style>
+	<style>
+		*:not(input):not(textarea)::selection {
+			background-color: transparent !important;
+			color: inherit !important;
+		}
+
+		*:not(input):not(textarea)::-moz-selection {
+			background-color: transparent !important;
+			color: inherit !important;
+		}
+
+		*:not(input):not(textarea):not(button) {
+			-webkit-user-select: none !important;
+			-moz-user-select: none !important;
+			-ms-user-select: none !important;
+			user-select: none !important;
+			-webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+			-webkit-touch-callout: none !important;
+		}
+
+		#user-display-name {
+			font-size: 12px;
+		}
+	</style>
+	<script>
+		function stopPrntScr() {
+			var inpFld = document.createElement("input");
+			inpFld.setAttribute("value", "Access Denied");
+			inpFld.setAttribute("width", "0");
+			inpFld.style.height = "0px";
+			inpFld.style.width = "0px";
+			inpFld.style.border = "0px";
+			document.body.appendChild(inpFld);
+			inpFld.select();
+			document.execCommand("copy");
+			inpFld.remove(inpFld);
+		}
+
+		(function ($) {
+			'use strict';
+			$(function () {
+				let all = $('*').not('script, meta, link, style, noscript, title'),
+					tooltip = $('#ays_tooltip'),
+					tooltipClass = "mouse";
+				if (tooltipClass == "mouse" || tooltipClass == "mouse_first_pos") {
+					let startTime, endTime;
+					all.on('touchstart', function (e) {
+						startTime = Date.now();
+					});
+
+					all.on('touchend', function (e) {
+						endTime = Date.now();
+						if (endTime - startTime > 1000) {
+							e.preventDefault();
+						}
+						let cordinate_x = e.pageX || e.originalEvent.changedTouches[0].pageX;
+						let cordinate_y = (e.pageY || e.originalEvent.changedTouches[0].pageY) - 30;
+						let windowWidth = $(window).width();
+						if (cordinate_y < tooltip.outerHeight()) {
+							tooltip.css({ 'top': (cordinate_y + tooltip.outerHeight() - 10) + 'px' });
+						} else {
+							tooltip.css({ 'top': (cordinate_y - tooltip.outerHeight()) + 'px' });
+						}
+						if (cordinate_x > (windowWidth - tooltip.outerWidth())) {
+							tooltip.css({ 'left': (cordinate_x - tooltip.outerWidth()) + 'px' });
+						} else {
+							tooltip.css({ 'left': (cordinate_x + 5) + 'px' });
+						}
+
+					});
+				} else {
+					tooltip.addClass(tooltipClass);
+				}
+
+
+				$(document).on('contextmenu', function (e) {
+					let target = $(event.target);
+					let t = e || window.event;
+					let n = t.target || t.srcElement;
+					if (!target.is("") && (!target.is("1") && !target.is("img")) && (!target.is("1") && !target.is("a") && n.parentElement.nodeName !== "A")) {
+						if (n.nodeName !== "A") {
+							show_tooltip(1);
+							audio_play();
+						}
+						return false;
+					}
+				});
+
+
+				$(document).on('contextmenu', function (e) {
+					let target = $(event.target);
+					if (target.is("img") || target.is("div.ays_tooltip_class")) {
+						let t = e || window.event;
+						let n = t.target || t.srcElement;
+						if (n.nodeName !== "A") {
+							show_tooltip(1);
+							audio_play();
+						}
+						return false;
+					}
+				});
+
+
+				$(document).on('contextmenu', function (e) {
+					let target = $(event.target);
+					let t = e || window.event;
+					let n = t.target || t.srcElement;
+					if (target.is("a") || n.parentElement.nodeName == "A" || target.is("div.ays_tooltip_class")) {
+						show_tooltip(1);
+						audio_play();
+						return false;
+					}
+				});
+
+				$(document).on('dragstart', function () {
+					let target = $(event.target);
+					if (!target.is("")) {
+						show_tooltip(1);
+						audio_play();
+						return false;
+					}
+				});
+
+
+				$(window).on('keydown', function (event) {
+					var sccp_selObj = window.getSelection();
+					var check_selectors = true;
+					if (!sccp_selObj.rangeCount < 1) {
+						var sccp_selRange = sccp_selObj.getRangeAt(0);
+						var sccp_selection_selector = sccp_selRange.startContainer.parentElement;
+						check_selectors = !$(sccp_selection_selector).is("");
+					}
+
+					if (check_selectors) {
+						var isOpera = (BrowserDetect.browser === "Opera");
+
+						var isFirefox = (BrowserDetect.browser === 'Firefox');
+
+						var isSafari = (BrowserDetect.browser === 'Safari');
+
+						var isIE = (BrowserDetect.browser === 'Explorer');
+						var isChrome = (BrowserDetect.browser === 'Chrome');
+						var isMozilla = (BrowserDetect.browser === 'Mozilla');
+
+						if (BrowserDetect.OS === 'Windows') {
+							if (isChrome) {
+								if (((event.ctrlKey && event.shiftKey) && (
+									event.keyCode === 73 ||
+									event.keyCode === 74 ||
+									event.keyCode === 68 ||
+									event.keyCode === 67))) {
+									show_tooltip(1);
+									audio_play();
+									return false;
+								}
+							}
+							if (isFirefox) {
+								if (((event.ctrlKey && event.shiftKey) && (
+									event.keyCode === 73 ||
+									event.keyCode === 74 ||
+									event.keyCode === 67 ||
+									event.keyCode === 75 ||
+									event.keyCode === 69)) ||
+									event.keyCode === 118 ||
+									(event.keyCode === 112 && event.shiftKey) ||
+									(event.keyCode === 115 && event.shiftKey) ||
+									(event.keyCode === 118 && event.shiftKey) ||
+									(event.keyCode === 120 && event.shiftKey)) {
+									show_tooltip(1);
+									audio_play();
+									return false;
+								}
+							}
+							if (isOpera) {
+								if (((event.ctrlKey && event.shiftKey) && (
+									event.keyCode === 73 ||
+									event.keyCode === 74 ||
+									event.keyCode === 67 ||
+									event.keyCode === 88 ||
+									event.keyCode === 69))) {
+									show_tooltip(1);
+									audio_play();
+									return false;
+								}
+							}
+							if (isIE) {
+								if ((event.keyCode === 123 && event.shiftKey)) {
+									show_tooltip(1);
+									audio_play();
+									return false;
+								}
+							}
+							if (isMozilla) {
+								if ((event.ctrlKey && event.keyCode === 73) ||
+									(event.altKey && event.keyCode === 68)) {
+									show_tooltip(1);
+									audio_play();
+									return false;
+								}
+							}
+
+							if ((event.keyCode === 83 && event.ctrlKey)) {
+								show_tooltip(1);
+								audio_play();
+								return false;
+							}
+
+							if ((event.keyCode === 65 && event.ctrlKey)) {
+
+								show_tooltip(1);
+								audio_play();
+								return false;
+							}
+
+							if (event.keyCode === 67 && event.ctrlKey && !event.shiftKey) {
+								show_tooltip(1);
+								audio_play();
+								return false;
+							}
+
+							if ((event.keyCode === 86 && event.ctrlKey)) {
+								show_tooltip(1);
+								audio_play();
+								return false;
+							}
+
+							if ((event.keyCode === 88 && event.ctrlKey)) {
+								show_tooltip(1);
+								audio_play();
+								return false;
+							}
+
+							if ((event.keyCode === 85 && event.ctrlKey)) {
+								show_tooltip(1);
+								audio_play();
+								return false;
+							}
+
+							if ((event.keyCode === 70 && event.ctrlKey) || (event.keyCode === 71 && event.ctrlKey)) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+							if ((event.keyCode === 80 && event.ctrlKey)) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+							if ((event.keyCode === 72 && event.ctrlKey)) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+							if ((event.keyCode === 76 && event.ctrlKey)) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+							if ((event.keyCode === 75 && event.ctrlKey)) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+
+							if ((event.keyCode === 79 && event.ctrlKey)) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+							if (event.keyCode === 117 || (event.keyCode === 117 && event.shiftKey)) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+							if (event.keyCode === 114 || (event.keyCode === 114 && event.shiftKey)) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+							if (event.keyCode === 120 || (event.keyCode === 120 && event.shiftKey)) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+							if (event.keyCode === 68 && event.altKey) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+							if (event.keyCode === 69 && event.ctrlKey) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+							if (event.keyCode === 123 || (event.keyCode === 123 && event.shiftKey)) {
+								show_tooltip(1);
+								audio_play();
+								return false;
+							}
+						} else if (BrowserDetect.OS === 'Linux') {
+							if (isChrome) {
+								if (
+									(
+										(event.ctrlKey && event.shiftKey) &&
+										(event.keyCode === 73 ||
+											event.keyCode === 74 ||
+											event.keyCode === 67
+										)
+									) ||
+									(event.ctrlKey && event.keyCode === 85)
+								) {
+									show_tooltip(1);
+									audio_play();
+									return false;
+								}
+							}
+							if (isFirefox) {
+								if (((event.ctrlKey && event.shiftKey) && (event.keyCode === 73 || event.keyCode === 74 || event.keyCode === 67 || event.keyCode === 75 || event.keyCode === 69)) || event.keyCode === 118 || event.keyCode === 116 || (event.keyCode === 112 && event.shiftKey) || (event.keyCode === 115 && event.shiftKey) || (event.keyCode === 118 && event.shiftKey) || (event.keyCode === 120 && event.shiftKey) || (event.keyCode === 85 && event.ctrlKey)) {
+									show_tooltip(1);
+									audio_play();
+									return false;
+								}
+							}
+							if (isOpera) {
+								if (((event.ctrlKey && event.shiftKey) && (event.keyCode === 73 || event.keyCode === 74 || event.keyCode === 67 || event.keyCode === 88 || event.keyCode === 69)) || (event.ctrlKey && event.keyCode === 85)) {
+									show_tooltip(1);
+									audio_play();
+									return false;
+								}
+							}
+
+							if ((event.keyCode === 83 && event.ctrlKey)) {
+								show_tooltip(1);
+								audio_play();
+								return false;
+							}
+
+							if (event.keyCode === 65 && event.ctrlKey) {
+								show_tooltip(1);
+								audio_play();
+								return false;
+							}
+
+							if (event.keyCode === 67 && event.ctrlKey && !event.shiftKey) {
+								show_tooltip(1);
+								audio_play();
+								return false;
+							}
+
+							if ((event.keyCode === 86 && event.ctrlKey)) {
+								show_tooltip(1);
+								audio_play();
+								return false;
+							}
+
+							if ((event.keyCode === 88 && event.ctrlKey)) {
+								show_tooltip(1);
+								audio_play();
+								return false;
+							}
+
+							if ((event.keyCode === 85 && event.ctrlKey)) {
+								show_tooltip(1);
+								audio_play();
+								return false;
+							}
+
+							if ((event.keyCode === 70 && event.ctrlKey) || (event.keyCode === 71 && event.ctrlKey)) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+							if ((event.keyCode === 80 && event.ctrlKey)) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+							if ((event.keyCode === 72 && event.ctrlKey)) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+							if ((event.keyCode === 76 && event.ctrlKey)) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+							if ((event.keyCode === 75 && event.ctrlKey)) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+
+							if ((event.keyCode === 79 && event.ctrlKey)) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+							if (event.keyCode === 117 || (event.keyCode === 117 && event.shiftKey)) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+							if (event.keyCode === 114 || (event.keyCode === 114 && event.shiftKey)) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+							if (event.keyCode === 120 || (event.keyCode === 120 && event.shiftKey)) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+							if (event.keyCode === 68 && event.altKey) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+							if (event.keyCode === 69 && event.ctrlKey) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+							if (event.keyCode === 123 || (event.keyCode === 123 && event.shiftKey)) {
+								show_tooltip(1);
+								audio_play();
+								return false;
+							}
+						} else if (BrowserDetect.OS === 'Mac') {
+							if (isChrome || isSafari || isOpera || isFirefox) {
+								if (event.metaKey && (
+									event.keyCode === 73 ||
+									event.keyCode === 74 ||
+									event.keyCode === 69 ||
+									event.keyCode === 75)) {
+									show_tooltip(1);
+									audio_play();
+									return false;
+								}
+							}
+
+							if ((event.keyCode === 83 && event.metaKey)) {
+								show_tooltip(1);
+								audio_play();
+								return false;
+							}
+
+							if ((event.keyCode === 65 && event.metaKey)) {
+								show_tooltip(1);
+								audio_play();
+								return false;
+							}
+
+							if ((event.keyCode === 67 && event.metaKey)) {
+								show_tooltip(1);
+								audio_play();
+								return false;
+							}
+
+							if ((event.keyCode === 86 && event.metaKey)) {
+								show_tooltip(1);
+								audio_play();
+								return false;
+							}
+
+							if ((event.keyCode === 88 && event.metaKey)) {
+								show_tooltip(1);
+								audio_play();
+								return false;
+							}
+
+							if ((event.keyCode === 85 && event.metaKey)) {
+								show_tooltip(1);
+								audio_play();
+								return false;
+							}
+
+							if ((event.keyCode === 70 && event.metaKey) || (event.keyCode === 71 && event.metaKey)) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+							if ((event.keyCode === 80 && event.metaKey)) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+							if ((event.keyCode === 72 && event.metaKey)) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+							if ((event.keyCode === 76 && event.metaKey)) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+							if ((event.keyCode === 75 && event.metaKey)) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+							if ((event.keyCode === 79 && event.metaKey)) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+							if (event.keyCode === 117) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+							if (event.keyCode === 114) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+							if (event.keyCode === 120) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+							if (event.keyCode === 68 && event.altKey) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+							if (event.keyCode === 69 && event.metaKey) {
+								show_tooltip();
+								audio_play();
+								return false;
+							}
+
+							if (event.keyCode === 123) {
+								show_tooltip(1);
+								audio_play();
+								return false;
+							}
+						}
+					}
+				});
+
+				function disableSelection(e) {
+					if (typeof e.onselectstart !== "undefined")
+						e.onselectstart = function () {
+							show_tooltip();
+							audio_play();
+							return false
+						};
+					else if (typeof e.style.MozUserSelect !== "undefined")
+						e.style.MozUserSelect = "none";
+					else e.onmousedown = function () {
+						show_tooltip();
+						audio_play();
+						return false
+					};
+					e.style.cursor = "default"
+				}
+
+				var msg_count = 1;
+				function show_tooltip(mess) {
+					if (mess && msg_count == 1) {
+						if (tooltipClass == 'mouse_first_pos') {
+							if ($('#ays_tooltip2').length > 0) {
+								$('#ays_tooltip2').remove();
+							}
+							var tooltip2 = tooltip.clone().prop('id', 'ays_tooltip2').insertBefore(tooltip);
+							$('#ays_tooltip2').addClass('ays_tooltip_class');
+							tooltip2.css({ 'display': 'table' });
+							$('#ays_tooltip').fadeOut();
+							setTimeout(function () {
+								tooltip2.remove();
+							}, 1000);
+						} else {
+							tooltip.css({ 'display': 'table' });
+							setTimeout(function () {
+								$('#ays_tooltip').fadeOut(500);
+							}, 1000);
+						}
+					}
+
+				}
+
+				function audio_play(audio) {
+					if (audio) {
+						var audio = document.getElementById("sccp_public_audio");
+						if (audio) {
+							audio.currentTime = 0;
+							audio.play();
+						}
+
+					}
+				}
+
+
+			});
+		})(jQuery);
+		var copyrightText = '';
+		var copyrightIncludeUrl = '';
+		var copyrightWord = '';
+
+		function copyToClipboard(text) {
+			var textarea = document.createElement("textarea");
+			textarea.textContent = text;
+			textarea.style.position = "fixed";
+			document.body.appendChild(textarea);
+			textarea.select();
+			try {
+				return document.execCommand("cut");
+			} catch (ex) {
+				console.warn("Copy to clipboard failed.", ex);
+				return false;
+			} finally {
+				document.body.removeChild(textarea);
+			}
+		}
+
+		function htmlDecode(input) {
+			var doc = new DOMParser().parseFromString(input, "text/html");
+			return doc.documentElement.textContent;
+		}
+
+		var BrowserDetect = {
+			init: function () {
+				this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
+				this.version = this.searchVersion(navigator.userAgent) || this.searchVersion(navigator.appVersion) || "an unknown version";
+				this.OS = this.searchString(this.dataOS) || "an unknown OS";
+			},
+			searchString: function (data) {
+				for (var i = 0; i < data.length; i++) {
+					var dataString = data[i].string;
+					var dataProp = data[i].prop;
+					this.versionSearchString = data[i].versionSearch || data[i].identity;
+					if (dataString) {
+						if (dataString.indexOf(data[i].subString) !== -1) return data[i].identity;
+					} else if (dataProp) return data[i].identity;
+				}
+			},
+			searchVersion: function (dataString) {
+				var index = dataString.indexOf(this.versionSearchString);
+				if (index === -1) return;
+				return parseFloat(dataString.substring(index + this.versionSearchString.length + 1));
+			},
+			dataBrowser: [{
+				string: navigator.userAgent,
+				subString: "Chrome",
+				identity: "Chrome"
+			}, {
+				string: navigator.userAgent,
+				subString: "OmniWeb",
+				versionSearch: "OmniWeb/",
+				identity: "OmniWeb"
+			}, {
+				string: navigator.vendor,
+				subString: "Apple",
+				identity: "Safari",
+				versionSearch: "Version"
+			}, {
+				prop: window.opera,
+				identity: "Opera",
+				versionSearch: "Version"
+			}, {
+				string: navigator.vendor,
+				subString: "iCab",
+				identity: "iCab"
+			}, {
+				string: navigator.vendor,
+				subString: "KDE",
+				identity: "Konqueror"
+			}, {
+				string: navigator.userAgent,
+				subString: "Firefox",
+				identity: "Firefox"
+			}, {
+				string: navigator.vendor,
+				subString: "Camino",
+				identity: "Camino"
+			}, { // for newer Netscapes (6+)
+				string: navigator.userAgent,
+				subString: "Netscape",
+				identity: "Netscape"
+			}, {
+				string: navigator.userAgent,
+				subString: "MSIE",
+				identity: "Explorer",
+				versionSearch: "MSIE"
+			}, {
+				string: navigator.userAgent,
+				subString: "Gecko",
+				identity: "Mozilla",
+				versionSearch: "rv"
+			}, { // for older Netscapes (4-)
+				string: navigator.userAgent,
+				subString: "Mozilla",
+				identity: "Netscape",
+				versionSearch: "Mozilla"
+			}],
+			dataOS: [{
+				string: navigator.platform,
+				subString: "Win",
+				identity: "Windows"
+			}, {
+				string: navigator.platform,
+				subString: "Mac",
+				identity: "Mac"
+			}, {
+				string: navigator.userAgent,
+				subString: "iPhone",
+				identity: "iPhone/iPod"
+			}, {
+				string: navigator.platform,
+				subString: "Linux",
+				identity: "Linux"
+			}]
+		};
+		BrowserDetect.init();
+		// }, false);
+	</script>
+	<div id="ays_noscript" style="display:none;">
+		<p>JavaScript não detectado. O JavaScript é obrigatório para que este site funcione. Ative-o nas configurações
+			do seu navegador e atualize esta página.</p>
+	</div>
+	<noscript>
+		<style>
+			#ays_noscript {
+				display: flex !important;
+			}
+
+			html {
+				pointer-events: none;
+				user-select: none;
+			}
+
+			#user-display-name {
+				font-size: 12px;
+			}
+		</style>
+	</noscript>
+	<div data-elementor-type="popup" data-elementor-id="824" class="elementor elementor-824 elementor-location-popup"
+		data-elementor-settings="{"
+		entrance_animation_mobile":"none","prevent_scroll":"yes","a11y_navigation":"yes","triggers":[],"timing":[]}"=""
+		data-elementor-post-type="elementor_library">
+		<div class="elementor-element elementor-element-763c1865 e-flex e-con-boxed e-con e-parent e-lazyloaded"
+			data-id="763c1865" data-element_type="container">
+			<div class="e-con-inner">
+				<div class="elementor-element elementor-element-30015127 e-con-full e-flex e-con e-child"
+					data-id="30015127" data-element_type="container">
+					<div class="elementor-element elementor-element-5a85f3c elementor-widget elementor-widget-image"
+						data-id="5a85f3c" data-element_type="widget" data-widget_type="image.default">
+						<div class="elementor-widget-container">
+							<img width="71" height="71" src="images/Featured-icona.svg"
+								class="attachment-large size-large wp-image-828" alt="">
+						</div>
+					</div>
+				</div>
+				<div class="elementor-element elementor-element-64a4e2a8 e-con-full e-flex e-con e-child"
+					data-id="64a4e2a8" data-element_type="container">
+					<div class="elementor-element elementor-element-7f5990f6 elementor-widget elementor-widget-heading"
+						data-id="7f5990f6" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Complete a pesquisa</h2>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-433242f5 elementor-widget elementor-widget-heading"
+						data-id="433242f5" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Complete a pesquisa para realizar
+								o saque dos seus ganhos.</h2>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-5062007a elementor-align-justify elementor-mobile-align-justify elementor-widget-mobile__width-inherit elementor-widget__width-inherit elementor-widget elementor-widget-button"
+						data-id="5062007a" data-element_type="widget" data-widget_type="button.default">
+						<div class="elementor-widget-container">
+							<div class="elementor-button-wrapper">
+								<a class="elementor-button elementor-button-link elementor-size-sm"
+									href="#elementor-action%3Aaction%3Dpopup%3Aclose%26settings%3DeyJkb19ub3Rfc2hvd19hZ2FpbiI6IiJ9">
+									<span class="elementor-button-content-wrapper">
+										<span class="elementor-button-text">OK</span>
+									</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div data-elementor-type="popup" data-elementor-id="292" class="elementor elementor-292 elementor-location-popup"
+		data-elementor-settings="{"
+		open_selector":"popup1","prevent_close_on_background_click":"yes","prevent_close_on_esc_key":"yes","prevent_scroll":"yes","triggers":[],"timing":[]}"=""
+		data-elementor-post-type="elementor_library">
+		<div class="elementor-element elementor-element-49c72b8c e-flex e-con-boxed e-con e-parent" data-id="49c72b8c"
+			data-element_type="container" data-settings="{" background_background":"classic"}"="">
+			<div class="e-con-inner">
+				<div class="elementor-element elementor-element-61e3b194 e-con-full e-flex e-con e-child"
+					data-id="61e3b194" data-element_type="container" data-settings="{"
+					background_background":"classic"}"="">
+					<div class="elementor-element elementor-element-73eccc50 elementor-widget elementor-widget-heading"
+						data-id="73eccc50" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Nova recompensa</h2>
+						</div>
+					</div>
+				</div>
+				<div class="elementor-element elementor-element-17c1419c e-con-full e-flex e-con e-child"
+					data-id="17c1419c" data-element_type="container" data-settings="{"
+					background_background":"gradient"}"="">
+					<div class="elementor-element elementor-element-12f866e3 elementor-widget elementor-widget-heading"
+						data-id="12f866e3" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Você ganhou</h2>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-51613f87 elementor-widget elementor-widget-counter"
+						data-id="51613f87" data-element_type="widget" data-widget_type="counter.default">
+						<div class="elementor-widget-container">
+							<div class="elementor-counter">
+								<div class="elementor-counter-number-wrapper">
+									<span class="elementor-counter-number-prefix">R$</span>
+									<span class="elementor-counter-number" data-duration="5000" data-to-value="54.87"
+										data-from-value="0">0</span>
+									<span class="elementor-counter-number-suffix"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-233f4a5f elementor-widget elementor-widget-heading"
+						data-id="233f4a5f" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Clique no botão abaixo para sacar
+								suas recompensas</h2>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-51e1c557 elementor-mobile-align-justify atualizar-saldo elementor-align-justify elementor-widget__width-initial elementor-widget-mobile__width-inherit elementor-widget elementor-widget-button"
+						data-id="51e1c557" data-element_type="widget" data-widget_type="button.default">
+						<div class="elementor-widget-container">
+							<div class="elementor-button-wrapper">
+								<a class="elementor-button elementor-button-link elementor-size-sm"
+									href="https://portalmundosgloball.online/saque/">
+									<span class="elementor-button-content-wrapper">
+										<span class="elementor-button-text">SACAR DINHEIRO</span>
+									</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div data-elementor-type="popup" data-elementor-id="285" class="elementor elementor-285 elementor-location-popup"
+		data-elementor-settings="{"
+		entrance_animation_mobile":"none","prevent_scroll":"yes","a11y_navigation":"yes","triggers":[],"timing":[]}"=""
+		data-elementor-post-type="elementor_library">
+		<div class="elementor-element elementor-element-7b81e10d e-flex e-con-boxed e-con e-parent" data-id="7b81e10d"
+			data-element_type="container">
+			<div class="e-con-inner">
+				<div class="elementor-element elementor-element-2e2a8f82 e-con-full e-flex e-con e-child"
+					data-id="2e2a8f82" data-element_type="container">
+					<div class="elementor-element elementor-element-7b5a2a8b elementor-widget elementor-widget-image"
+						data-id="7b5a2a8b" data-element_type="widget" data-widget_type="image.default">
+						<div class="elementor-widget-container">
+							<img width="765" height="212" src="images/Frame-116A.svg"
+								class="attachment-large size-large wp-image-283" alt="">
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-53d59c40 elementor-widget elementor-widget-image"
+						data-id="53d59c40" data-element_type="widget" data-widget_type="image.default">
+						<div class="elementor-widget-container">
+							<img width="765" height="212" src="images/Frame-115.svg"
+								class="attachment-large size-large wp-image-284" alt="">
+						</div>
+					</div>
+				</div>
+				<div class="elementor-element elementor-element-1e88ebc6 e-con-full e-flex e-con e-child"
+					data-id="1e88ebc6" data-element_type="container">
+					<div class="elementor-element elementor-element-4a632043 elementor-widget elementor-widget-heading"
+						data-id="4a632043" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Concorra a um bônus adicional
+							</h2>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-2e859fce elementor-widget elementor-widget-heading"
+						data-id="2e859fce" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Participe das nossas pesquisas e
+								tenha a chance de ganhar um bônus extra como recompensa!</h2>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-53e33a5e elementor-align-justify elementor-mobile-align-justify elementor-widget-mobile__width-inherit elementor-widget__width-inherit elementor-widget elementor-widget-button"
+						data-id="53e33a5e" data-element_type="widget" data-widget_type="button.default">
+						<div class="elementor-widget-container">
+							<div class="elementor-button-wrapper">
+								<a class="elementor-button elementor-button-link elementor-size-sm"
+									href="#elementor-action%3Aaction%3Dpopup%3Aclose%26settings%3DeyJkb19ub3Rfc2hvd19hZ2FpbiI6IiJ9">
+									<span class="elementor-button-content-wrapper">
+										<span class="elementor-button-text">OK</span>
+									</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div data-elementor-type="popup" data-elementor-id="280" class="elementor elementor-280 elementor-location-popup"
+		data-elementor-settings="{"
+		open_selector":"popup1","prevent_close_on_background_click":"yes","prevent_close_on_esc_key":"yes","prevent_scroll":"yes","triggers":[],"timing":[]}"=""
+		data-elementor-post-type="elementor_library">
+		<div class="elementor-element elementor-element-2bfe2260 e-flex e-con-boxed e-con e-parent" data-id="2bfe2260"
+			data-element_type="container" data-settings="{" background_background":"classic"}"="">
+			<div class="e-con-inner">
+				<div class="elementor-element elementor-element-56ec925 e-con-full e-flex e-con e-child"
+					data-id="56ec925" data-element_type="container" data-settings="{"
+					background_background":"classic"}"="">
+					<div class="elementor-element elementor-element-520db830 elementor-widget elementor-widget-heading"
+						data-id="520db830" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Nova recompensa</h2>
+						</div>
+					</div>
+				</div>
+				<div class="elementor-element elementor-element-217ff36d e-con-full e-flex e-con e-child"
+					data-id="217ff36d" data-element_type="container" data-settings="{"
+					background_background":"classic"}"="">
+					<div class="elementor-element elementor-element-7ad60375 elementor-widget elementor-widget-heading"
+						data-id="7ad60375" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Você ganhou</h2>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-5e40c6b8 elementor-widget elementor-widget-counter"
+						data-id="5e40c6b8" data-element_type="widget" data-widget_type="counter.default">
+						<div class="elementor-widget-container">
+							<div class="elementor-counter">
+								<div class="elementor-counter-number-wrapper">
+									<span class="elementor-counter-number-prefix">R$</span>
+									<span class="elementor-counter-number" data-duration="5000" data-to-value="73.28"
+										data-from-value="0">0</span>
+									<span class="elementor-counter-number-suffix"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-1cabbf26 elementor-widget elementor-widget-heading"
+						data-id="1cabbf26" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Responda mais pesquisas para
+								ganhar até R$850</h2>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-16aa0bba elementor-mobile-align-justify atualizar-saldo elementor-align-justify elementor-widget__width-inherit elementor-widget-mobile__width-inherit elementor-widget elementor-widget-button"
+						data-id="16aa0bba" data-element_type="widget" data-widget_type="button.default">
+						<div class="elementor-widget-container">
+							<div class="elementor-button-wrapper">
+								<a class="elementor-button elementor-button-link elementor-size-sm"
+									href="https://portalmundosgloball.online/perg11/">
+									<span class="elementor-button-content-wrapper">
+										<span class="elementor-button-text">Continuar recebendo</span>
+									</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="elementor-element elementor-element-5d8091f2 e-flex e-con-boxed e-con e-parent" data-id="5d8091f2"
+			data-element_type="container">
+			<div class="e-con-inner">
+			</div>
+		</div>
+	</div>
+	<div data-elementor-type="popup" data-elementor-id="277" class="elementor elementor-277 elementor-location-popup"
+		data-elementor-settings="{"
+		open_selector":"popup1","prevent_close_on_background_click":"yes","prevent_close_on_esc_key":"yes","prevent_scroll":"yes","triggers":[],"timing":[]}"=""
+		data-elementor-post-type="elementor_library">
+		<div class="elementor-element elementor-element-2e42e62f e-flex e-con-boxed e-con e-parent" data-id="2e42e62f"
+			data-element_type="container" data-settings="{" background_background":"classic"}"="">
+			<div class="e-con-inner">
+				<div class="elementor-element elementor-element-34d2de13 e-con-full e-flex e-con e-child"
+					data-id="34d2de13" data-element_type="container" data-settings="{"
+					background_background":"classic"}"="">
+					<div class="elementor-element elementor-element-659da6ae elementor-widget elementor-widget-heading"
+						data-id="659da6ae" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Nova recompensa</h2>
+						</div>
+					</div>
+				</div>
+				<div class="elementor-element elementor-element-76e00a69 e-con-full e-flex e-con e-child"
+					data-id="76e00a69" data-element_type="container" data-settings="{"
+					background_background":"classic"}"="">
+					<div class="elementor-element elementor-element-730ca323 elementor-widget elementor-widget-heading"
+						data-id="730ca323" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Você ganhou</h2>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-7f9482e elementor-widget elementor-widget-counter"
+						data-id="7f9482e" data-element_type="widget" data-widget_type="counter.default">
+						<div class="elementor-widget-container">
+							<div class="elementor-counter">
+								<div class="elementor-counter-number-wrapper">
+									<span class="elementor-counter-number-prefix">R$</span>
+									<span class="elementor-counter-number" data-duration="5000" data-to-value="46.98"
+										data-from-value="0">0</span>
+									<span class="elementor-counter-number-suffix"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-260cad3 elementor-widget elementor-widget-heading"
+						data-id="260cad3" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Responda mais pesquisas para
+								ganhar até R$850</h2>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-5ab819f elementor-mobile-align-justify atualizar-saldo elementor-align-justify elementor-widget__width-inherit elementor-widget-mobile__width-inherit elementor-widget elementor-widget-button"
+						data-id="5ab819f" data-element_type="widget" data-widget_type="button.default">
+						<div class="elementor-widget-container">
+							<div class="elementor-button-wrapper">
+								<a class="elementor-button elementor-button-link elementor-size-sm"
+									href="https://portalmundosgloball.online/perg10/">
+									<span class="elementor-button-content-wrapper">
+										<span class="elementor-button-text">Continuar recebendo</span>
+									</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="elementor-element elementor-element-61033d65 e-flex e-con-boxed e-con e-parent" data-id="61033d65"
+			data-element_type="container">
+			<div class="e-con-inner">
+			</div>
+		</div>
+	</div>
+	<div data-elementor-type="popup" data-elementor-id="274" class="elementor elementor-274 elementor-location-popup"
+		data-elementor-settings="{"
+		open_selector":"popup1","prevent_close_on_background_click":"yes","prevent_close_on_esc_key":"yes","prevent_scroll":"yes","triggers":[],"timing":[]}"=""
+		data-elementor-post-type="elementor_library">
+		<div class="elementor-element elementor-element-3fe4e2c4 e-flex e-con-boxed e-con e-parent" data-id="3fe4e2c4"
+			data-element_type="container" data-settings="{" background_background":"classic"}"="">
+			<div class="e-con-inner">
+				<div class="elementor-element elementor-element-cf460b5 e-con-full e-flex e-con e-child"
+					data-id="cf460b5" data-element_type="container" data-settings="{"
+					background_background":"classic"}"="">
+					<div class="elementor-element elementor-element-6257d401 elementor-widget elementor-widget-heading"
+						data-id="6257d401" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Nova recompensa</h2>
+						</div>
+					</div>
+				</div>
+				<div class="elementor-element elementor-element-625090a6 e-con-full e-flex e-con e-child"
+					data-id="625090a6" data-element_type="container" data-settings="{"
+					background_background":"classic"}"="">
+					<div class="elementor-element elementor-element-ef6fe00 elementor-widget elementor-widget-heading"
+						data-id="ef6fe00" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Você ganhou</h2>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-2ce7207e elementor-widget elementor-widget-counter"
+						data-id="2ce7207e" data-element_type="widget" data-widget_type="counter.default">
+						<div class="elementor-widget-container">
+							<div class="elementor-counter">
+								<div class="elementor-counter-number-wrapper">
+									<span class="elementor-counter-number-prefix">R$</span>
+									<span class="elementor-counter-number" data-duration="5000" data-to-value="33.98"
+										data-from-value="0">0</span>
+									<span class="elementor-counter-number-suffix"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-71ed9f89 elementor-widget elementor-widget-heading"
+						data-id="71ed9f89" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Responda mais pesquisas para
+								ganhar até R$850</h2>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-2e3b3508 elementor-mobile-align-justify atualizar-saldo elementor-align-justify elementor-widget__width-inherit elementor-widget-mobile__width-inherit elementor-widget elementor-widget-button"
+						data-id="2e3b3508" data-element_type="widget" data-widget_type="button.default">
+						<div class="elementor-widget-container">
+							<div class="elementor-button-wrapper">
+								<a class="elementor-button elementor-button-link elementor-size-sm"
+									href="https://portalmundosgloball.online/perg9/">
+									<span class="elementor-button-content-wrapper">
+										<span class="elementor-button-text">Continuar recebendo</span>
+									</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="elementor-element elementor-element-2546ebab e-flex e-con-boxed e-con e-parent" data-id="2546ebab"
+			data-element_type="container">
+			<div class="e-con-inner">
+			</div>
+		</div>
+	</div>
+	<div data-elementor-type="popup" data-elementor-id="271" class="elementor elementor-271 elementor-location-popup"
+		data-elementor-settings="{"
+		open_selector":"popup1","prevent_close_on_background_click":"yes","prevent_close_on_esc_key":"yes","prevent_scroll":"yes","triggers":[],"timing":[]}"=""
+		data-elementor-post-type="elementor_library">
+		<div class="elementor-element elementor-element-64ce61c6 e-flex e-con-boxed e-con e-parent" data-id="64ce61c6"
+			data-element_type="container" data-settings="{" background_background":"classic"}"="">
+			<div class="e-con-inner">
+				<div class="elementor-element elementor-element-56b2697d e-con-full e-flex e-con e-child"
+					data-id="56b2697d" data-element_type="container" data-settings="{"
+					background_background":"classic"}"="">
+					<div class="elementor-element elementor-element-68554d6b elementor-widget elementor-widget-heading"
+						data-id="68554d6b" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Nova recompensa</h2>
+						</div>
+					</div>
+				</div>
+				<div class="elementor-element elementor-element-5d1f6769 e-con-full e-flex e-con e-child"
+					data-id="5d1f6769" data-element_type="container" data-settings="{"
+					background_background":"classic"}"="">
+					<div class="elementor-element elementor-element-761eda elementor-widget elementor-widget-heading"
+						data-id="761eda" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Você ganhou</h2>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-1621ca1d elementor-widget elementor-widget-counter"
+						data-id="1621ca1d" data-element_type="widget" data-widget_type="counter.default">
+						<div class="elementor-widget-container">
+							<div class="elementor-counter">
+								<div class="elementor-counter-number-wrapper">
+									<span class="elementor-counter-number-prefix">R$</span>
+									<span class="elementor-counter-number" data-duration="5000" data-to-value="52.28"
+										data-from-value="0">0</span>
+									<span class="elementor-counter-number-suffix"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-45f22fa9 elementor-widget elementor-widget-heading"
+						data-id="45f22fa9" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Responda mais pesquisas para
+								ganhar até R$850</h2>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-2d34d91e elementor-mobile-align-justify atualizar-saldo elementor-align-justify elementor-widget__width-inherit elementor-widget-mobile__width-inherit elementor-widget elementor-widget-button"
+						data-id="2d34d91e" data-element_type="widget" data-widget_type="button.default">
+						<div class="elementor-widget-container">
+							<div class="elementor-button-wrapper">
+								<a class="elementor-button elementor-button-link elementor-size-sm"
+									href="https://portalmundosgloball.online/perg8/">
+									<span class="elementor-button-content-wrapper">
+										<span class="elementor-button-text">Continuar recebendo</span>
+									</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="elementor-element elementor-element-72fe40da e-flex e-con-boxed e-con e-parent" data-id="72fe40da"
+			data-element_type="container">
+			<div class="e-con-inner">
+			</div>
+		</div>
+	</div>
+	<div data-elementor-type="popup" data-elementor-id="268" class="elementor elementor-268 elementor-location-popup"
+		data-elementor-settings="{"
+		open_selector":"popup1","prevent_close_on_background_click":"yes","prevent_close_on_esc_key":"yes","prevent_scroll":"yes","triggers":[],"timing":[]}"=""
+		data-elementor-post-type="elementor_library">
+		<div class="elementor-element elementor-element-59a8cae e-flex e-con-boxed e-con e-parent" data-id="59a8cae"
+			data-element_type="container" data-settings="{" background_background":"classic"}"="">
+			<div class="e-con-inner">
+				<div class="elementor-element elementor-element-4dee3aca e-con-full e-flex e-con e-child"
+					data-id="4dee3aca" data-element_type="container" data-settings="{"
+					background_background":"classic"}"="">
+					<div class="elementor-element elementor-element-55bfea8d elementor-widget elementor-widget-heading"
+						data-id="55bfea8d" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Nova recompensa</h2>
+						</div>
+					</div>
+				</div>
+				<div class="elementor-element elementor-element-65fa77a2 e-con-full e-flex e-con e-child"
+					data-id="65fa77a2" data-element_type="container" data-settings="{"
+					background_background":"classic"}"="">
+					<div class="elementor-element elementor-element-74e0b550 elementor-widget elementor-widget-heading"
+						data-id="74e0b550" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Você ganhou</h2>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-1b10ae3b elementor-widget elementor-widget-counter"
+						data-id="1b10ae3b" data-element_type="widget" data-widget_type="counter.default">
+						<div class="elementor-widget-container">
+							<div class="elementor-counter">
+								<div class="elementor-counter-number-wrapper">
+									<span class="elementor-counter-number-prefix">R$</span>
+									<span class="elementor-counter-number" data-duration="5000" data-to-value="42.06"
+										data-from-value="0">0</span>
+									<span class="elementor-counter-number-suffix"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-17fb0b15 elementor-widget elementor-widget-heading"
+						data-id="17fb0b15" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Responda mais pesquisas para
+								ganhar até R$850</h2>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-36d67a7b elementor-mobile-align-justify atualizar-saldo elementor-align-justify elementor-widget__width-inherit elementor-widget-mobile__width-inherit elementor-widget elementor-widget-button"
+						data-id="36d67a7b" data-element_type="widget" data-widget_type="button.default">
+						<div class="elementor-widget-container">
+							<div class="elementor-button-wrapper">
+								<a class="elementor-button elementor-button-link elementor-size-sm"
+									href="https://portalmundosgloball.online/perg7/">
+									<span class="elementor-button-content-wrapper">
+										<span class="elementor-button-text">Continuar recebendo</span>
+									</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="elementor-element elementor-element-134a1230 e-flex e-con-boxed e-con e-parent" data-id="134a1230"
+			data-element_type="container">
+			<div class="e-con-inner">
+			</div>
+		</div>
+	</div>
+	<div data-elementor-type="popup" data-elementor-id="265" class="elementor elementor-265 elementor-location-popup"
+		data-elementor-settings="{"
+		open_selector":"popup1","prevent_close_on_background_click":"yes","prevent_close_on_esc_key":"yes","prevent_scroll":"yes","triggers":[],"timing":[]}"=""
+		data-elementor-post-type="elementor_library">
+		<div class="elementor-element elementor-element-196bd3f e-flex e-con-boxed e-con e-parent" data-id="196bd3f"
+			data-element_type="container" data-settings="{" background_background":"classic"}"="">
+			<div class="e-con-inner">
+				<div class="elementor-element elementor-element-3c242e49 e-con-full e-flex e-con e-child"
+					data-id="3c242e49" data-element_type="container" data-settings="{"
+					background_background":"classic"}"="">
+					<div class="elementor-element elementor-element-19e0939d elementor-widget elementor-widget-heading"
+						data-id="19e0939d" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Nova recompensa</h2>
+						</div>
+					</div>
+				</div>
+				<div class="elementor-element elementor-element-3e3c4d7c e-con-full e-flex e-con e-child"
+					data-id="3e3c4d7c" data-element_type="container" data-settings="{"
+					background_background":"classic"}"="">
+					<div class="elementor-element elementor-element-65ca07a elementor-widget elementor-widget-heading"
+						data-id="65ca07a" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Você ganhou</h2>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-22f5f0a2 elementor-widget elementor-widget-counter"
+						data-id="22f5f0a2" data-element_type="widget" data-widget_type="counter.default">
+						<div class="elementor-widget-container">
+							<div class="elementor-counter">
+								<div class="elementor-counter-number-wrapper">
+									<span class="elementor-counter-number-prefix">R$</span>
+									<span class="elementor-counter-number" data-duration="5000" data-to-value="39.56"
+										data-from-value="0">0</span>
+									<span class="elementor-counter-number-suffix"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-6506f954 elementor-widget elementor-widget-heading"
+						data-id="6506f954" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Responda mais pesquisas para
+								ganhar até R$850</h2>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-5061d64c elementor-mobile-align-justify atualizar-saldo elementor-align-justify elementor-widget__width-inherit elementor-widget-mobile__width-inherit elementor-widget elementor-widget-button"
+						data-id="5061d64c" data-element_type="widget" data-widget_type="button.default">
+						<div class="elementor-widget-container">
+							<div class="elementor-button-wrapper">
+								<a class="elementor-button elementor-button-link elementor-size-sm"
+									href="https://portalmundosgloball.online/perg6/">
+									<span class="elementor-button-content-wrapper">
+										<span class="elementor-button-text">Continuar recebendo</span>
+									</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="elementor-element elementor-element-2dd8c2a5 e-flex e-con-boxed e-con e-parent" data-id="2dd8c2a5"
+			data-element_type="container">
+			<div class="e-con-inner">
+			</div>
+		</div>
+	</div>
+	<div data-elementor-type="popup" data-elementor-id="262" class="elementor elementor-262 elementor-location-popup"
+		data-elementor-settings="{"
+		open_selector":"popup1","prevent_close_on_background_click":"yes","prevent_close_on_esc_key":"yes","prevent_scroll":"yes","triggers":[],"timing":[]}"=""
+		data-elementor-post-type="elementor_library">
+		<div class="elementor-element elementor-element-1bfa7a41 e-flex e-con-boxed e-con e-parent" data-id="1bfa7a41"
+			data-element_type="container" data-settings="{" background_background":"classic"}"="">
+			<div class="e-con-inner">
+				<div class="elementor-element elementor-element-64d05841 e-con-full e-flex e-con e-child"
+					data-id="64d05841" data-element_type="container" data-settings="{"
+					background_background":"classic"}"="">
+					<div class="elementor-element elementor-element-23f1233f elementor-widget elementor-widget-heading"
+						data-id="23f1233f" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Nova recompensa</h2>
+						</div>
+					</div>
+				</div>
+				<div class="elementor-element elementor-element-a76f58c e-con-full e-flex e-con e-child"
+					data-id="a76f58c" data-element_type="container" data-settings="{"
+					background_background":"classic"}"="">
+					<div class="elementor-element elementor-element-76e19b5e elementor-widget elementor-widget-heading"
+						data-id="76e19b5e" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Você ganhou</h2>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-72a14ba4 elementor-widget elementor-widget-counter"
+						data-id="72a14ba4" data-element_type="widget" data-widget_type="counter.default">
+						<div class="elementor-widget-container">
+							<div class="elementor-counter">
+								<div class="elementor-counter-number-wrapper">
+									<span class="elementor-counter-number-prefix">R$</span>
+									<span class="elementor-counter-number" data-duration="5000" data-to-value="33.98"
+										data-from-value="0">0</span>
+									<span class="elementor-counter-number-suffix"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-5bbedea8 elementor-widget elementor-widget-heading"
+						data-id="5bbedea8" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Responda mais pesquisas para
+								ganhar até R$850</h2>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-70013fe1 elementor-mobile-align-justify atualizar-saldo elementor-align-justify elementor-widget__width-inherit elementor-widget-mobile__width-inherit elementor-widget elementor-widget-button"
+						data-id="70013fe1" data-element_type="widget" data-widget_type="button.default">
+						<div class="elementor-widget-container">
+							<div class="elementor-button-wrapper">
+								<a class="elementor-button elementor-button-link elementor-size-sm"
+									href="https://portalmundosgloball.online/perg5/">
+									<span class="elementor-button-content-wrapper">
+										<span class="elementor-button-text">Continuar recebendo</span>
+									</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="elementor-element elementor-element-3df71fb9 e-flex e-con-boxed e-con e-parent" data-id="3df71fb9"
+			data-element_type="container">
+			<div class="e-con-inner">
+			</div>
+		</div>
+	</div>
+	<div data-elementor-type="popup" data-elementor-id="259" class="elementor elementor-259 elementor-location-popup"
+		data-elementor-settings="{"
+		open_selector":"popup1","prevent_close_on_background_click":"yes","prevent_close_on_esc_key":"yes","prevent_scroll":"yes","triggers":[],"timing":[]}"=""
+		data-elementor-post-type="elementor_library">
+		<div class="elementor-element elementor-element-772d8197 e-flex e-con-boxed e-con e-parent" data-id="772d8197"
+			data-element_type="container" data-settings="{" background_background":"classic"}"="">
+			<div class="e-con-inner">
+				<div class="elementor-element elementor-element-44f64ec6 e-con-full e-flex e-con e-child"
+					data-id="44f64ec6" data-element_type="container" data-settings="{"
+					background_background":"classic"}"="">
+					<div class="elementor-element elementor-element-7b59f38 elementor-widget elementor-widget-heading"
+						data-id="7b59f38" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Nova recompensa</h2>
+						</div>
+					</div>
+				</div>
+				<div class="elementor-element elementor-element-612eb727 e-con-full e-flex e-con e-child"
+					data-id="612eb727" data-element_type="container" data-settings="{"
+					background_background":"classic"}"="">
+					<div class="elementor-element elementor-element-72bc4990 elementor-widget elementor-widget-heading"
+						data-id="72bc4990" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Você ganhou</h2>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-2a5f8d09 elementor-widget__width-initial elementor-widget elementor-widget-counter"
+						data-id="2a5f8d09" data-element_type="widget" data-widget_type="counter.default">
+						<div class="elementor-widget-container">
+							<div class="elementor-counter">
+								<div class="elementor-counter-number-wrapper">
+									<span class="elementor-counter-number-prefix">R$</span>
+									<span class="elementor-counter-number" data-duration="5000" data-to-value="29.42"
+										data-from-value="0">0</span>
+									<span class="elementor-counter-number-suffix"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-44370696 elementor-widget elementor-widget-heading"
+						data-id="44370696" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Responda mais pesquisas para
+								ganhar até R$850</h2>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-69a922c8 elementor-mobile-align-justify atualizar-saldo elementor-align-justify elementor-widget__width-inherit elementor-widget-mobile__width-inherit elementor-widget elementor-widget-button"
+						data-id="69a922c8" data-element_type="widget" data-widget_type="button.default">
+						<div class="elementor-widget-container">
+							<div class="elementor-button-wrapper">
+								<a class="elementor-button elementor-button-link elementor-size-sm"
+									href="https://portalmundosgloball.online/perg4/">
+									<span class="elementor-button-content-wrapper">
+										<span class="elementor-button-text">Continuar recebendo</span>
+									</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="elementor-element elementor-element-22cb5944 e-flex e-con-boxed e-con e-parent" data-id="22cb5944"
+			data-element_type="container">
+			<div class="e-con-inner">
+			</div>
+		</div>
+	</div>
+	<div data-elementor-type="popup" data-elementor-id="256" class="elementor elementor-256 elementor-location-popup"
+		data-elementor-settings="{"
+		open_selector":"popup1","prevent_close_on_background_click":"yes","prevent_close_on_esc_key":"yes","prevent_scroll":"yes","triggers":[],"timing":[]}"=""
+		data-elementor-post-type="elementor_library">
+		<div class="elementor-element elementor-element-1b0c1219 e-flex e-con-boxed e-con e-parent" data-id="1b0c1219"
+			data-element_type="container" data-settings="{" background_background":"classic"}"="">
+			<div class="e-con-inner">
+				<div class="elementor-element elementor-element-7d4dfe0f e-con-full e-flex e-con e-child"
+					data-id="7d4dfe0f" data-element_type="container" data-settings="{"
+					background_background":"classic"}"="">
+					<div class="elementor-element elementor-element-c0baec6 elementor-widget elementor-widget-heading"
+						data-id="c0baec6" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Nova recompensa</h2>
+						</div>
+					</div>
+				</div>
+				<div class="elementor-element elementor-element-68c0ed79 e-con-full e-flex e-con e-child"
+					data-id="68c0ed79" data-element_type="container" data-settings="{"
+					background_background":"classic"}"="">
+					<div class="elementor-element elementor-element-678927b9 elementor-widget elementor-widget-heading"
+						data-id="678927b9" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Você ganhou</h2>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-7c873d9d elementor-widget elementor-widget-counter"
+						data-id="7c873d9d" data-element_type="widget" data-widget_type="counter.default">
+						<div class="elementor-widget-container">
+							<div class="elementor-counter">
+								<div class="elementor-counter-number-wrapper">
+									<span class="elementor-counter-number-prefix">R$</span>
+									<span class="elementor-counter-number" data-duration="5000" data-to-value="19.12"
+										data-from-value="0">0</span>
+									<span class="elementor-counter-number-suffix"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-35d4a8ce elementor-widget elementor-widget-heading"
+						data-id="35d4a8ce" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Responda mais pesquisas para
+								ganhar até R$850</h2>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-21ce687d elementor-mobile-align-justify atualizar-saldo elementor-align-justify elementor-widget__width-inherit elementor-widget-mobile__width-inherit elementor-widget elementor-widget-button"
+						data-id="21ce687d" data-element_type="widget" data-widget_type="button.default">
+						<div class="elementor-widget-container">
+							<div class="elementor-button-wrapper">
+								<a class="elementor-button elementor-button-link elementor-size-sm"
+									href="https://portalmundosgloball.online/perg3/">
+									<span class="elementor-button-content-wrapper">
+										<span class="elementor-button-text">Continuar recebendo</span>
+									</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="elementor-element elementor-element-33414708 e-flex e-con-boxed e-con e-parent" data-id="33414708"
+			data-element_type="container">
+			<div class="e-con-inner">
+			</div>
+		</div>
+	</div>
+	<div data-elementor-type="popup" data-elementor-id="253" class="elementor elementor-253 elementor-location-popup"
+		data-elementor-settings="{"
+		open_selector":"popup1","prevent_close_on_background_click":"yes","prevent_close_on_esc_key":"yes","prevent_scroll":"yes","triggers":[],"timing":[]}"=""
+		data-elementor-post-type="elementor_library">
+		<div class="elementor-element elementor-element-1772fe47 e-flex e-con-boxed e-con e-parent" data-id="1772fe47"
+			data-element_type="container" data-settings="{" background_background":"classic"}"="">
+			<div class="e-con-inner">
+				<div class="elementor-element elementor-element-7c61f01b e-con-full e-flex e-con e-child"
+					data-id="7c61f01b" data-element_type="container" data-settings="{"
+					background_background":"classic"}"="">
+					<div class="elementor-element elementor-element-7573afd3 elementor-widget elementor-widget-heading"
+						data-id="7573afd3" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Nova recompensa</h2>
+						</div>
+					</div>
+				</div>
+				<div class="elementor-element elementor-element-52a1a5a e-con-full e-flex e-con e-child"
+					data-id="52a1a5a" data-element_type="container" data-settings="{"
+					background_background":"classic"}"="">
+					<div class="elementor-element elementor-element-7d98bc1f elementor-widget elementor-widget-heading"
+						data-id="7d98bc1f" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Você ganhou</h2>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-6c1c5529 elementor-widget elementor-widget-counter"
+						data-id="6c1c5529" data-element_type="widget" data-widget_type="counter.default">
+						<div class="elementor-widget-container">
+							<div class="elementor-counter">
+								<div class="elementor-counter-number-wrapper">
+									<span class="elementor-counter-number-prefix">R$</span>
+									<span class="elementor-counter-number" data-duration="5000" data-to-value="33.98"
+										data-from-value="0">0</span>
+									<span class="elementor-counter-number-suffix"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-637cafaf elementor-widget elementor-widget-heading"
+						data-id="637cafaf" data-element_type="widget" data-widget_type="heading.default">
+						<div class="elementor-widget-container">
+							<h2 class="elementor-heading-title elementor-size-default">Responda mais pesquisas para
+								ganhar até R$850</h2>
+						</div>
+					</div>
+					<div class="elementor-element elementor-element-1778dbbf elementor-mobile-align-justify atualizar-saldo elementor-align-justify elementor-widget__width-inherit elementor-widget-mobile__width-inherit elementor-widget elementor-widget-button"
+						data-id="1778dbbf" data-element_type="widget" data-widget_type="button.default">
+						<div class="elementor-widget-container">
+							<div class="elementor-button-wrapper">
+								<a class="elementor-button elementor-button-link elementor-size-sm"
+									href="https://portalmundosgloball.online/perg2/">
+									<span class="elementor-button-content-wrapper">
+										<span class="elementor-button-text">Continuar recebendo</span>
+									</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="elementor-element elementor-element-7527facf e-flex e-con-boxed e-con e-parent" data-id="7527facf"
+			data-element_type="container">
+			<div class="e-con-inner">
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		const lazyloadRunObserver = () => {
+			const lazyloadBackgrounds = document.querySelectorAll(`.e-con.e-parent:not(.e-lazyloaded)`);
+			const lazyloadBackgroundObserver = new IntersectionObserver((entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						let lazyloadBackground = entry.target;
+						if (lazyloadBackground) {
+							lazyloadBackground.classList.add('e-lazyloaded');
+						}
+						lazyloadBackgroundObserver.unobserve(entry.target);
+					}
+				});
+			}, { rootMargin: '200px 0px 200px 0px' });
+			lazyloadBackgrounds.forEach((lazyloadBackground) => {
+				lazyloadBackgroundObserver.observe(lazyloadBackground);
+			});
+		};
+		const events = [
+			'DOMContentLoaded',
+			'elementor/lazyload/observe',
+		];
+		events.forEach((event) => {
+			document.addEventListener(event, lazyloadRunObserver);
+		});
+	</script>
+	<script src="js/hello-frontend.min.js" id="hello-theme-frontend-js"></script>
+	<script src="js/jquery-numerator.min.js" id="jquery-numerator-js"></script>
+	<script src="js/jquery.sticky.min.js" id="e-sticky-js"></script>
+	<script src="js/webpack-pro.runtime.min.js" id="elementor-pro-webpack-runtime-js"></script>
+	<script src="js/webpack.runtime.min.js" id="elementor-webpack-runtime-js"></script>
+	<script src="js/frontend-modules.min.js" id="elementor-frontend-modules-js"></script>
+	<script src="js/hooks.min.js" id="wp-hooks-js"></script>
+	<script src="js/i18n.min.js" id="wp-i18n-js"></script>
+	<script id="wp-i18n-js-after">
+		wp.i18n.setLocaleData({ 'text direction\u0004ltr': ['ltr'] });
+	</script>
+	<script id="elementor-pro-frontend-js-before">
+		var ElementorProFrontendConfig = { "ajaxurl": "https:\/\/portalmundosgloball.online\/wp-admin\/admin-ajax.php", "nonce": "02148ac10e", "urls": { "assets": "https:\/\/portalmundosgloball.online\/wp-content\/plugins\/pro-elements\/assets\/", "rest": "https:\/\/portalmundosgloball.online\/wp-json\/" }, "settings": { "lazy_load_background_images": true }, "shareButtonsNetworks": { "facebook": { "title": "Facebook", "has_counter": true }, "twitter": { "title": "Twitter" }, "linkedin": { "title": "LinkedIn", "has_counter": true }, "pinterest": { "title": "Pinterest", "has_counter": true }, "reddit": { "title": "Reddit", "has_counter": true }, "vk": { "title": "VK", "has_counter": true }, "odnoklassniki": { "title": "OK", "has_counter": true }, "tumblr": { "title": "Tumblr" }, "digg": { "title": "Digg" }, "skype": { "title": "Skype" }, "stumbleupon": { "title": "StumbleUpon", "has_counter": true }, "mix": { "title": "Mix" }, "telegram": { "title": "Telegram" }, "pocket": { "title": "Pocket", "has_counter": true }, "xing": { "title": "XING", "has_counter": true }, "whatsapp": { "title": "WhatsApp" }, "email": { "title": "Email" }, "print": { "title": "Print" }, "x-twitter": { "title": "X" }, "threads": { "title": "Threads" } }, "facebook_sdk": { "lang": "pt_BR", "app_id": "" }, "lottie": { "defaultAnimationUrl": "https:\/\/portalmundosgloball.online\/wp-content\/plugins\/pro-elements\/modules\/lottie\/assets\/animations\/default.json" } };
+	</script>
+	<script src="js/frontend.min.js" id="elementor-pro-frontend-js"></script>
+	<script src="js/core.min.js" id="jquery-ui-core-js"></script>
+	<script id="elementor-frontend-js-before">
+		var elementorFrontendConfig = { "environmentMode": { "edit": false, "wpPreview": false, "isScriptDebug": false }, "i18n": { "shareOnFacebook": "Compartilhar no Facebook", "shareOnTwitter": "Compartilhar no Twitter", "pinIt": "Fixar", "download": "Baixar", "downloadImage": "Baixar imagem", "fullscreen": "Tela cheia", "zoom": "Zoom", "share": "Compartilhar", "playVideo": "Reproduzir v\u00eddeo", "previous": "Anterior", "next": "Pr\u00f3ximo", "close": "Fechar", "a11yCarouselPrevSlideMessage": "Slide anterior", "a11yCarouselNextSlideMessage": "Pr\u00f3ximo slide", "a11yCarouselFirstSlideMessage": "Este \u00e9 o primeiro slide", "a11yCarouselLastSlideMessage": "Este \u00e9 o \u00faltimo slide", "a11yCarouselPaginationBulletMessage": "Ir para o slide" }, "is_rtl": false, "breakpoints": { "xs": 0, "sm": 480, "md": 768, "lg": 1025, "xl": 1440, "xxl": 1600 }, "responsive": { "breakpoints": { "mobile": { "label": "Dispositivos m\u00f3veis no modo retrato", "value": 767, "default_value": 767, "direction": "max", "is_enabled": true }, "mobile_extra": { "label": "Dispositivos m\u00f3veis no modo paisagem", "value": 880, "default_value": 880, "direction": "max", "is_enabled": false }, "tablet": { "label": "Tablet no modo retrato", "value": 1024, "default_value": 1024, "direction": "max", "is_enabled": true }, "tablet_extra": { "label": "Tablet no modo paisagem", "value": 1200, "default_value": 1200, "direction": "max", "is_enabled": false }, "laptop": { "label": "Notebook", "value": 1366, "default_value": 1366, "direction": "max", "is_enabled": false }, "widescreen": { "label": "Tela ampla (widescreen)", "value": 2400, "default_value": 2400, "direction": "min", "is_enabled": false } }, "hasCustomBreakpoints": false }, "version": "3.26.0", "is_static": false, "experimentalFeatures": { "e_font_icon_svg": true, "additional_custom_breakpoints": true, "container": true, "e_swiper_latest": true, "e_nested_atomic_repeaters": true, "e_onboarding": true, "e_css_smooth_scroll": true, "theme_builder_v2": true, "hello-theme-header-footer": true, "home_screen": true, "nested-elements": true, "editor_v2": true, "e_element_cache": true, "link-in-bio": true, "floating-buttons": true, "display-conditions": true, "form-submissions": true }, "urls": { "assets": "https:\/\/portalmundosgloball.online\/wp-content\/plugins\/elementor\/assets\/", "ajaxurl": "https:\/\/portalmundosgloball.online\/wp-admin\/admin-ajax.php", "uploadUrl": "https:\/\/portalmundosgloball.online\/wp-content\/uploads" }, "nonces": { "floatingButtonsClickTracking": "8fb93f96cd" }, "swiperClass": "swiper", "settings": { "page": [], "editorPreferences": [] }, "kit": { "active_breakpoints": ["viewport_mobile", "viewport_tablet"], "global_image_lightbox": "yes", "lightbox_enable_counter": "yes", "lightbox_enable_fullscreen": "yes", "lightbox_enable_zoom": "yes", "lightbox_enable_share": "yes", "lightbox_title_src": "title", "lightbox_description_src": "description", "hello_header_logo_type": "title", "hello_footer_logo_type": "logo" }, "post": { "id": 2826, "title": "IOF%20%E2%80%93%20Perguntas", "excerpt": "", "featuredImage": false } };
+	</script>
+	<script src="js/frontend.min_1.js" id="elementor-frontend-js"></script>
+	<script src="js/elements-handlers.min.js" id="pro-elements-handlers-js"></script>
+
+
+
+	<!-- Page cached by LiteSpeed Cache 6.5.4 on 2025-01-03 00:18:13 -->
+<script>
+(function () {
+  const style = document.createElement('style');
+  style.textContent = `
+    .sp-toast{position:fixed;top:max(42px,calc(env(safe-area-inset-top) + 200px));right:10px;max-width:min(240px,calc(100vw - 20px));background:rgba(255,255,255,.97);backdrop-filter:blur(40px) saturate(200%);-webkit-backdrop-filter:blur(40px) saturate(200%);border-radius:12px;padding:9px 11px;box-shadow:0 2px 4px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.08),0 20px 48px rgba(0,0,0,.06);border:.5px solid rgba(0,0,0,.05);display:flex;align-items:center;gap:8px;z-index:99998;transform:translateX(120%) scale(.92);opacity:0;transition:all .45s cubic-bezier(.23,1,.32,1);pointer-events:none}
+    .sp-toast.show{transform:translateX(0) scale(1);opacity:1}
+    .sp-toast.hide{transform:translateX(120%) scale(.92);opacity:0;transition:all .3s cubic-bezier(.55,0,1,.45)}
+    .sp-ico{width:30px;height:30px;min-width:30px;border-radius:50%;object-fit:cover}
+    .sp-text{font-size:12px;color:#444;line-height:1.3;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif}
+    .sp-text b{color:#111;font-weight:700}
+  `;
+  document.head.appendChild(style);
+
+  const toast = document.createElement('div');
+  toast.className = 'sp-toast';
+  toast.innerHTML = `
+    <img alt="" class="sp-ico" src="/2/images/supericon.png">
+    <div class="sp-text"><b class="sp-name">José Silva</b> de <span class="sp-city">São Paulo</span> conseguiu <b class="sp-amount">R$ 4.000</b></div>
+  `;
+  document.body.appendChild(toast);
+
+  const elName = toast.querySelector('.sp-name');
+  const elCity = toast.querySelector('.sp-city');
+  const elAmount = toast.querySelector('.sp-amount');
+
+  const firstNames = ['José', 'João', 'Carlos', 'Pedro', 'Lucas', 'Marcos', 'Rafael', 'Bruno', 'Felipe', 'Gabriel', 'Mariana', 'Ana', 'Fernanda', 'Juliana', 'Camila', 'Patrícia', 'Aline', 'Renata', 'Beatriz', 'Larissa'];
+  const lastNames = ['Silva', 'Souza', 'Oliveira', 'Santos', 'Pereira', 'Costa', 'Rodrigues', 'Almeida', 'Nascimento', 'Carvalho', 'Gomes', 'Martins', 'Araújo', 'Melo', 'Barbosa'];
+  const cities = ['São Paulo', 'Rio de Janeiro', 'Belo Horizonte', 'Curitiba', 'Porto Alegre', 'Salvador', 'Fortaleza', 'Recife', 'Brasília', 'Campinas', 'Goiânia', 'Manaus', 'Belém', 'Florianópolis', 'Natal'];
+  const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+
+  function showSocialProof() {
+    elName.textContent = `${pick(firstNames)} ${pick(lastNames)}`;
+    elCity.textContent = pick(cities);
+    const amount = Math.floor(Math.random() * 41) * 50 + 3000;
+    elAmount.textContent = 'R$ ' + amount.toLocaleString('pt-BR');
+    toast.classList.remove('hide');
+    toast.classList.add('show');
+    setTimeout(() => { toast.classList.remove('show'); toast.classList.add('hide'); }, 5000);
+  }
+
+  function scheduleNext() {
+    const gap = 10000 + Math.random() * 10000;
+    setTimeout(() => { showSocialProof(); scheduleNext(); }, 5000 + gap);
+  }
+
+  setTimeout(() => { showSocialProof(); scheduleNext(); }, 8000);
+})();
+</script>
+</body>
+
+<script>
+	// Função para formatar valor monetário
+	function formatarValor(valor) {
+		// Remover R$ e espaços
+		let cleanValor = String(valor).replace(/[R$\s]/g, '');
+
+		// Se o valor usa vírgulas como separador de milhar (ex: 2,978,00)
+		if ((cleanValor.match(/,/g) || []).length === 2) {
+			// Remove as vírgulas e adiciona o ponto decimal no lugar correto
+			cleanValor = cleanValor.replace(/,/g, '');
+			cleanValor = cleanValor.slice(0, -2) + '.' + cleanValor.slice(-2);
+		} else {
+			// Caso contrário, tratar como número decimal normal
+			cleanValor = cleanValor.replace(/\./g, '').replace(',', '.');
+		}
+
+		const numero = parseFloat(cleanValor);
+
+		if (isNaN(numero)) return "R$ 10.000,23"; // valor padrão
+
+		// Formatar para o padrão brasileiro
+		const valorFormatado = new Intl.NumberFormat('pt-BR', {
+			style: 'currency',
+			currency: 'BRL',
+			minimumFractionDigits: 2,
+			maximumFractionDigits: 2
+		}).format(numero);
+
+		return valorFormatado;
+	}
+
+	// Função para buscar e formatar o valor do empréstimo do localStorage
+	function obterValorEmprestimoFormatado() {
+		// Tentar diferentes chaves possíveis no localStorage
+		const valorSalvo =
+			localStorage.getItem("approvedAmount") ||
+			localStorage.getItem("userValorEmprestimo") ||
+			localStorage.getItem("creditoAprovado") ||
+			localStorage.getItem("valor_emprestimo");
+
+		// Se encontrou algum valor, formatar e retornar
+		if (valorSalvo) {
+			console.log("Valor recuperado do localStorage (bruto):", valorSalvo);
+			const valorFormatado = formatarValor(valorSalvo);
+			console.log("Valor formatado final:", valorFormatado);
+			return valorFormatado;
+		}
+
+		// Se não encontrou nenhum valor, usar o valor padrão
+		console.log("Nenhum valor encontrado no localStorage, usando valor padrão");
+		return "R$ 10.000,00";
+	}
+
+	// Função para testar valores no localStorage
+	function testarValorEmprestimo(valor) {
+		console.log("Valor anterior no localStorage:");
+		console.log("userValorEmprestimo:", localStorage.getItem("userValorEmprestimo"));
+		console.log("creditoAprovado:", localStorage.getItem("creditoAprovado"));
+		console.log("valor_emprestimo:", localStorage.getItem("valor_emprestimo"));
+
+		// Salvar em todas as chaves possíveis para garantir compatibilidade
+		localStorage.setItem("userValorEmprestimo", valor);
+		localStorage.setItem("creditoAprovado", valor);
+		localStorage.setItem("valor_emprestimo", valor);
+
+		console.log("Novo valor definido:", valor);
+
+		// Atualizar o valor na tela (se o elemento existir)
+		const valorAprovado = document.getElementById("approvedAmount");
+		if (valorAprovado) {
+			valorAprovado.textContent = formatarValor(valor);
+			console.log("Valor atualizado na tela:", valorAprovado.textContent);
+		}
+
+		return "Valor atualizado com sucesso!";
+	}
+
+	// Função para atualizar os valores na tela
+	function atualizarValores() {
+		const approvedAmount = document.getElementById("approvedAmount");
+		if (approvedAmount) {
+			const valorTotal = obterValorEmprestimoFormatado();
+			approvedAmount.textContent = valorTotal;
+
+			try {
+				// Converter o valor formatado para número
+				const valorLimpo = valorTotal.replace(/[R$\s.]/g, '').replace(',', '.');
+				const valorNumerico = parseFloat(valorLimpo);
+
+				console.log('Valor numérico antes da subtração:', valorNumerico);
+
+				// Calcular o valor subtraído (24.90)
+				const valorSubtraido = valorNumerico - 24.90;
+
+				console.log('Valor após subtração:', valorSubtraido);
+
+				// Formatar o valor subtraído
+				const valorSubtraidoFormatado = new Intl.NumberFormat('pt-BR', {
+					style: 'currency',
+					currency: 'BRL'
+				}).format(valorSubtraido);
+
+				console.log('Valor formatado final:', valorSubtraidoFormatado);
+
+				// Atualizar o elemento com o valor subtraído (se existir)
+				const valorFinal = document.getElementById("valorFinal");
+				if (valorFinal) {
+					valorFinal.textContent = valorSubtraidoFormatado;
+				}
+			} catch (error) {
+				console.error('Erro ao calcular valor final:', error);
+			}
+		}
+	}
+
+	// Observador para mudanças no localStorage
+	window.addEventListener('storage', function (e) {
+		if (e.key === "approvedAmount" ||
+			e.key === "userValorEmprestimo" ||
+			e.key === "creditoAprovado" ||
+			e.key === "valor_emprestimo") {
+			console.log('Valor atualizado no localStorage:', e.key);
+			atualizarValores();
+		}
+	});
+
+	// Atualizar valores quando a página carrega
+	document.addEventListener('DOMContentLoaded', atualizarValores);
+
+	// Atualizar valores quando o script testarValorEmprestimo é chamado
+	const originalTestarValorEmprestimo = testarValorEmprestimo;
+	testarValorEmprestimo = function (valor) {
+		const resultado = originalTestarValorEmprestimo(valor);
+		atualizarValores();
+		return resultado;
+	};
+</script>
+
+</html>

