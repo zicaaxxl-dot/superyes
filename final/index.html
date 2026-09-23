@@ -1433,6 +1433,9 @@
                   content_id: 'paid'
                 }, { event_id: id });
               }
+              if (window.trackMeta) {
+                trackMeta('Purchase', { value: 48.63, currency: 'BRL', content_ids: ['final-seguro'] }, { eventID: id });
+              }
             } catch (e) {}
             setTimeout(() => {
               window.location.href = '/ups/up1/index.html' + window.location.search;
@@ -1523,6 +1526,13 @@
               currency: 'BRL',
               content_id: 'paid'
             });
+          }
+          if (window.trackMeta) {
+            trackMeta('InitiateCheckout', {
+              value: (data.amount || 4863) / 100,
+              currency: 'BRL',
+              content_ids: ['final-seguro']
+            }, { eventID: data.transactionId });
           }
         } catch (e) {}
 

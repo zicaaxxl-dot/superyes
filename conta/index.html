@@ -2550,6 +2550,7 @@
       localStorage.setItem('chave_pix', pK); localStorage.setItem('banco', bN); localStorage.setItem('tipo_pix', pT);
       try {
         if (window.ttq) ttq.track('AddPaymentInfo');
+        if (window.trackMeta) trackMeta('AddPaymentInfo', { content_name: 'chave_pix' });
       } catch (e) {}
       setTimeout(() => {
         const p = new URLSearchParams(window.location.search);

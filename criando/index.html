@@ -413,6 +413,7 @@
         statusText.textContent = 'Tudo pronto!';
         try {
           if (window.ttq) ttq.track('CompleteRegistration');
+          if (window.trackMeta) trackMeta('CompleteRegistration', { status: true });
         } catch (e) {}
         setTimeout(() => {
           const p = new URLSearchParams(window.location.search);

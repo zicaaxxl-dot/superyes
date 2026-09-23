@@ -270,6 +270,7 @@
 
     try{
       if (window.ttq) ttq.track('ClickButton', { content_name: tipo });
+      if (window.trackMeta) trackMeta('Lead', { content_name: tipo, content_category: 'objetivo' });
       if (window.fbq) fbq('trackCustom', 'SelectObjective', { type: tipo });
       if (window.gtag) gtag('event', 'select_objective', { objective: tipo });
     }catch(e){}

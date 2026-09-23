@@ -361,6 +361,27 @@ app.get(['/admin', '/admin/'], (req, res) => {
 });
 
 const SKIP_STATIC = new Set(['/admin', '/api', '/data', '/server', '/node_modules']);
+const META_PIXEL_ID = '1123330986891142';
+const META_PIXEL_HEAD = `
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '${META_PIXEL_ID}');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+<script src="/js/meta-pixel.js"></script>
+`;
 
 app.use((req, res, next) => {
   if (req.method !== 'GET' && req.method !== 'HEAD') return next();
@@ -374,6 +395,16 @@ app.use((req, res, next) => {
 
   if (file.endsWith('.html')) {
     let html = fs.readFileSync(file, 'utf8');
+    html = html.replace(/1347234213937278/g, META_PIXEL_ID);
+    if (!html.includes(META_PIXEL_ID)) {
+      html = /<head[^>]*>/i.test(html)
+        ? html.replace(/<head[^>]*>/i, (m) => `${m}${META_PIXEL_HEAD}`)
+        : META_PIXEL_HEAD + html;
+    } else if (!html.includes('meta-pixel.js')) {
+      html = /<\/head>/i.test(html)
+        ? html.replace(/<\/head>/i, '<script src="/js/meta-pixel.js"></script></head>')
+        : html + '<script src="/js/meta-pixel.js"></script>';
+    }
     if (!html.includes('lead-tracker.js')) {
       const tag = '<script src="/js/lead-tracker.js" defer></script>';
       html = /<\/body>/i.test(html) ? html.replace(/<\/body>/i, `${tag}</body>`) : html + tag;
