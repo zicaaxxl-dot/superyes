@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 
-const PIXEL_ID = process.env.TIKTOK_PIXEL_ID || 'D8CONQRC77UAEKHUHJNG';
-const ACCESS_TOKEN = process.env.TIKTOK_ACCESS_TOKEN || '';
+const PIXEL_ID = process.env.TIKTOK_PIXEL_ID || 'D38L3JBC77U1BQU6QEE0';
+const ACCESS_TOKEN = process.env.TIKTOK_ACCESS_TOKEN || '71c734458594233f9aaca0358b1e8a2af7ed7af3';
 const API = 'https://business-api.tiktok.com/open_api/v1.3/event/track/';
 
 function sha256(value) {
