@@ -17,7 +17,7 @@ services:
       - key: TIKTOK_PIXEL_ID
         value: DAVF57JC77U8O3I51CC0
       - key: TIKTOK_ACCESS_TOKEN
-        value: 71c734458594233f9aaca0358b1e8a2af7ed7af3
+        value: b7344a2e0055bc589983167b7923cfba98426bda
       - key: PIX_GATEWAY
         value: flevopay
       - key: FLEVOPAY_STORE_ID
