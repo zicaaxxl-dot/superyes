@@ -304,6 +304,28 @@ class Store {
     return file;
   }
 
+  pixGateway() {
+    const db = this.read();
+    const saved = db.settings && db.settings.pixGateway;
+    const name = String(saved || process.env.PIX_GATEWAY || 'flevopay').toLowerCase();
+    if (name === 'ironpay' || name === 'pixzy') return name;
+    return 'flevopay';
+  }
+
+  setPixGateway(name) {
+    const next = String(name || '').toLowerCase();
+    if (next !== 'flevopay' && next !== 'ironpay' && next !== 'pixzy') {
+      const err = new Error('Gateway inválido. Use flevopay, ironpay ou pixzy.');
+      err.status = 400;
+      throw err;
+    }
+    return this.mutate((db) => {
+      db.settings = db.settings || {};
+      db.settings.pixGateway = next;
+      return { pixGateway: next };
+    });
+  }
+
   contextByTransaction(transactionId) {
     const db = this.read();
     const id = String(transactionId || '');

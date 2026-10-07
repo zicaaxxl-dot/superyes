@@ -23,10 +23,14 @@ const PRODUCTS = {
 
 const PIXZY_BASE = 'https://app.pixzypay.com/api';
 
+function apiToken(explicit) {
+  return explicit || process.env.PIXZY_TOKEN || '743|CZuwnIXphRqX0xiJ9OjaQ3k5oMkVl5HkEQgyRZG8e5ea27cd';
+}
+
 function mapStatus(status) {
   const s = String(status || '').toLowerCase();
   if (s === 'paid' || s === 'approved') return 'approved';
-  if (s === 'expired' || s === 'failed' || s === 'cancelled' || s === 'refunded' || s === 'chargeback') return 'failed';
+  if (s === 'expired' || s === 'failed' || s === 'cancelled' || s === 'canceled' || s === 'refunded' || s === 'chargeback') return 'failed';
   return 'pending';
 }
 
@@ -52,6 +56,11 @@ async function pixzy(path, { method = 'GET', body, token } = {}) {
 
 async function createCharge({ token, product, customer, tracking, webhookUrl, ip }) {
   const info = productInfo(product);
+  if (info.amount < 500) {
+    const err = new Error('Pixzy exige valor mínimo de R$ 5,00.');
+    err.status = 400;
+    throw err;
+  }
   const payload = {
     amount: info.amount,
     client_name: customer.name,
@@ -67,7 +76,7 @@ async function createCharge({ token, product, customer, tracking, webhookUrl, ip
     utms: tracking || {},
     items: [{ name: info.name, price: info.amount, quantity: 1 }],
   };
-  const result = await pixzy('/transactions', { method: 'POST', body: payload, token });
+  const result = await pixzy('/transactions', { method: 'POST', body: payload, token: apiToken(token) });
   if (!result.ok) {
     const msg = result.data.errors || result.data.error || 'Falha ao gerar o PIX na Pixzy.';
     const err = new Error(typeof msg === 'string' ? msg : JSON.stringify(msg));
@@ -87,7 +96,7 @@ async function createCharge({ token, product, customer, tracking, webhookUrl, ip
 }
 
 async function getCharge({ token, id }) {
-  const result = await pixzy(`/transactions/${encodeURIComponent(id)}`, { token });
+  const result = await pixzy(`/transactions/${encodeURIComponent(id)}`, { token: apiToken(token) });
   if (!result.ok) {
     const err = new Error(result.data.error || 'Transação não encontrada');
     err.status = result.status;

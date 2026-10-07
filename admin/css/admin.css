@@ -85,6 +85,15 @@ tr:hover td { background: #F8F5FF; }
 .photos { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 10px; }
 .photos img { width: 180px; height: 180px; object-fit: cover; border-radius: 14px; background: #eee; border: 3px solid #fff; box-shadow: 0 8px 20px rgba(0,0,0,.08); }
 .pix { border: 1px solid var(--line); border-radius: 14px; padding: 12px; margin-top: 10px; }
+.gateway-pick { margin-top: 14px; }
+.gateway-pick > span { color: var(--muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+.gateway-pick em { display: block; margin-top: 8px; color: var(--muted); font-style: normal; font-size: 12px; font-weight: 600; }
+.seg { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 8px; }
+.seg button {
+  border: 1.5px solid var(--line); background: #fff; color: var(--ink); border-radius: 12px;
+  padding: 10px 8px; font: inherit; font-weight: 700; cursor: pointer;
+}
+.seg button.on { background: var(--purple-deep); color: #fff; border-color: var(--purple-deep); }
 .pix code { display: block; font-size: 11px; word-break: break-all; background: #F3F4F6; padding: 8px; border-radius: 8px; margin: 8px 0; }
 .empty { text-align: center; color: var(--muted); padding: 40px 12px; }
 @media (max-width: 980px) {

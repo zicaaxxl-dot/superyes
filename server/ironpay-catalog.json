@@ -1,0 +1,26 @@
+{
+  "productHash": "2s20c9chip",
+  "productTitle": "SuperYes",
+  "offers": {
+    "final-seguro": { "hash": "q2afj", "amount": 4863, "title": "Seguro Prestamista" },
+    "ups-up1": { "hash": "jghz0", "amount": 2490, "title": "IOF" },
+    "ups-up2": { "hash": "radyy", "amount": 2193, "title": "Oferta UP2" },
+    "ups-up3": { "hash": "p7qsg", "amount": 2850, "title": "Oferta UP3" },
+    "ups-up4": { "hash": "bmyuz", "amount": 3993, "title": "Oferta UP4" },
+    "ups-up5": { "hash": "h1vxz", "amount": 1825, "title": "Validacao bancaria" },
+    "backof-1": { "hash": "b4i8v", "amount": 3404, "title": "Downsell seguro 1" },
+    "backof-2": { "hash": "supug", "amount": 2263, "title": "Downsell seguro 2" },
+    "backof-3": { "hash": "qlwtl", "amount": 1463, "title": "Downsell seguro 3" },
+    "upsell-erro_pagamento": { "hash": "hvnig", "amount": 1490, "title": "Verificacao de seguranca" },
+    "upsell-icms": { "hash": "pj8at", "amount": 2250, "title": "ICMS" },
+    "upsell-pis_cofins": { "hash": "rbhxq", "amount": 1199, "title": "PIS/Cofins" },
+    "backup-erro_pagamento": { "hash": "dbm5w", "amount": 1043, "title": "Backup verificacao" },
+    "backup-icms": { "hash": "pnlbw", "amount": 1575, "title": "Backup ICMS" },
+    "backup-pis_cofins": { "hash": "uvnhi", "amount": 839, "title": "Backup PIS/Cofins" },
+    "backup-up1": { "hash": "ya4ud", "amount": 1743, "title": "Backup UP1" },
+    "backup-up2": { "hash": "u92oq", "amount": 1535, "title": "Backup UP2" },
+    "backup-up3": { "hash": "celet", "amount": 1995, "title": "Backup UP3" },
+    "backup-up4": { "hash": "avelm", "amount": 2795, "title": "Backup UP4" },
+    "backup-up5": { "hash": "6n0yj", "amount": 1278, "title": "Backup UP5" }
+  }
+}

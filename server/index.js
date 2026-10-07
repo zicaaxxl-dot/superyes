@@ -30,12 +30,16 @@ const PORT = Number(process.env.PORT || 3000);
 const ADMIN_USER = process.env.ADMIN_USER || 'admin';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'SuperYes#admin';
 const ADMIN_SECRET = process.env.ADMIN_SECRET || crypto.randomBytes(24).toString('hex');
-const PIXZY_TOKEN = process.env.PIXZY_TOKEN || '662|E9ZcJF8XzHCHcvaFE4zR97AGYB13Sz2QrVOMbKBGaa48511d';
+const PIXZY_TOKEN_CURRENT = '743|CZuwnIXphRqX0xiJ9OjaQ3k5oMkVl5HkEQgyRZG8e5ea27cd';
+const PIXZY_TOKEN_PREVIOUS = '662|E9ZcJF8XzHCHcvaFE4zR97AGYB13Sz2QrVOMbKBGaa48511d';
+const PIXZY_TOKEN = !process.env.PIXZY_TOKEN || process.env.PIXZY_TOKEN === PIXZY_TOKEN_PREVIOUS
+  ? PIXZY_TOKEN_CURRENT
+  : process.env.PIXZY_TOKEN;
 process.env.PIXZY_TOKEN = PIXZY_TOKEN;
 const PUBLIC_URL = (process.env.PUBLIC_URL || 'https://atualizadoshojesim.onrender.com').replace(/\/$/, '');
-const PIX_GATEWAY = (process.env.PIX_GATEWAY || 'flevopay').toLowerCase();
 
 const store = new Store(DATA_DIR);
+gateway.setActiveGateway(store.pixGateway());
 const app = express();
 app.disable('x-powered-by');
 app.set('trust proxy', 1);
@@ -153,7 +157,7 @@ app.get('/api/pix/status', async (req, res) => {
     const charge = await gateway.getCharge({
       id,
       reference: ctx.pix && ctx.pix.reference,
-      gateway: (ctx.pix && ctx.pix.gateway) || PIX_GATEWAY,
+      gateway: (ctx.pix && ctx.pix.gateway) || gateway.activeGateway(),
     });
     if (!charge.qrCode && ctx.pix && ctx.pix.qrCode) charge.qrCode = ctx.pix.qrCode;
     await store.savePix({
@@ -191,23 +195,30 @@ app.post('/api/pix/webhook', async (req, res) => {
   try {
     const body = req.body || {};
     const tx = body.transaction || body.data || body;
-    const event = String(body.event || tx.status || body.status || '').toLowerCase();
+    const event = String(body.event || tx.payment_status || tx.status || body.status || '').toLowerCase();
     const reference = String(body.external_id || body.store_reference || tx.external_id || tx.store_reference || '');
-    const id = String(tx.transaction_id || tx.id || body.transaction_id || reference);
+    const ironHash = String(body.transaction_hash || tx.hash || body.hash || '');
+    const looksIron = Boolean(
+      body.transaction_hash ||
+      tx.payment_status ||
+      (tx.pix && typeof tx.pix === 'object' && (tx.pix.pix_qr_code || tx.pix.pix_url))
+    );
+    const looksFlevo = !looksIron && Boolean(body.webhook_type === 'transaction' || body.store_reference || body.external_id);
+    const id = String((looksIron && ironHash) || tx.transaction_id || tx.id || body.transaction_id || reference);
     const ctxPix = store.contextByTransaction(id).pix || (reference ? store.contextByTransaction(reference).pix : null);
-    const looksFlevo = Boolean(body.webhook_type === 'transaction' || body.store_reference || body.external_id);
-    const status = gateway.mapStatus(event === 'paid' || event === 'transaction_paid' ? 'paid' : (tx.status || body.status || event));
+    const rawStatus = tx.payment_status || tx.status || body.status || event;
+    const status = gateway.mapStatus(event === 'paid' || event === 'transaction_paid' || rawStatus === 'paid' ? 'paid' : rawStatus);
     if (id) {
       await store.savePix({
         type: 'webhook',
         transactionId: (ctxPix && ctxPix.transactionId) || id,
         publicId: id,
-        reference: reference || (ctxPix && ctxPix.reference) || '',
-        gateway: (ctxPix && ctxPix.gateway) || (looksFlevo ? 'flevopay' : 'pixzy'),
-        qrCode: tx.pix_code || tx.br_code || tx.qr_code || body.pix_code,
+        reference: reference || ironHash || (ctxPix && ctxPix.reference) || '',
+        gateway: (ctxPix && ctxPix.gateway) || (looksIron ? 'ironpay' : (looksFlevo ? 'flevopay' : 'pixzy')),
+        qrCode: (tx.pix && tx.pix.pix_qr_code) || tx.pix_code || tx.br_code || tx.qr_code || body.pix_code,
         amount: tx.amount || body.amount,
         status,
-        product: (tx.metadata && tx.metadata.product) || (tx.product && tx.product.hash) || '',
+        product: (tx.metadata && tx.metadata.product) || '',
       });
       if (status === 'approved') {
         const ctx = store.contextByTransaction(String(id));
@@ -325,7 +336,17 @@ app.post('/api/admin/logout', (req, res) => {
 });
 
 app.get('/api/admin/stats', requireAdmin, (req, res) => {
-  res.json({ ...store.stats(), gateway: PIX_GATEWAY });
+  res.json({ ...store.stats(), gateway: gateway.activeGateway() });
+});
+
+app.post('/api/admin/gateway', requireAdmin, async (req, res) => {
+  try {
+    const saved = await store.setPixGateway(req.body.gateway);
+    gateway.setActiveGateway(saved.pixGateway);
+    res.json({ ok: true, gateway: gateway.activeGateway() });
+  } catch (err) {
+    res.status(err.status || 400).json({ error: err.message || 'Falha ao salvar gateway' });
+  }
 });
 
 app.get('/api/admin/leads', requireAdmin, (req, res) => {

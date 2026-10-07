@@ -89,10 +89,29 @@
       const w = Math.round((Number(v) / total) * 100);
       return `<div class="bar-row"><span>${l}</span><div class="bar"><i style="width:${Math.min(100, w)}%"></i></div><b>${v}</b></div>`;
     }).join('');
+    const gw = s.gateway === 'ironpay' || s.gateway === 'pixzy' ? s.gateway : 'flevopay';
     document.getElementById('statusBox').innerHTML = `
       <div class="kpi"><span>Pendentes</span><strong>${s.pendingCount || 0}</strong></div>
-      <div class="kpi" style="margin-top:10px"><span>Gateway</span><strong>${esc(s.gateway || 'flevopay')}</strong></div>
+      <div class="gateway-pick">
+        <span>Gateway PIX</span>
+        <div class="seg">
+          <button type="button" class="${gw === 'flevopay' ? 'on' : ''}" onclick="setGateway('flevopay')">FlevoPay</button>
+          <button type="button" class="${gw === 'ironpay' ? 'on' : ''}" onclick="setGateway('ironpay')">IronPay</button>
+          <button type="button" class="${gw === 'pixzy' ? 'on' : ''}" onclick="setGateway('pixzy')">Pixzy</button>
+        </div>
+        <em id="gatewayHint">Novos PIX saem pelo gateway marcado. Os já gerados continuam no provedor original.</em>
+      </div>
     `;
+  }
+
+  async function setGateway(name) {
+    const hint = document.getElementById('gatewayHint');
+    try {
+      await api('/api/admin/gateway', { method: 'POST', body: JSON.stringify({ gateway: name }) });
+      await loadStats();
+    } catch (err) {
+      if (hint) hint.textContent = err.message || 'Não foi possível trocar o gateway.';
+    }
   }
 
   async function loadLeads() {
@@ -178,6 +197,7 @@
 
   window.doLogin = doLogin;
   window.logout = logout;
+  window.setGateway = setGateway;
   window.loadLeads = loadLeads;
   window.openLead = openLead;
   window.backList = backList;
