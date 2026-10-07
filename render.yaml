@@ -17,9 +17,9 @@ services:
       - key: PUBLIC_URL
         value: https://atualizadoshojesim.onrender.com
       - key: TIKTOK_PIXEL_ID
-        value: DAVF57JC77U8O3I51CC0
+        value: D3RAQLJC77UCJBA5FPT0
       - key: TIKTOK_ACCESS_TOKEN
-        value: b7344a2e0055bc589983167b7923cfba98426bda
+        value: cf2691f91d4761935cb773fdc53cae1f4c3daee8
       - key: PIX_GATEWAY
         value: flevopay
       - key: FLEVOPAY_STORE_ID

@@ -1,7 +1,15 @@
 const crypto = require('crypto');
 
-const PIXEL_ID = process.env.TIKTOK_PIXEL_ID || 'DAVF57JC77U8O3I51CC0';
-const ACCESS_TOKEN = process.env.TIKTOK_ACCESS_TOKEN || 'b7344a2e0055bc589983167b7923cfba98426bda';
+const PIXEL_CURRENT = 'D3RAQLJC77UCJBA5FPT0';
+const TOKEN_CURRENT = 'cf2691f91d4761935cb773fdc53cae1f4c3daee8';
+const STALE_PIXELS = new Set(['DAVF57JC77U8O3I51CC0', 'D38L3JBC77U1BQU6QEE0']);
+const STALE_TOKENS = new Set(['b7344a2e0055bc589983167b7923cfba98426bda']);
+const PIXEL_ID = !process.env.TIKTOK_PIXEL_ID || STALE_PIXELS.has(process.env.TIKTOK_PIXEL_ID)
+  ? PIXEL_CURRENT
+  : process.env.TIKTOK_PIXEL_ID;
+const ACCESS_TOKEN = !process.env.TIKTOK_ACCESS_TOKEN || STALE_TOKENS.has(process.env.TIKTOK_ACCESS_TOKEN)
+  ? TOKEN_CURRENT
+  : process.env.TIKTOK_ACCESS_TOKEN;
 const API = 'https://business-api.tiktok.com/open_api/v1.3/event/track/';
 
 function sha256(value) {
@@ -78,12 +86,12 @@ async function sendEvent({ event, eventId, value, email, phone, externalId, ip, 
       },
       body: JSON.stringify(payload),
     });
-    if (!res.ok) {
-      const text = await res.text();
-      console.error('[tiktok]', res.status, text.slice(0, 300));
-    }
+    const text = await res.text();
+    if (!res.ok) console.error('[tiktok]', res.status, text.slice(0, 300));
+    return { ok: res.ok, status: res.status, body: text.slice(0, 400) };
   } catch (err) {
     console.error('[tiktok]', err.message);
+    return { ok: false, status: 0, body: err.message };
   }
 }
 
@@ -123,6 +131,7 @@ function trackCompletePayment(opts) {
 
 module.exports = {
   PIXEL_ID,
+  sendEvent,
   trackInitiateCheckout,
   trackCompletePayment,
 };

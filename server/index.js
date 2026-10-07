@@ -430,6 +430,10 @@ app.use((req, res, next) => {
       const tag = '<script src="/js/lead-tracker.js" defer></script>';
       html = /<\/body>/i.test(html) ? html.replace(/<\/body>/i, `${tag}</body>`) : html + tag;
     }
+    if (!html.includes('tiktok-funnel.js') && html.includes('ttq.load')) {
+      const tag = '<script src="/js/tiktok-funnel.js" defer></script>';
+      html = /<\/body>/i.test(html) ? html.replace(/<\/body>/i, `${tag}</body>`) : html + tag;
+    }
     res.type('html').send(html);
     return;
   }
