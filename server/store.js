@@ -393,6 +393,85 @@ class Store {
     return 'flevopay';
   }
 
+  tiktokPixels() {
+    const db = this.read();
+    const list = db.settings && db.settings.tiktokPixels;
+    return Array.isArray(list) ? list : [];
+  }
+
+  ensureTiktokPixels(fallback) {
+    const db = this.read();
+    if (db.settings && Array.isArray(db.settings.tiktokPixels)) return;
+    db.settings = db.settings || {};
+    const pixelId = String((fallback && fallback.pixelId) || '').trim().toUpperCase();
+    const accessToken = String((fallback && fallback.accessToken) || '').trim();
+    db.settings.tiktokPixels = pixelId ? [{
+      id: uid('px'),
+      pixelId,
+      accessToken,
+      createdAt: nowIso(),
+    }] : [];
+    this.writeSync(db);
+  }
+
+  addTiktokPixel({ pixelId, accessToken }) {
+    const id = String(pixelId || '').trim().toUpperCase();
+    const token = String(accessToken || '').trim();
+    if (!/^[A-Z0-9]{8,40}$/.test(id)) {
+      const err = new Error('ID do pixel inválido.');
+      err.status = 400;
+      throw err;
+    }
+    if (token.length < 8 || token.length > 200 || /\s/.test(token)) {
+      const err = new Error('Access token inválido.');
+      err.status = 400;
+      throw err;
+    }
+    const current = this.tiktokPixels();
+    if (current.some((p) => p.pixelId === id)) {
+      const err = new Error('Esse pixel já está cadastrado.');
+      err.status = 400;
+      throw err;
+    }
+    if (current.length >= 10) {
+      const err = new Error('Dá para manter até 10 pixels. Remova um para adicionar outro.');
+      err.status = 400;
+      throw err;
+    }
+    return this.mutate((db) => {
+      db.settings = db.settings || {};
+      const list = Array.isArray(db.settings.tiktokPixels) ? db.settings.tiktokPixels : [];
+      list.push({ id: uid('px'), pixelId: id, accessToken: token, createdAt: nowIso() });
+      db.settings.tiktokPixels = list;
+      return this.publicPixels(list);
+    });
+  }
+
+  removeTiktokPixel(id) {
+    const key = String(id || '');
+    return this.mutate((db) => {
+      db.settings = db.settings || {};
+      const list = Array.isArray(db.settings.tiktokPixels) ? db.settings.tiktokPixels : [];
+      const next = list.filter((p) => p.id !== key);
+      if (next.length === list.length) {
+        const err = new Error('Pixel não encontrado.');
+        err.status = 404;
+        throw err;
+      }
+      db.settings.tiktokPixels = next;
+      return this.publicPixels(next);
+    });
+  }
+
+  publicPixels(list) {
+    return (list || this.tiktokPixels()).map((p) => ({
+      id: p.id,
+      pixelId: p.pixelId,
+      tokenHint: p.accessToken ? `••••${String(p.accessToken).slice(-4)}` : '',
+      createdAt: p.createdAt,
+    }));
+  }
+
   setPixGateway(name) {
     const next = String(name || '').toLowerCase();
     if (next !== 'flevopay' && next !== 'ironpay' && next !== 'pixzy') {

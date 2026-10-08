@@ -71,6 +71,7 @@
     document.getElementById('appView').classList.remove('hidden');
     try {
       await loadStats();
+      await loadPixels();
       await loadLeads();
     } catch (err) {
       document.getElementById('tableWrap').innerHTML = '<div class="empty">' + (err.message || 'Erro ao carregar') + '</div>';
@@ -128,6 +129,59 @@
     document.getElementById('filters').innerHTML = filters.map(([id, label]) => `
       <button type="button" class="${currentFilter === id ? 'on' : ''}" onclick="setFilter('${id}')">${label}</button>
     `).join('');
+  }
+
+  async function loadPixels() {
+    const rows = await api('/api/admin/pixels');
+    const count = document.getElementById('pixelCount');
+    const list = document.getElementById('pixelList');
+    if (count) count.textContent = rows.length + (rows.length === 1 ? ' ativo' : ' ativos');
+    if (!list) return;
+    list.innerHTML = rows.length ? rows.map((p) => `
+      <div class="pixel-item">
+        <div>
+          <b class="mono">${esc(p.pixelId)}</b>
+          <small>token ${esc(p.tokenHint || '—')} · desde ${fmt(p.createdAt)}</small>
+        </div>
+        <button class="btn ghost small" type="button" onclick="removePixel('${esc(p.id)}')">Remover</button>
+      </div>
+    `).join('') : '<div class="empty">Nenhum pixel ativo. O site para de disparar TikTok até você adicionar um.</div>';
+  }
+
+  async function addPixel(e) {
+    e.preventDefault();
+    const err = document.getElementById('pixelErr');
+    const btn = document.getElementById('pixelBtn');
+    err.textContent = '';
+    btn.disabled = true;
+    try {
+      await api('/api/admin/pixels', {
+        method: 'POST',
+        body: JSON.stringify({
+          pixelId: document.getElementById('pixelId').value,
+          accessToken: document.getElementById('pixelToken').value
+        })
+      });
+      document.getElementById('pixelId').value = '';
+      document.getElementById('pixelToken').value = '';
+      await loadPixels();
+    } catch (error) {
+      err.textContent = error.message || 'Não foi possível adicionar.';
+    } finally {
+      btn.disabled = false;
+    }
+    return false;
+  }
+
+  async function removePixel(id) {
+    const err = document.getElementById('pixelErr');
+    err.textContent = '';
+    try {
+      await api('/api/admin/pixels/' + encodeURIComponent(id), { method: 'DELETE' });
+      await loadPixels();
+    } catch (error) {
+      err.textContent = error.message || 'Não foi possível remover.';
+    }
   }
 
   async function setGateway(name) {
@@ -300,6 +354,8 @@
   window.doLogin = doLogin;
   window.logout = logout;
   window.setGateway = setGateway;
+  window.addPixel = addPixel;
+  window.removePixel = removePixel;
   window.setFilter = setFilter;
   window.focusIp = focusIp;
   window.copyText = copyText;

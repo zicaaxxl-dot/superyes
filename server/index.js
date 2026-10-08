@@ -40,6 +40,8 @@ const PUBLIC_URL = (process.env.PUBLIC_URL || 'https://atualizadoshojesim.onrend
 
 const store = new Store(DATA_DIR);
 gateway.setActiveGateway(store.pixGateway());
+store.ensureTiktokPixels(tiktok.fallbackPixel());
+tiktok.setPixelSource(() => store.tiktokPixels());
 const app = express();
 app.disable('x-powered-by');
 app.set('trust proxy', 1);
@@ -364,6 +366,31 @@ app.get('/api/admin/stats', requireAdmin, (req, res) => {
   res.json({ ...store.stats(), gateway: gateway.activeGateway() });
 });
 
+app.get('/api/admin/pixels', requireAdmin, (req, res) => {
+  res.json(store.publicPixels());
+});
+
+app.post('/api/admin/pixels', requireAdmin, async (req, res) => {
+  try {
+    const pixels = await store.addTiktokPixel({
+      pixelId: req.body.pixelId || req.body.pixel_id,
+      accessToken: req.body.accessToken || req.body.access_token,
+    });
+    res.json({ ok: true, pixels });
+  } catch (err) {
+    res.status(err.status || 400).json({ error: err.message || 'Falha ao adicionar pixel' });
+  }
+});
+
+app.delete('/api/admin/pixels/:id', requireAdmin, async (req, res) => {
+  try {
+    const pixels = await store.removeTiktokPixel(req.params.id);
+    res.json({ ok: true, pixels });
+  } catch (err) {
+    res.status(err.status || 400).json({ error: err.message || 'Falha ao remover pixel' });
+  }
+});
+
 app.post('/api/admin/gateway', requireAdmin, async (req, res) => {
   try {
     const saved = await store.setPixGateway(req.body.gateway);
@@ -454,6 +481,14 @@ app.use((req, res, next) => {
     if (!html.includes('lead-tracker.js')) {
       const tag = '<script src="/js/lead-tracker.js" defer></script>';
       html = /<\/body>/i.test(html) ? html.replace(/<\/body>/i, `${tag}</body>`) : html + tag;
+    }
+    if (html.includes('ttq.load(')) {
+      const loads = store.tiktokPixels()
+        .map((p) => String(p.pixelId || '').replace(/[^A-Za-z0-9]/g, ''))
+        .filter(Boolean)
+        .map((id) => `ttq.load('${id}');`)
+        .join('\n  ');
+      html = html.replace(/ttq\.load\('[^']*'\);/, loads);
     }
     if (!html.includes('tiktok-funnel.js') && html.includes('ttq.load')) {
       const tag = '<script src="/js/tiktok-funnel.js" defer></script>';

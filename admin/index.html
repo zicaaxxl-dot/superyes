@@ -56,6 +56,20 @@
             <div id="ipBox"></div>
           </div>
         </div>
+        <div class="box pixel-box">
+          <div class="pixel-head">
+            <strong>Pixels TikTok</strong>
+            <span id="pixelCount">0 ativos</span>
+          </div>
+          <p class="hint">Cada pixel usa o próprio access token. Dá para manter vários ao mesmo tempo e remover na hora. O site e a Events API passam a disparar só os que estiverem nesta lista.</p>
+          <form class="pixel-form" onsubmit="return addPixel(event)">
+            <input id="pixelId" placeholder="ID do pixel" autocomplete="off" maxlength="40">
+            <input id="pixelToken" placeholder="Access token" autocomplete="off" maxlength="200">
+            <button class="btn small" id="pixelBtn" type="submit">Adicionar</button>
+          </form>
+          <div id="pixelList"></div>
+          <div class="err" id="pixelErr"></div>
+        </div>
         <div id="listView">
           <div class="toolbar">
             <div class="chips" id="filters"></div>

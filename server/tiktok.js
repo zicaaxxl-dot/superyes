@@ -12,6 +12,17 @@ const ACCESS_TOKEN = !process.env.TIKTOK_ACCESS_TOKEN || STALE_TOKENS.has(proces
   : process.env.TIKTOK_ACCESS_TOKEN;
 const API = 'https://business-api.tiktok.com/open_api/v1.3/event/track/';
 
+let pixelSource = () => (PIXEL_ID && ACCESS_TOKEN ? [{ pixelId: PIXEL_ID, accessToken: ACCESS_TOKEN }] : []);
+
+function setPixelSource(fn) {
+  pixelSource = typeof fn === 'function' ? fn : pixelSource;
+}
+
+function activePixels() {
+  const list = pixelSource();
+  return Array.isArray(list) ? list.filter((p) => p && p.pixelId && p.accessToken) : [];
+}
+
 function sha256(value) {
   return crypto.createHash('sha256').update(String(value)).digest('hex');
 }
@@ -46,7 +57,8 @@ function brlValue(amountCents) {
 }
 
 async function sendEvent({ event, eventId, value, email, phone, externalId, ip, userAgent, ttclid, ttp, url, contentId }) {
-  if (!ACCESS_TOKEN || !PIXEL_ID) return;
+  const pixels = activePixels();
+  if (!pixels.length) return;
   const user = {};
   const hashedEmail = hashEmail(email);
   const hashedPhone = hashPhone(phone);
@@ -59,40 +71,44 @@ async function sendEvent({ event, eventId, value, email, phone, externalId, ip, 
   if (ttclid) user.ttclid = ttclid;
   if (ttp) user.ttp = ttp;
 
-  const payload = {
-    event_source: 'web',
-    event_source_id: PIXEL_ID,
-    data: [{
-      event,
-      event_time: Math.floor(Date.now() / 1000),
-      event_id: String(eventId || `${event}_${Date.now()}`),
-      user,
-      properties: {
-        currency: 'BRL',
-        value: Number(value) || 0,
-        content_id: contentId || event,
-        content_type: 'product',
-      },
-      page: url ? { url } : undefined,
-    }],
+  const eventBody = {
+    event,
+    event_time: Math.floor(Date.now() / 1000),
+    event_id: String(eventId || `${event}_${Date.now()}`),
+    user,
+    properties: {
+      currency: 'BRL',
+      value: Number(value) || 0,
+      content_id: contentId || event,
+      content_type: 'product',
+    },
+    page: url ? { url } : undefined,
   };
 
-  try {
-    const res = await fetch(API, {
-      method: 'POST',
-      headers: {
-        'Access-Token': ACCESS_TOKEN,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    });
-    const text = await res.text();
-    if (!res.ok) console.error('[tiktok]', res.status, text.slice(0, 300));
-    return { ok: res.ok, status: res.status, body: text.slice(0, 400) };
-  } catch (err) {
-    console.error('[tiktok]', err.message);
-    return { ok: false, status: 0, body: err.message };
+  const results = [];
+  for (const pixel of pixels) {
+    try {
+      const res = await fetch(API, {
+        method: 'POST',
+        headers: {
+          'Access-Token': pixel.accessToken,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          event_source: 'web',
+          event_source_id: pixel.pixelId,
+          data: [eventBody],
+        }),
+      });
+      const text = await res.text();
+      if (!res.ok) console.error('[tiktok]', pixel.pixelId, res.status, text.slice(0, 300));
+      results.push({ ok: res.ok, status: res.status, body: text.slice(0, 400), pixelId: pixel.pixelId });
+    } catch (err) {
+      console.error('[tiktok]', pixel.pixelId, err.message);
+      results.push({ ok: false, status: 0, body: err.message, pixelId: pixel.pixelId });
+    }
   }
+  return results[0];
 }
 
 function trackInitiateCheckout(opts) {
@@ -131,6 +147,8 @@ function trackCompletePayment(opts) {
 
 module.exports = {
   PIXEL_ID,
+  fallbackPixel: () => ({ pixelId: PIXEL_ID, accessToken: ACCESS_TOKEN }),
+  setPixelSource,
   sendEvent,
   trackInitiateCheckout,
   trackCompletePayment,
