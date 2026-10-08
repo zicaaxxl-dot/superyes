@@ -37,19 +37,29 @@
         </nav>
       </aside>
       <main class="main">
-        <h1>Métricas de conversão</h1>
-        <p style="color:#6B6280;margin-top:4px">Solicitações, aprovação de crédito e volume de PIX.</p>
+        <div class="head">
+          <div>
+            <h1>Operação ao vivo</h1>
+            <p>Leads, IPs, aparelho, origem e PIX de cada solicitação.</p>
+          </div>
+          <div class="live" id="liveStamp">Atualizando</div>
+        </div>
         <div class="kpis" id="kpis"></div>
-        <div class="funnel">
+        <div class="insights">
           <div class="box">
-            <strong>Funil</strong>
+            <strong>Funil de hoje e do total</strong>
             <div id="funnelBars"></div>
           </div>
           <div class="box" id="statusBox"></div>
+          <div class="box">
+            <strong>IPs vistos</strong>
+            <div id="ipBox"></div>
+          </div>
         </div>
         <div id="listView">
           <div class="toolbar">
-            <input id="search" placeholder="Buscar nome, CPF, e-mail, PIX..." oninput="loadLeads()">
+            <div class="chips" id="filters"></div>
+            <input id="search" placeholder="Buscar nome, CPF, e-mail, IP, campanha..." oninput="loadLeads()">
           </div>
           <div id="tableWrap"></div>
         </div>

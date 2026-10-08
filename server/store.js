@@ -92,9 +92,15 @@ class Store {
           utmSource: '',
           utmMedium: '',
           utmCampaign: '',
+          utmContent: '',
+          utmTerm: '',
           utmId: '',
           sck: '',
           ttclid: '',
+          ip: '',
+          ips: [],
+          userAgent: '',
+          referer: '',
         };
         db.leads.unshift(lead);
       }
@@ -115,6 +121,8 @@ class Store {
         utmSource: fields.utm_source,
         utmMedium: fields.utm_medium,
         utmCampaign: fields.utm_campaign,
+        utmContent: fields.utm_content,
+        utmTerm: fields.utm_term,
         utmId: fields.utm_id,
         sck: fields.sck,
         ttclid: fields.ttclid,
@@ -126,6 +134,7 @@ class Store {
         }
       }
       if (payload.visitorId) lead.visitorId = payload.visitorId;
+      this.touchNetwork(lead, payload.meta);
       if (payload.step) {
         lead.step = payload.step;
         const last = lead.steps[lead.steps.length - 1];
@@ -138,7 +147,22 @@ class Store {
     });
   }
 
-  savePhoto(visitorId, dataUrl) {
+  touchNetwork(lead, meta) {
+    if (!lead || !meta) return;
+    const ip = String(meta.ip || '').trim().slice(0, 64);
+    if (ip) {
+      lead.ip = ip;
+      lead.ips = Array.isArray(lead.ips) ? lead.ips : [];
+      if (!lead.ips.some((item) => item && item.ip === ip)) {
+        lead.ips.unshift({ ip, at: nowIso() });
+        lead.ips = lead.ips.slice(0, 12);
+      }
+    }
+    if (meta.userAgent) lead.userAgent = String(meta.userAgent).slice(0, 300);
+    if (meta.referer) lead.referer = String(meta.referer).slice(0, 300);
+  }
+
+  savePhoto(visitorId, dataUrl, meta) {
     return this.mutate((db) => {
       let lead = this.findLead(db, { visitorId });
       if (!lead) {
@@ -170,6 +194,7 @@ class Store {
       };
       lead.photos.push(photo);
       lead.step = lead.step || 'foto';
+      this.touchNetwork(lead, meta);
       lead.updatedAt = nowIso();
       return { leadId: lead.id, photo };
     });
@@ -189,6 +214,7 @@ class Store {
         reference: payload.reference || '',
         publicId: payload.publicId || '',
         gateway: payload.gateway || '',
+        ip: payload.ip || '',
         qrCode: payload.qrCode || '',
         amount: payload.amount || '',
         status: payload.status || 'pending',
@@ -206,6 +232,7 @@ class Store {
         if (rec.amount) existing.amount = rec.amount;
         if (rec.product) existing.product = rec.product;
         if (rec.gateway) existing.gateway = rec.gateway;
+        if (rec.ip) existing.ip = rec.ip;
         if (rec.reference) existing.reference = rec.reference;
         if (rec.publicId) existing.publicId = rec.publicId;
         if (rec.transactionId) {
@@ -217,6 +244,7 @@ class Store {
       }
       db.pix.unshift(rec);
       if (lead) {
+        this.touchNetwork(lead, { ip: payload.ip, userAgent: payload.userAgent, referer: payload.referer });
         lead.updatedAt = nowIso();
         if (payload.product) {
           const last = lead.steps[lead.steps.length - 1];
@@ -228,8 +256,13 @@ class Store {
     });
   }
 
-  stats() {
-    const db = this.read();
+  brDay(iso) {
+    const t = new Date(iso || Date.now());
+    if (Number.isNaN(t.getTime())) return '';
+    return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo' }).format(t);
+  }
+
+  uniquePix(db) {
     const unique = [];
     const seen = new Set();
     for (const p of db.pix) {
@@ -238,16 +271,50 @@ class Store {
       seen.add(key);
       unique.push(p);
     }
+    return unique;
+  }
+
+  stats() {
+    const db = this.read();
+    const unique = this.uniquePix(db);
     const paidPix = unique.filter((p) => p.status === 'approved' || p.status === 'paid');
     const paidLeadIds = new Set(paidPix.map((p) => p.leadId).filter(Boolean));
     const withPhoto = db.leads.filter((l) => (l.photos || []).length > 0).length;
     const pixGenerated = unique.length;
     const pixPaid = paidPix.length;
+    const today = this.brDay();
+    const leadsToday = db.leads.filter((l) => this.brDay(l.createdAt) === today).length;
+    const revenueCents = paidPix.reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
+    const ipMap = new Map();
+    for (const lead of db.leads) {
+      if (!lead.ip) continue;
+      const row = ipMap.get(lead.ip) || { ip: lead.ip, leads: 0, paid: 0 };
+      row.leads += 1;
+      if (paidLeadIds.has(lead.id)) row.paid += 1;
+      ipMap.set(lead.ip, row);
+    }
+    const gateways = {};
+    for (const pix of unique) {
+      const name = pix.gateway || 'flevopay';
+      const row = gateways[name] || { gateway: name, generated: 0, paid: 0, revenueCents: 0 };
+      row.generated += 1;
+      if (pix.status === 'approved' || pix.status === 'paid') {
+        row.paid += 1;
+        row.revenueCents += Number(pix.amount) || 0;
+      }
+      gateways[name] = row;
+    }
     return {
       leads: db.leads.length,
+      leadsToday,
       withPhoto,
       pixGenerated,
       pixPaid,
+      revenueCents,
+      uniqueIps: ipMap.size,
+      repeatedIps: [...ipMap.values()].filter((row) => row.leads > 1).length,
+      topIps: [...ipMap.values()].sort((a, b) => b.leads - a.leads || b.paid - a.paid).slice(0, 6),
+      gateways: Object.values(gateways),
       approvedCount: paidLeadIds.size,
       pendingCount: Math.max(0, db.leads.length - paidLeadIds.size),
       conversionRate: db.leads.length ? Math.round((paidLeadIds.size / db.leads.length) * 1000) / 10 : 0,
@@ -265,27 +332,41 @@ class Store {
     return 'novo';
   }
 
-  listLeads(query) {
+  listLeads(query, status) {
     const db = this.read();
     const q = String(query || '').trim().toLowerCase();
+    const ipCounts = {};
+    for (const lead of db.leads) {
+      if (!lead.ip) continue;
+      ipCounts[lead.ip] = (ipCounts[lead.ip] || 0) + 1;
+    }
     let rows = db.leads;
     if (q) {
       rows = rows.filter((l) => {
-        const blob = [l.nome, l.cpf, l.email, l.telefone, l.chavePix, l.banco, l.step, l.visitorId]
+        const blob = [l.nome, l.cpf, l.email, l.telefone, l.chavePix, l.banco, l.step, l.visitorId, l.ip, l.utmSource, l.utmCampaign, l.userAgent]
           .join(' ')
           .toLowerCase();
         return blob.includes(q);
       });
     }
-    return rows.map((l) => {
+    const mapped = rows.map((l) => {
       const pix = db.pix.filter((p) => p.leadId === l.id || p.visitorId === l.visitorId);
+      const paid = pix.filter((p) => p.status === 'approved' || p.status === 'paid');
+      const last = pix[0] || null;
+      const { photos, ...rest } = l;
       return {
-        ...l,
-        photoCount: (l.photos || []).length,
+        ...rest,
+        photoCount: (photos || []).length,
         pixCount: pix.length,
+        paidAmount: paid.reduce((sum, p) => sum + (Number(p.amount) || 0), 0),
+        lastPix: last ? { status: last.status, gateway: last.gateway, amount: last.amount, product: last.product, createdAt: last.createdAt } : null,
+        ipLeadCount: l.ip ? ipCounts[l.ip] || 1 : 0,
         status: this.leadStatus(l, pix),
       };
     });
+    const wanted = String(status || '').trim().toLowerCase();
+    if (!wanted || wanted === 'todos') return mapped;
+    return mapped.filter((row) => row.status === wanted);
   }
 
   getLead(id) {

