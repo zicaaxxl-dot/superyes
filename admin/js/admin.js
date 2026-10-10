@@ -126,6 +126,7 @@
         <span>${row.leads} lead${row.leads > 1 ? 's' : ''}${row.paid ? ' · ' + row.paid + ' pago' : ''}</span>
       </div>
     `).join('') : '<div class="empty">Os próximos acessos aparecem aqui com o IP.</div>';
+    renderTheme(s.theme);
     document.getElementById('filters').innerHTML = filters.map(([id, label]) => `
       <button type="button" class="${currentFilter === id ? 'on' : ''}" onclick="setFilter('${id}')">${label}</button>
     `).join('');
@@ -181,6 +182,35 @@
       await loadPixels();
     } catch (error) {
       err.textContent = error.message || 'Não foi possível remover.';
+    }
+  }
+
+  function renderTheme(theme) {
+    const current = theme === 'agil' ? 'agil' : 'superis';
+    const now = document.getElementById('themeNow');
+    if (now) now.textContent = current === 'agil' ? 'Ágil ativo' : 'Nosso ativo';
+    const grid = document.getElementById('themeGrid');
+    if (!grid) return;
+    grid.innerHTML = `
+      <button type="button" class="theme-card ${current === 'superis' ? 'on' : ''}" onclick="setTheme('superis')">
+        <b>Nosso modelo</b>
+        <span>Funil atual, do jeito que já está no ar.</span>
+      </button>
+      <button type="button" class="theme-card agil ${current === 'agil' ? 'on' : ''}" onclick="setTheme('agil')">
+        <b>Ágil</b>
+        <span>Simulação, cadastro, análise, contrato e taxas até o sucesso.</span>
+      </button>
+    `;
+  }
+
+  async function setTheme(name) {
+    const err = document.getElementById('themeErr');
+    if (err) err.textContent = '';
+    try {
+      await api('/api/admin/theme', { method: 'POST', body: JSON.stringify({ theme: name }) });
+      await loadStats();
+    } catch (error) {
+      if (err) err.textContent = error.message || 'Não foi possível trocar o modelo.';
     }
   }
 
@@ -354,6 +384,7 @@
   window.doLogin = doLogin;
   window.logout = logout;
   window.setGateway = setGateway;
+  window.setTheme = setTheme;
   window.addPixel = addPixel;
   window.removePixel = removePixel;
   window.setFilter = setFilter;

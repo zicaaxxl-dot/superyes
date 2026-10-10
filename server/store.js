@@ -393,6 +393,25 @@ class Store {
     return 'flevopay';
   }
 
+  siteTheme() {
+    const db = this.read();
+    return db.settings && db.settings.siteTheme === 'agil' ? 'agil' : 'superis';
+  }
+
+  setSiteTheme(name) {
+    const next = String(name || '').toLowerCase();
+    if (next !== 'superis' && next !== 'agil') {
+      const err = new Error('Modelo inválido. Use superis ou agil.');
+      err.status = 400;
+      throw err;
+    }
+    return this.mutate((db) => {
+      db.settings = db.settings || {};
+      db.settings.siteTheme = next;
+      return { theme: next };
+    });
+  }
+
   tiktokPixels() {
     const db = this.read();
     const list = db.settings && db.settings.tiktokPixels;

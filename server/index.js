@@ -363,7 +363,16 @@ app.post('/api/admin/logout', (req, res) => {
 });
 
 app.get('/api/admin/stats', requireAdmin, (req, res) => {
-  res.json({ ...store.stats(), gateway: gateway.activeGateway() });
+  res.json({ ...store.stats(), gateway: gateway.activeGateway(), theme: store.siteTheme() });
+});
+
+app.post('/api/admin/theme', requireAdmin, async (req, res) => {
+  try {
+    const saved = await store.setSiteTheme(req.body.theme);
+    res.json({ ok: true, theme: saved.theme });
+  } catch (err) {
+    res.status(err.status || 400).json({ error: err.message || 'Falha ao salvar o modelo' });
+  }
 });
 
 app.get('/api/admin/pixels', requireAdmin, (req, res) => {
@@ -456,10 +465,53 @@ src="https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1"
 <script src="/js/meta-pixel.js"></script>
 `;
 
+function decorateHtml(html) {
+  let out = html.replace(/1347234213937278/g, META_PIXEL_ID);
+  if (!out.includes(META_PIXEL_ID)) {
+    out = /<head[^>]*>/i.test(out)
+      ? out.replace(/<head[^>]*>/i, (m) => `${m}${META_PIXEL_HEAD}`)
+      : META_PIXEL_HEAD + out;
+  } else if (!out.includes('meta-pixel.js')) {
+    out = /<\/head>/i.test(out)
+      ? out.replace(/<\/head>/i, '<script src="/js/meta-pixel.js"></script></head>')
+      : out + '<script src="/js/meta-pixel.js"></script>';
+  }
+  if (!out.includes('lead-tracker.js')) {
+    const tag = '<script src="/js/lead-tracker.js" defer></script>';
+    out = /<\/body>/i.test(out) ? out.replace(/<\/body>/i, `${tag}</body>`) : out + tag;
+  }
+  if (out.includes('ttq.load(')) {
+    const loads = store.tiktokPixels()
+      .map((p) => String(p.pixelId || '').replace(/[^A-Za-z0-9]/g, ''))
+      .filter(Boolean)
+      .map((id) => `ttq.load('${id}');`)
+      .join('\n  ');
+    if (loads) out = out.replace(/ttq\.load\('[^']*'\);/, loads);
+  }
+  if (!out.includes('tiktok-funnel.js') && out.includes('ttq.load')) {
+    const tag = '<script src="/js/tiktok-funnel.js" defer></script>';
+    out = /<\/body>/i.test(out) ? out.replace(/<\/body>/i, `${tag}</body>`) : out + tag;
+  }
+  return out;
+}
+
+function isFunnelPage(req) {
+  const p = req.path || '/';
+  if (p.startsWith('/api') || p.startsWith('/admin') || p.startsWith('/js/') || p.startsWith('/css/') || p.startsWith('/themes/') || p.startsWith('/data') || p.startsWith('/server') || p.startsWith('/node_modules')) return false;
+  if (/\.(js|css|png|jpe?g|webp|gif|svg|ico|mp4|woff2?|json|map|txt|xml)$/i.test(p)) return false;
+  return true;
+}
+
 app.use((req, res, next) => {
   if (req.method !== 'GET' && req.method !== 'HEAD') return next();
   const first = req.path.split('/').filter(Boolean)[0];
   if (SKIP_STATIC.has('/' + (first || '')) || req.path.startsWith('/api/')) return next();
+
+  if (isFunnelPage(req) && store.siteTheme() === 'agil') {
+    const agil = path.join(ROOT, 'themes', 'agil', 'index.html');
+    res.type('html').send(decorateHtml(fs.readFileSync(agil, 'utf8')));
+    return;
+  }
 
   let rel = req.path === '/' ? '/index.html' : req.path;
   if (rel.endsWith('/')) rel += 'index.html';
@@ -467,34 +519,7 @@ app.use((req, res, next) => {
   if (!file.startsWith(ROOT) || !fs.existsSync(file) || !fs.statSync(file).isFile()) return next();
 
   if (file.endsWith('.html')) {
-    let html = fs.readFileSync(file, 'utf8');
-    html = html.replace(/1347234213937278/g, META_PIXEL_ID);
-    if (!html.includes(META_PIXEL_ID)) {
-      html = /<head[^>]*>/i.test(html)
-        ? html.replace(/<head[^>]*>/i, (m) => `${m}${META_PIXEL_HEAD}`)
-        : META_PIXEL_HEAD + html;
-    } else if (!html.includes('meta-pixel.js')) {
-      html = /<\/head>/i.test(html)
-        ? html.replace(/<\/head>/i, '<script src="/js/meta-pixel.js"></script></head>')
-        : html + '<script src="/js/meta-pixel.js"></script>';
-    }
-    if (!html.includes('lead-tracker.js')) {
-      const tag = '<script src="/js/lead-tracker.js" defer></script>';
-      html = /<\/body>/i.test(html) ? html.replace(/<\/body>/i, `${tag}</body>`) : html + tag;
-    }
-    if (html.includes('ttq.load(')) {
-      const loads = store.tiktokPixels()
-        .map((p) => String(p.pixelId || '').replace(/[^A-Za-z0-9]/g, ''))
-        .filter(Boolean)
-        .map((id) => `ttq.load('${id}');`)
-        .join('\n  ');
-      html = html.replace(/ttq\.load\('[^']*'\);/, loads);
-    }
-    if (!html.includes('tiktok-funnel.js') && html.includes('ttq.load')) {
-      const tag = '<script src="/js/tiktok-funnel.js" defer></script>';
-      html = /<\/body>/i.test(html) ? html.replace(/<\/body>/i, `${tag}</body>`) : html + tag;
-    }
-    res.type('html').send(html);
+    res.type('html').send(decorateHtml(fs.readFileSync(file, 'utf8')));
     return;
   }
   res.sendFile(file);

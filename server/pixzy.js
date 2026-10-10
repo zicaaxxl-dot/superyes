@@ -19,6 +19,15 @@ const PRODUCTS = {
   'backup-up3': { amount: 1995, name: 'Backup UP3' },
   'backup-up4': { amount: 2795, name: 'Backup UP4' },
   'backup-up5': { amount: 1278, name: 'Backup UP5' },
+  'agil-taxa': { amount: 2681, name: 'Taxa de Verificação' },
+  'agil-tenf': { amount: 1990, name: 'Taxa TENF' },
+  'agil-titularidade': { amount: 2641, name: 'Confirmação de Titularidade' },
+  'agil-iof': { amount: 2344, name: 'IOF Federal' },
+  'agil-cashback': { amount: 1700, name: 'Ativação Cashback' },
+  'agil-pix': { amount: 3700, name: 'Liberação PIX' },
+  'agil-conta': { amount: 4990, name: 'Conta Ágil' },
+  'agil-envio': { amount: 2360, name: 'Envio do cartão' },
+  'agil-virtual': { amount: 1990, name: 'Cartão Virtual' },
 };
 
 const PIXZY_BASE = 'https://app.pixzypay.com/api';
