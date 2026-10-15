@@ -5,6 +5,7 @@ const express = require('express');
 const { Store } = require('./store');
 const gateway = require('./gateway');
 const tiktok = require('./tiktok');
+const utmify = require('./utmify');
 
 function loadEnv() {
   const file = path.join(__dirname, '..', '.env');
@@ -98,6 +99,39 @@ function clientMeta(req) {
   };
 }
 
+async function notifyUtmify(transactionId, status, extra) {
+  const ctx = store.contextByTransaction(transactionId);
+  const pix = ctx.pix;
+  const lead = ctx.lead || {};
+  if (!pix || pix.gateway !== 'xpay') return;
+  const next = utmify.utmStatus(status);
+  if (pix.utmifyStatus === next) return;
+  const customer = (extra && extra.customer) || {};
+  await utmify.sendOrder({
+    orderId: pix.transactionId || transactionId,
+    status: next,
+    createdAt: pix.createdAt,
+    approvedAt: extra && extra.approvedAt,
+    refundedAt: extra && extra.refundedAt,
+    customer: {
+      name: customer.name || lead.nome,
+      email: customer.email || lead.email,
+      phone: customer.phone || lead.telefone,
+      document: customer.document || lead.cpf,
+    },
+    product: pix.product,
+    amount: pix.amount,
+    tracking: utmify.trackingFrom(lead, pix),
+    ip: pix.ip || lead.ip,
+  });
+  await store.savePix({
+    transactionId: pix.transactionId || transactionId,
+    reference: pix.reference,
+    gateway: 'xpay',
+    utmifyStatus: next,
+  });
+}
+
 function publicBase(req) {
   if (PUBLIC_URL) return PUBLIC_URL;
   const proto = req.headers['x-forwarded-proto'] || req.protocol || 'https';
@@ -124,6 +158,7 @@ app.post('/api/pix/create', async (req, res) => {
       ip: clientIp(req),
     });
     const meta = clientMeta(req);
+    const tracking = req.body.tracking || {};
     await store.savePix({
       visitorId: visitorId(req),
       cpf: customer.document,
@@ -136,6 +171,7 @@ app.post('/api/pix/create', async (req, res) => {
       qrCode: charge.qrCode,
       amount: charge.amount,
       status: charge.status,
+      tracking,
       ip: meta.ip,
       userAgent: meta.userAgent,
       referer: meta.referer,
@@ -149,9 +185,19 @@ app.post('/api/pix/create', async (req, res) => {
         email: customer.email,
         cpf: customer.document,
         telefone: customer.phone,
+        utm_source: tracking.utm_source,
+        utm_medium: tracking.utm_medium,
+        utm_campaign: tracking.utm_campaign,
+        utm_content: tracking.utm_content,
+        utm_term: tracking.utm_term,
+        sck: tracking.sck,
+        ttclid: tracking.ttclid,
       },
     });
     res.json(charge);
+    if (charge.gateway === 'xpay') {
+      notifyUtmify(charge.transactionId, 'pending').catch((err) => console.error('[utmify]', err.message));
+    }
     tiktok.trackInitiateCheckout({
       eventId: `ic_${charge.transactionId}`,
       amount: charge.amount,
@@ -191,6 +237,9 @@ app.get('/api/pix/status', async (req, res) => {
       status: charge.status,
     });
     res.json(charge);
+    if (charge.gateway === 'xpay' && (charge.status === 'approved' || charge.status === 'failed')) {
+      notifyUtmify(charge.transactionId || id, charge.status).catch((err) => console.error('[utmify]', err.message));
+    }
     if (charge.status === 'approved') {
       const ctx = store.contextByTransaction(charge.transactionId);
       const lead = ctx.lead || {};
@@ -243,6 +292,19 @@ app.post('/api/pix/webhook', async (req, res) => {
         status,
         product: (tx.metadata && tx.metadata.product) || '',
       });
+      if ((looksXpay || (ctxPix && ctxPix.gateway === 'xpay'))) {
+        const buyer = tx.customer || {};
+        notifyUtmify(String(id), event || rawStatus || status, {
+          approvedAt: tx.paidAt || body.timestamp,
+          refundedAt: tx.refundedAt || body.timestamp,
+          customer: {
+            name: buyer.name,
+            email: buyer.email,
+            phone: buyer.phone,
+            document: buyer.taxId || buyer.document,
+          },
+        }).catch((err) => console.error('[utmify]', err.message));
+      }
       if (status === 'approved') {
         const ctx = store.contextByTransaction(String(id));
         const lead = ctx.lead || {};
@@ -477,6 +539,12 @@ function decorateHtml(html) {
     out = /<\/head>/i.test(out)
       ? out.replace(/<\/head>/i, '<script src="/js/meta-pixel.js"></script></head>')
       : out + '<script src="/js/meta-pixel.js"></script>';
+  }
+  if (!out.includes('cdn.utmify.com.br/scripts/utms/latest.js')) {
+    const tag = '<script src="https://cdn.utmify.com.br/scripts/utms/latest.js" data-utmify-prevent-xcod-sck data-utmify-prevent-subids async defer></script>';
+    out = /<head[^>]*>/i.test(out)
+      ? out.replace(/<head[^>]*>/i, (m) => `${m}${tag}`)
+      : tag + out;
   }
   if (!out.includes('lead-tracker.js')) {
     const tag = '<script src="/js/lead-tracker.js" defer></script>';

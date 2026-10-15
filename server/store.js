@@ -218,6 +218,8 @@ class Store {
         qrCode: payload.qrCode || '',
         amount: payload.amount || '',
         status: payload.status || 'pending',
+        tracking: payload.tracking || null,
+        utmifyStatus: payload.utmifyStatus || '',
         createdAt: nowIso(),
         updatedAt: nowIso(),
       };
@@ -228,8 +230,10 @@ class Store {
       }) || null;
       if (existing) {
         if (rec.qrCode) existing.qrCode = rec.qrCode;
-        if (rec.status) existing.status = rec.status;
+        if (payload.status) existing.status = payload.status;
         if (rec.amount) existing.amount = rec.amount;
+        if (payload.tracking) existing.tracking = payload.tracking;
+        if (payload.utmifyStatus) existing.utmifyStatus = payload.utmifyStatus;
         if (rec.product) existing.product = rec.product;
         if (rec.gateway) existing.gateway = rec.gateway;
         if (rec.ip) existing.ip = rec.ip;
