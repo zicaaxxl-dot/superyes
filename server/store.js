@@ -389,7 +389,7 @@ class Store {
     const db = this.read();
     const saved = db.settings && db.settings.pixGateway;
     const name = String(saved || process.env.PIX_GATEWAY || 'flevopay').toLowerCase();
-    if (name === 'ironpay' || name === 'pixzy') return name;
+    if (name === 'ironpay' || name === 'pixzy' || name === 'xpay') return name;
     return 'flevopay';
   }
 
@@ -493,8 +493,8 @@ class Store {
 
   setPixGateway(name) {
     const next = String(name || '').toLowerCase();
-    if (next !== 'flevopay' && next !== 'ironpay' && next !== 'pixzy') {
-      const err = new Error('Gateway inválido. Use flevopay, ironpay ou pixzy.');
+    if (next !== 'flevopay' && next !== 'ironpay' && next !== 'pixzy' && next !== 'xpay') {
+      const err = new Error('Gateway inválido. Use flevopay, ironpay, pixzy ou xpay.');
       err.status = 400;
       throw err;
     }

@@ -216,28 +216,30 @@ app.post('/api/pix/webhook', async (req, res) => {
   try {
     const body = req.body || {};
     const tx = body.transaction || body.data || body;
-    const event = String(body.event || tx.payment_status || tx.status || body.status || '').toLowerCase();
-    const reference = String(body.external_id || body.store_reference || tx.external_id || tx.store_reference || '');
+    const event = String(body.event || tx.payment_status || tx.paymentStatus || tx.status || body.status || '').toLowerCase();
+    const reference = String(body.external_id || body.store_reference || tx.external_id || tx.externalId || tx.store_reference || '');
     const ironHash = String(body.transaction_hash || tx.hash || body.hash || '');
     const looksIron = Boolean(
       body.transaction_hash ||
       tx.payment_status ||
       (tx.pix && typeof tx.pix === 'object' && (tx.pix.pix_qr_code || tx.pix.pix_url))
     );
-    const looksFlevo = !looksIron && Boolean(body.webhook_type === 'transaction' || body.store_reference || body.external_id);
-    const id = String((looksIron && ironHash) || tx.transaction_id || tx.id || body.transaction_id || reference);
+    const looksXpay = !looksIron && Boolean(tx.chargeId || (body.event && String(body.event).startsWith('charge.')));
+    const looksFlevo = !looksIron && !looksXpay && Boolean(body.webhook_type === 'transaction' || body.store_reference || body.external_id);
+    const id = String((looksIron && ironHash) || tx.chargeId || tx.transaction_id || tx.id || body.transaction_id || reference);
     const ctxPix = store.contextByTransaction(id).pix || (reference ? store.contextByTransaction(reference).pix : null);
-    const rawStatus = tx.payment_status || tx.status || body.status || event;
-    const status = gateway.mapStatus(event === 'paid' || event === 'transaction_paid' || rawStatus === 'paid' ? 'paid' : rawStatus);
+    const rawStatus = tx.paymentStatus || tx.payment_status || tx.status || body.status || event;
+    const paidEvent = event === 'paid' || event === 'transaction_paid' || event.endsWith('.paid') || String(rawStatus).toLowerCase() === 'paid';
+    const status = gateway.mapStatus(paidEvent ? 'paid' : rawStatus);
     if (id) {
       await store.savePix({
         type: 'webhook',
         transactionId: (ctxPix && ctxPix.transactionId) || id,
         publicId: id,
         reference: reference || ironHash || (ctxPix && ctxPix.reference) || '',
-        gateway: (ctxPix && ctxPix.gateway) || (looksIron ? 'ironpay' : (looksFlevo ? 'flevopay' : 'pixzy')),
-        qrCode: (tx.pix && tx.pix.pix_qr_code) || tx.pix_code || tx.br_code || tx.qr_code || body.pix_code,
-        amount: tx.amount || body.amount,
+        gateway: (ctxPix && ctxPix.gateway) || (looksIron ? 'ironpay' : (looksXpay ? 'xpay' : (looksFlevo ? 'flevopay' : 'pixzy'))),
+        qrCode: (tx.pix && tx.pix.pix_qr_code) || tx.pix_code || tx.br_code || tx.brCode || tx.qr_code || body.pix_code,
+        amount: tx.amount || tx.total || body.amount,
         status,
         product: (tx.metadata && tx.metadata.product) || '',
       });

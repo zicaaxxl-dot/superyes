@@ -38,8 +38,14 @@ function apiToken(explicit) {
 
 function mapStatus(status) {
   const s = String(status || '').toLowerCase();
-  if (s === 'paid' || s === 'approved') return 'approved';
-  if (s === 'expired' || s === 'failed' || s === 'cancelled' || s === 'canceled' || s === 'refunded' || s === 'chargeback') return 'failed';
+  if (
+    s === 'paid' || s === 'approved' || s === 'completed' || s === 'received' || s === 'recieved' ||
+    s.endsWith('.paid') || s === 'charge.received'
+  ) return 'approved';
+  if (
+    s === 'expired' || s === 'failed' || s === 'cancelled' || s === 'canceled' || s === 'refunded' ||
+    s === 'chargeback' || s.endsWith('.expired') || s.endsWith('.failed') || s === 'dispute.chargeback'
+  ) return 'failed';
   return 'pending';
 }
 

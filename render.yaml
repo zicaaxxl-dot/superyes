@@ -26,3 +26,5 @@ services:
         value: "11099"
       - key: FLEVOPAY_SECRET
         value: flevopay_sk_ae9a299e6552ef2a2b0c7fc840e3fe1d400975d6b3fcf01f8ad5696735925823
+      - key: XPAY_API_KEY
+        value: cpk_live_kw2ijq14m5ywyfgby0olg6w9
