@@ -2,10 +2,39 @@ const { productInfo, mapStatus } = require('./pixzy');
 
 const BASE = 'https://api.xpaybrasil.com/v1';
 
+const crypto = require('crypto');
+
 function apiKey() {
   const fromEnv = String(process.env.XPAY_API_KEY || '').trim();
   if (fromEnv.startsWith('cpk_')) return fromEnv;
   return 'cpk_live_kw2ijq14m5ywyfgby0olg6w9';
+}
+
+function webhookSecret() {
+  const fromEnv = String(process.env.XPAY_WEBHOOK_SECRET || '').trim();
+  if (fromEnv.startsWith('whsec_')) return fromEnv;
+  return 'whsec_48bc9a829a7d9e3acf877cd9667714d780cbf48c359bbb0f8af61d3a617762f7';
+}
+
+function signBody(payload) {
+  return 'sha256=' + crypto.createHmac('sha256', webhookSecret()).update(payload).digest('hex');
+}
+
+function sameSignature(left, right) {
+  const a = Buffer.from(String(left || ''));
+  const b = Buffer.from(String(right || ''));
+  if (!a.length || a.length !== b.length) return false;
+  return crypto.timingSafeEqual(a, b);
+}
+
+function verifyWebhook(rawBody, signature, parsedBody) {
+  const header = String(signature || '');
+  if (!header.startsWith('sha256=')) return false;
+  if (rawBody && rawBody.length && sameSignature(header, signBody(rawBody))) return true;
+  if (parsedBody && typeof parsedBody === 'object') {
+    return sameSignature(header, signBody(Buffer.from(JSON.stringify(parsedBody))));
+  }
+  return false;
 }
 
 function digits(v) {
@@ -152,4 +181,4 @@ async function getCharge({ id }) {
   };
 }
 
-module.exports = { createCharge, getCharge, apiKey };
+module.exports = { createCharge, getCharge, apiKey, verifyWebhook };

@@ -6,6 +6,7 @@ const { Store } = require('./store');
 const gateway = require('./gateway');
 const tiktok = require('./tiktok');
 const utmify = require('./utmify');
+const xpay = require('./xpay');
 
 function loadEnv() {
   const file = path.join(__dirname, '..', '.env');
@@ -46,7 +47,12 @@ tiktok.setPixelSource(() => store.tiktokPixels());
 const app = express();
 app.disable('x-powered-by');
 app.set('trust proxy', 1);
-app.use(express.json({ limit: '12mb' }));
+app.use(express.json({
+  limit: '12mb',
+  verify(req, res, buf) {
+    if (req.originalUrl && req.originalUrl.split('?')[0] === '/api/pix/webhook') req.rawBody = buf;
+  },
+}));
 
 function signSession() {
   const exp = Date.now() + 7 * 24 * 60 * 60 * 1000;
@@ -273,7 +279,13 @@ app.post('/api/pix/webhook', async (req, res) => {
       tx.payment_status ||
       (tx.pix && typeof tx.pix === 'object' && (tx.pix.pix_qr_code || tx.pix.pix_url))
     );
-    const looksXpay = !looksIron && Boolean(tx.chargeId || (body.event && String(body.event).startsWith('charge.')));
+    const looksXpay = !looksIron && Boolean(
+      tx.chargeId ||
+      (body.event && /^(charge|subscription|dispute|withdraw)\./.test(String(body.event)))
+    );
+    if (looksXpay && !xpay.verifyWebhook(req.rawBody, req.get('x-webhook-signature'), body)) {
+      return res.status(401).json({ ok: false });
+    }
     const looksFlevo = !looksIron && !looksXpay && Boolean(body.webhook_type === 'transaction' || body.store_reference || body.external_id);
     const id = String((looksIron && ironHash) || tx.chargeId || tx.transaction_id || tx.id || body.transaction_id || reference);
     const ctxPix = store.contextByTransaction(id).pix || (reference ? store.contextByTransaction(reference).pix : null);
