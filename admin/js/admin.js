@@ -16,7 +16,7 @@
     ['pix', 'PIX'],
     ['aprovado', 'Pagos']
   ];
-  const gateNames = { flevopay: 'FlevoPay', ironpay: 'IronPay', pixzy: 'Pixzy', xpay: 'XPay' };
+  const gateNames = { flevopay: 'FlevoPay', ironpay: 'IronPay', pixzy: 'Pixzy', xpay: 'XPay', pixmanual: 'PIX Manual' };
   let currentFilter = '';
 
   async function api(url, opts) {
@@ -103,7 +103,7 @@
       const w = Math.round((Number(v) / total) * 100);
       return `<div class="bar-row"><span>${l}</span><div class="bar"><i style="width:${Math.min(100, w)}%"></i></div><b>${v}</b></div>`;
     }).join('');
-    const gw = s.gateway === 'ironpay' || s.gateway === 'pixzy' || s.gateway === 'xpay' ? s.gateway : 'flevopay';
+    const gw = s.gateway === 'ironpay' || s.gateway === 'pixzy' || s.gateway === 'xpay' || s.gateway === 'pixmanual' ? s.gateway : 'flevopay';
     const volumes = (s.gateways || []).map((g) => `
       <div class="gw-row"><span>${esc(gateNames[g.gateway] || g.gateway)}</span><b>${g.paid}/${g.generated}</b></div>
     `).join('') || '<div class="empty">Nenhum PIX ainda.</div>';
@@ -115,6 +115,7 @@
           <button type="button" class="${gw === 'ironpay' ? 'on' : ''}" onclick="setGateway('ironpay')">Iron</button>
           <button type="button" class="${gw === 'pixzy' ? 'on' : ''}" onclick="setGateway('pixzy')">Pixzy</button>
           <button type="button" class="${gw === 'xpay' ? 'on' : ''}" onclick="setGateway('xpay')">XPay</button>
+          <button type="button" class="${gw === 'pixmanual' ? 'on' : ''}" onclick="setGateway('pixmanual')">Manual</button>
         </div>
         <em id="gatewayHint">Novos PIX saem pelo gateway marcado.</em>
       </div>

@@ -125,7 +125,7 @@ tr:hover td { background: #F8F5FF; }
 .gateway-pick { margin-top: 14px; }
 .gateway-pick > span { color: var(--muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
 .gateway-pick em { display: block; margin-top: 8px; color: var(--muted); font-style: normal; font-size: 12px; font-weight: 600; }
-.seg { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; margin-top: 8px; }
+.seg { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; margin-top: 8px; }
 .seg button {
   border: 1.5px solid var(--line); background: #fff; color: var(--ink); border-radius: 12px;
   padding: 10px 8px; font: inherit; font-weight: 700; cursor: pointer;
@@ -144,6 +144,7 @@ tr:hover td { background: #F8F5FF; }
 }
 @media (max-width: 700px) {
   .kpis { grid-template-columns: 1fr 1fr; }
+  .seg { grid-template-columns: 1fr 1fr; }
   .head { flex-direction: column; align-items: flex-start; }
   .pixel-form { grid-template-columns: 1fr; }
   .theme-grid { grid-template-columns: 1fr; }
