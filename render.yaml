@@ -27,9 +27,9 @@ services:
       - key: FLEVOPAY_SECRET
         value: flevopay_sk_ae9a299e6552ef2a2b0c7fc840e3fe1d400975d6b3fcf01f8ad5696735925823
       - key: XPAY_API_KEY
-        value: cpk_live_kw2ijq14m5ywyfgby0olg6w9
+        value: cpk_live_zpslkvmags6znetcnvp554ck
       - key: XPAY_WEBHOOK_SECRET
-        value: whsec_48bc9a829a7d9e3acf877cd9667714d780cbf48c359bbb0f8af61d3a617762f7
+        value: whsec_153d80a831e3719f439d7a3e4efb1057bcf5f851a7c386626d8dbd9838877228
       - key: UTMIFY_API_TOKEN
         value: owjrxE4nFrR1nYxfbMBb3GgQS9jlr9Uk9jSZ
       - key: PIXMANUAL_KEY

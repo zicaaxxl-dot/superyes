@@ -4,16 +4,22 @@ const BASE = 'https://api.xpaybrasil.com/v1';
 
 const crypto = require('crypto');
 
+const XPAY_KEY_CURRENT = 'cpk_live_zpslkvmags6znetcnvp554ck';
+const XPAY_KEY_PREVIOUS = 'cpk_live_kw2ijq14m5ywyfgby0olg6w9';
+
 function apiKey() {
   const fromEnv = String(process.env.XPAY_API_KEY || '').trim();
-  if (fromEnv.startsWith('cpk_')) return fromEnv;
-  return 'cpk_live_kw2ijq14m5ywyfgby0olg6w9';
+  if (!fromEnv || fromEnv === XPAY_KEY_PREVIOUS || !fromEnv.startsWith('cpk_')) return XPAY_KEY_CURRENT;
+  return fromEnv;
 }
+
+const XPAY_WEBHOOK_CURRENT = 'whsec_153d80a831e3719f439d7a3e4efb1057bcf5f851a7c386626d8dbd9838877228';
+const XPAY_WEBHOOK_PREVIOUS = 'whsec_48bc9a829a7d9e3acf877cd9667714d780cbf48c359bbb0f8af61d3a617762f7';
 
 function webhookSecret() {
   const fromEnv = String(process.env.XPAY_WEBHOOK_SECRET || '').trim();
-  if (fromEnv.startsWith('whsec_')) return fromEnv;
-  return 'whsec_48bc9a829a7d9e3acf877cd9667714d780cbf48c359bbb0f8af61d3a617762f7';
+  if (!fromEnv || fromEnv === XPAY_WEBHOOK_PREVIOUS || !fromEnv.startsWith('whsec_')) return XPAY_WEBHOOK_CURRENT;
+  return fromEnv;
 }
 
 function signBody(payload) {
